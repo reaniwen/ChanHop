@@ -23,6 +23,7 @@ class TutorialContentViewController: UIViewController {
         // Do any additional setup after loading the view.
         centerImage.image = UIImage(named: strPhotoName)
         topLabel.text = strTitle
+        self.view.backgroundColor = UIColor.darkGray
     }
 
     override func didReceiveMemoryWarning() {

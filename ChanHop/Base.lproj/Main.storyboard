@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cBa-hA-twF">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -7,22 +7,12 @@
     </dependencies>
     <scenes>
         <!--Tutorial View Controller-->
-        <scene sceneID="Xp4-oY-pfK">
+        <scene sceneID="VSa-dG-X7R">
             <objects>
-                <viewController storyboardIdentifier="tutorial" id="AHc-JE-hnO" customClass="TutorialViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8D3-pH-atB"/>
-                        <viewControllerLayoutGuide type="bottom" id="Hrs-0L-btM"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="3DL-qR-qSn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wYE-AW-bgT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="cBa-hA-twF" customClass="TutorialViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TZe-e8-syx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-879" y="-83"/>
+            <point key="canvasLocation" x="-974" y="-112"/>
         </scene>
         <!--Tutorial Content View Controller-->
         <scene sceneID="VSb-bC-lhJ">
@@ -76,19 +66,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KwR-mZ-Xrw">
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="testBtnAct:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ddf-4R-hMg"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="KwR-mZ-Xrw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VzV-fT-StM"/>
-                            <constraint firstItem="KwR-mZ-Xrw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eds-wK-7F8"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -36,11 +36,5 @@ class ViewController: UIViewController {
         self.view.addConstraint(top)
         self.view.addConstraint(height)
     }
-
-    @IBAction func testBtnAct(_ sender: AnyObject) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "tutorial") as! TutorialViewController
-        self.present(vc, animated: true, completion: nil)
-    }
-
 }
 
