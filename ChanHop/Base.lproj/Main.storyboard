@@ -1,14 +1,74 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Tutorial View Controller-->
+        <scene sceneID="Xp4-oY-pfK">
+            <objects>
+                <viewController storyboardIdentifier="tutorial" id="AHc-JE-hnO" customClass="TutorialViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8D3-pH-atB"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hrs-0L-btM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3DL-qR-qSn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wYE-AW-bgT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-879" y="-83"/>
+        </scene>
+        <!--Tutorial Content View Controller-->
+        <scene sceneID="VSb-bC-lhJ">
+            <objects>
+                <viewController storyboardIdentifier="tutorialContent" id="oGf-eO-lx9" customClass="TutorialContentViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="m2F-xb-ZkA"/>
+                        <viewControllerLayoutGuide type="bottom" id="4XH-l7-m2a"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YJN-oq-UXp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zf7-PZ-f6Y">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C9W-au-hj5">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="JbS-Lx-6Gt"/>
+                                    <constraint firstAttribute="height" constant="128" id="qtb-vL-bdJ"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="C9W-au-hj5" firstAttribute="centerX" secondItem="YJN-oq-UXp" secondAttribute="centerX" id="1Bb-6w-6JF"/>
+                            <constraint firstItem="zf7-PZ-f6Y" firstAttribute="centerX" secondItem="YJN-oq-UXp" secondAttribute="centerX" id="8qL-s0-Kvf"/>
+                            <constraint firstItem="zf7-PZ-f6Y" firstAttribute="top" secondItem="m2F-xb-ZkA" secondAttribute="bottom" id="iQ4-qa-YzD"/>
+                            <constraint firstItem="C9W-au-hj5" firstAttribute="centerY" secondItem="YJN-oq-UXp" secondAttribute="centerY" id="pGF-ek-5zN"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="centerImage" destination="C9W-au-hj5" id="CCC-Yq-2Gv"/>
+                        <outlet property="topLabel" destination="zf7-PZ-f6Y" id="XeX-SN-aYj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iJZ-uO-GSW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-668" y="139"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,7 +76,19 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KwR-mZ-Xrw">
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="testBtnAct:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ddf-4R-hMg"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="KwR-mZ-Xrw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VzV-fT-StM"/>
+                            <constraint firstItem="KwR-mZ-Xrw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eds-wK-7F8"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

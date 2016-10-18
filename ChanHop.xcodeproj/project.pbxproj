@@ -15,6 +15,8 @@
 		3D870F881DB67FC7008FB083 /* ChanHopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F871DB67FC7008FB083 /* ChanHopTests.swift */; };
 		3D870F931DB67FC7008FB083 /* ChanHopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F921DB67FC7008FB083 /* ChanHopUITests.swift */; };
 		3D870FDF1DB6A99B008FB083 /* TopNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870FDE1DB6A99B008FB083 /* TopNavigationBar.swift */; };
+		3D870FE11DB6C164008FB083 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870FE01DB6C164008FB083 /* TutorialViewController.swift */; };
+		3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870FE21DB6C32B008FB083 /* TutorialContentViewController.swift */; };
 		F37E331F8B9E15454817514C /* Pods_ChanHop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D868D14E4BE57EA5F25C28 /* Pods_ChanHop.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +52,8 @@
 		3D870F921DB67FC7008FB083 /* ChanHopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChanHopUITests.swift; sourceTree = "<group>"; };
 		3D870F941DB67FC7008FB083 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D870FDE1DB6A99B008FB083 /* TopNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopNavigationBar.swift; sourceTree = "<group>"; };
+		3D870FE01DB6C164008FB083 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		3D870FE21DB6C32B008FB083 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		8EB766B13CFCCAD6918B43CF /* Pods-ChanHop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChanHop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChanHop/Pods-ChanHop.debug.xcconfig"; sourceTree = "<group>"; };
 		9682E439D89189C79DC38A50 /* Pods-ChanHop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChanHop.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChanHop/Pods-ChanHop.release.xcconfig"; sourceTree = "<group>"; };
 		A1D868D14E4BE57EA5F25C28 /* Pods_ChanHop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChanHop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,6 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				3D870F741DB67FC7008FB083 /* ViewController.swift */,
+				3D870FE01DB6C164008FB083 /* TutorialViewController.swift */,
+				3D870FE21DB6C32B008FB083 /* TutorialContentViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -364,6 +370,8 @@
 			files = (
 				3D870F751DB67FC7008FB083 /* ViewController.swift in Sources */,
 				3D870FDF1DB6A99B008FB083 /* TopNavigationBar.swift in Sources */,
+				3D870FE11DB6C164008FB083 /* TutorialViewController.swift in Sources */,
+				3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */,
 				3D870F731DB67FC7008FB083 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
