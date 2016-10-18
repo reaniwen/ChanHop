@@ -14,6 +14,7 @@
 		3D870F7D1DB67FC7008FB083 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D870F7B1DB67FC7008FB083 /* LaunchScreen.storyboard */; };
 		3D870F881DB67FC7008FB083 /* ChanHopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F871DB67FC7008FB083 /* ChanHopTests.swift */; };
 		3D870F931DB67FC7008FB083 /* ChanHopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F921DB67FC7008FB083 /* ChanHopUITests.swift */; };
+		F37E331F8B9E15454817514C /* Pods_ChanHop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D868D14E4BE57EA5F25C28 /* Pods_ChanHop.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,9 @@
 		3D870F8E1DB67FC7008FB083 /* ChanHopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChanHopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D870F921DB67FC7008FB083 /* ChanHopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChanHopUITests.swift; sourceTree = "<group>"; };
 		3D870F941DB67FC7008FB083 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EB766B13CFCCAD6918B43CF /* Pods-ChanHop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChanHop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChanHop/Pods-ChanHop.debug.xcconfig"; sourceTree = "<group>"; };
+		9682E439D89189C79DC38A50 /* Pods-ChanHop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChanHop.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChanHop/Pods-ChanHop.release.xcconfig"; sourceTree = "<group>"; };
+		A1D868D14E4BE57EA5F25C28 /* Pods_ChanHop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChanHop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F37E331F8B9E15454817514C /* Pods_ChanHop.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +79,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DECEC539AF14B3303070E4D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8EB766B13CFCCAD6918B43CF /* Pods-ChanHop.debug.xcconfig */,
+				9682E439D89189C79DC38A50 /* Pods-ChanHop.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		3D870F661DB67FC7008FB083 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +95,8 @@
 				3D870F861DB67FC7008FB083 /* ChanHopTests */,
 				3D870F911DB67FC7008FB083 /* ChanHopUITests */,
 				3D870F701DB67FC7008FB083 /* Products */,
+				0DECEC539AF14B3303070E4D /* Pods */,
+				663D2F0EE0ECB385D0ABFB7D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,6 +141,14 @@
 			path = ChanHopUITests;
 			sourceTree = "<group>";
 		};
+		663D2F0EE0ECB385D0ABFB7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A1D868D14E4BE57EA5F25C28 /* Pods_ChanHop.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3D870F971DB67FC7008FB083 /* Build configuration list for PBXNativeTarget "ChanHop" */;
 			buildPhases = (
+				4024557001D54BC97A8532FB /* [CP] Check Pods Manifest.lock */,
 				3D870F6B1DB67FC7008FB083 /* Sources */,
 				3D870F6C1DB67FC7008FB083 /* Frameworks */,
 				3D870F6D1DB67FC7008FB083 /* Resources */,
+				6F47A63088BC225CF560634B /* [CP] Embed Pods Frameworks */,
+				73DCDA0371586C68396D4FAD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -253,6 +280,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4024557001D54BC97A8532FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6F47A63088BC225CF560634B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChanHop/Pods-ChanHop-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		73DCDA0371586C68396D4FAD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChanHop/Pods-ChanHop-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3D870F6B1DB67FC7008FB083 /* Sources */ = {
@@ -410,6 +485,7 @@
 		};
 		3D870F981DB67FC7008FB083 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8EB766B13CFCCAD6918B43CF /* Pods-ChanHop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ChanHop/Info.plist;
@@ -422,6 +498,7 @@
 		};
 		3D870F991DB67FC7008FB083 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9682E439D89189C79DC38A50 /* Pods-ChanHop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ChanHop/Info.plist;
@@ -505,6 +582,7 @@
 				3D870F991DB67FC7008FB083 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3D870F9A1DB67FC7008FB083 /* Build configuration list for PBXNativeTarget "ChanHopTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +591,7 @@
 				3D870F9C1DB67FC7008FB083 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3D870F9D1DB67FC7008FB083 /* Build configuration list for PBXNativeTarget "ChanHopUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +600,7 @@
 				3D870F9F1DB67FC7008FB083 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
