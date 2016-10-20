@@ -45,6 +45,10 @@ class TutorialContentViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func dismissTutorial(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
+        UserDefaults.standard.set(true, forKey: "com.chanhop.finishTutorial")
+    }
 
     /*
     // MARK: - Navigation
