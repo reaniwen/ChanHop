@@ -17,13 +17,13 @@ class TutorialViewController: UIPageViewController {
     var indicator: UIPageControl!
     let PAGE_COUNT = 4
     
-    override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
-        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+//    override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
+//        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
+//    }
+//    
+//    required init?(coder: NSCoder) {
+//        super.init(coder: coder)
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,7 @@ class TutorialViewController: UIPageViewController {
             "Switch to different channels based \n on your location and events \n around you."
         ]
         arrPagePhoto = ["1.jpg", "2.jpg", "3.jpg", "3.jpg"];
-        self.dataSource = self
+        
         self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
         
         indicator = UIPageControl(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
