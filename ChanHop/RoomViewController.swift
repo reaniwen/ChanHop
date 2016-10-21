@@ -27,9 +27,11 @@ class RoomViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if let chatVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController {
+            
+//                        self.view.addSubview(roomNameView)
+            self.addChildViewController(chatVC)
             chatView = chatVC.view
             self.view.addSubview(chatView)
-            //            self.view.addSubview(roomNameView)
         }
     }
     

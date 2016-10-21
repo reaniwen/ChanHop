@@ -42,6 +42,12 @@ class ChannelPageVC: UIPageViewController {
         
         self.view.addGestureRecognizer(singleSwipeLeft)
         self.view.addGestureRecognizer(singleSwipeRight)
+        
+        if UserDefaults.standard.bool(forKey: "com.chanhop.finishTutorial") == false{
+            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorialViewController") as? TutorialViewController {
+                self.present(vc, animated: false, completion: nil)
+            }
+        }
 
     }
     
