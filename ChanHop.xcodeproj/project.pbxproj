@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		3D047C3D1DB957F300D2BD5C /* TopNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D047C3C1DB957F300D2BD5C /* TopNavigationBar.xib */; };
 		3D047C3F1DB9623B00D2BD5C /* MainChatPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C3E1DB9623B00D2BD5C /* MainChatPageViewController.swift */; };
+		3D047C411DBA65F500D2BD5C /* TestContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C401DBA65F500D2BD5C /* TestContentViewController.swift */; };
+		3D047C431DBA6CA800D2BD5C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C421DBA6CA800D2BD5C /* ChatViewController.swift */; };
+		3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */; };
+		3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */; };
+		3D047C491DBA6F3300D2BD5C /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */; };
+		3D047C4B1DBA6F4200D2BD5C /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C4A1DBA6F4200D2BD5C /* ChannelViewController.swift */; };
 		3D870F731DB67FC7008FB083 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F721DB67FC7008FB083 /* AppDelegate.swift */; };
 		3D870F751DB67FC7008FB083 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F741DB67FC7008FB083 /* ViewController.swift */; };
 		3D870F781DB67FC7008FB083 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D870F761DB67FC7008FB083 /* Main.storyboard */; };
@@ -42,6 +48,12 @@
 /* Begin PBXFileReference section */
 		3D047C3C1DB957F300D2BD5C /* TopNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopNavigationBar.xib; sourceTree = "<group>"; };
 		3D047C3E1DB9623B00D2BD5C /* MainChatPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatPageViewController.swift; sourceTree = "<group>"; };
+		3D047C401DBA65F500D2BD5C /* TestContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestContentViewController.swift; sourceTree = "<group>"; };
+		3D047C421DBA6CA800D2BD5C /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPageVC.swift; sourceTree = "<group>"; };
+		3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelPageVC.swift; sourceTree = "<group>"; };
+		3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
+		3D047C4A1DBA6F4200D2BD5C /* ChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		3D870F6F1DB67FC7008FB083 /* ChanHop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChanHop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D870F721DB67FC7008FB083 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D870F741DB67FC7008FB083 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +108,16 @@
 				9682E439D89189C79DC38A50 /* Pods-ChanHop.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		3D047C4C1DBAA42100D2BD5C /* oldtemp */ = {
+			isa = PBXGroup;
+			children = (
+				3D047C3E1DB9623B00D2BD5C /* MainChatPageViewController.swift */,
+				3D870F741DB67FC7008FB083 /* ViewController.swift */,
+				3D047C401DBA65F500D2BD5C /* TestContentViewController.swift */,
+			);
+			name = oldtemp;
 			sourceTree = "<group>";
 		};
 		3D870F661DB67FC7008FB083 = {
@@ -163,10 +185,14 @@
 		3D870FDC1DB6A910008FB083 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3D047C3E1DB9623B00D2BD5C /* MainChatPageViewController.swift */,
-				3D870F741DB67FC7008FB083 /* ViewController.swift */,
+				3D047C4C1DBAA42100D2BD5C /* oldtemp */,
 				3D870FE01DB6C164008FB083 /* TutorialViewController.swift */,
 				3D870FE21DB6C32B008FB083 /* TutorialContentViewController.swift */,
+				3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */,
+				3D047C4A1DBA6F4200D2BD5C /* ChannelViewController.swift */,
+				3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */,
+				3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */,
+				3D047C421DBA6CA800D2BD5C /* ChatViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -376,10 +402,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D870F751DB67FC7008FB083 /* ViewController.swift in Sources */,
+				3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */,
 				3D870FDF1DB6A99B008FB083 /* TopNavigationBar.swift in Sources */,
+				3D047C431DBA6CA800D2BD5C /* ChatViewController.swift in Sources */,
 				3D047C3F1DB9623B00D2BD5C /* MainChatPageViewController.swift in Sources */,
 				3D870FE11DB6C164008FB083 /* TutorialViewController.swift in Sources */,
+				3D047C491DBA6F3300D2BD5C /* RoomViewController.swift in Sources */,
 				3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */,
+				3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */,
+				3D047C411DBA65F500D2BD5C /* TestContentViewController.swift in Sources */,
+				3D047C4B1DBA6F4200D2BD5C /* ChannelViewController.swift in Sources */,
 				3D870F731DB67FC7008FB083 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
