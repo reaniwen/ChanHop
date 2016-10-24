@@ -130,25 +130,41 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="snM-UD-dVY">
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFn-gg-IB9">
-                                        <state key="normal" title="Button"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFn-gg-IB9">
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="vFn-gg-IB9" secondAttribute="height" multiplier="46:47" id="Ctb-Wi-aD6"/>
+                                            <constraint firstAttribute="width" constant="35" id="GOL-cV-Og2"/>
+                                        </constraints>
+                                        <state key="normal" image="SettingsButton"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pie-5W-9hj">
-                                        <state key="normal" title="Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="bev-Ue-QuB"/>
+                                            <constraint firstAttribute="width" secondItem="pie-5W-9hj" secondAttribute="height" multiplier="1:1" id="jDj-MI-vS0"/>
+                                        </constraints>
+                                        <state key="normal" title="4" backgroundImage="MembersAmountButton">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mkg-tZ-BYF">
-                                        <state key="normal" title="Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="G8h-t2-qd0"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" backgroundImage="ChannelButtonBackground">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.61960784310000006" green="0.87058823529999996" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="Mkg-tZ-BYF" firstAttribute="centerY" secondItem="snM-UD-dVY" secondAttribute="centerY" constant="15" id="O2j-LM-xj6"/>
+                                    <constraint firstItem="Mkg-tZ-BYF" firstAttribute="centerY" secondItem="snM-UD-dVY" secondAttribute="centerY" constant="10" id="O2j-LM-xj6"/>
                                     <constraint firstItem="vFn-gg-IB9" firstAttribute="leading" secondItem="snM-UD-dVY" secondAttribute="leading" constant="8" id="PT9-4k-eDr"/>
                                     <constraint firstItem="Mkg-tZ-BYF" firstAttribute="centerX" secondItem="snM-UD-dVY" secondAttribute="centerX" id="SjP-r4-cZf"/>
-                                    <constraint firstItem="vFn-gg-IB9" firstAttribute="centerY" secondItem="Mkg-tZ-BYF" secondAttribute="centerY" constant="-5" id="bIJ-vz-0zV"/>
+                                    <constraint firstItem="vFn-gg-IB9" firstAttribute="centerY" secondItem="Mkg-tZ-BYF" secondAttribute="centerY" id="bIJ-vz-0zV"/>
                                     <constraint firstAttribute="height" constant="90" id="kSG-N5-asn"/>
                                     <constraint firstAttribute="trailing" secondItem="pie-5W-9hj" secondAttribute="trailing" constant="8" id="tHI-2c-ejQ"/>
-                                    <constraint firstItem="pie-5W-9hj" firstAttribute="centerY" secondItem="Mkg-tZ-BYF" secondAttribute="centerY" constant="-5" id="w5X-Gr-HDW"/>
+                                    <constraint firstItem="pie-5W-9hj" firstAttribute="centerY" secondItem="Mkg-tZ-BYF" secondAttribute="centerY" id="w5X-Gr-HDW"/>
+                                    <constraint firstItem="Mkg-tZ-BYF" firstAttribute="leading" secondItem="vFn-gg-IB9" secondAttribute="trailing" constant="60" id="xtP-Nl-r4H"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -159,6 +175,11 @@
                             <constraint firstItem="snM-UD-dVY" firstAttribute="top" secondItem="ihc-ee-zuG" secondAttribute="top" id="nl8-cC-SwP"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="channelBtn" destination="Mkg-tZ-BYF" id="C3O-o4-A5C"/>
+                        <outlet property="memberBtn" destination="pie-5W-9hj" id="Zcm-H5-D3j"/>
+                        <outlet property="settingBtn" destination="vFn-gg-IB9" id="Wrv-JL-ra8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k3r-s1-wF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -325,5 +346,8 @@
     </scenes>
     <resources>
         <image name="Button-Shape" width="382" height="70"/>
+        <image name="ChannelButtonBackground" width="628" height="116"/>
+        <image name="MembersAmountButton" width="100" height="100"/>
+        <image name="SettingsButton" width="92" height="94"/>
     </resources>
 </document>

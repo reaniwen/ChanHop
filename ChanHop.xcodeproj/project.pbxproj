@@ -15,6 +15,8 @@
 		3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */; };
 		3D047C491DBA6F3300D2BD5C /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */; };
 		3D047C4B1DBA6F4200D2BD5C /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C4A1DBA6F4200D2BD5C /* ChannelViewController.swift */; };
+		3D22F4011DBEB04D00EC3309 /* RoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22F4001DBEB04D00EC3309 /* RoomModel.swift */; };
+		3D22F4031DBEB24B00EC3309 /* ChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22F4021DBEB24B00EC3309 /* ChannelModel.swift */; };
 		3D870F731DB67FC7008FB083 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F721DB67FC7008FB083 /* AppDelegate.swift */; };
 		3D870F751DB67FC7008FB083 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F741DB67FC7008FB083 /* ViewController.swift */; };
 		3D870F781DB67FC7008FB083 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D870F761DB67FC7008FB083 /* Main.storyboard */; };
@@ -54,6 +56,9 @@
 		3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelPageVC.swift; sourceTree = "<group>"; };
 		3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		3D047C4A1DBA6F4200D2BD5C /* ChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
+		3D22F4001DBEB04D00EC3309 /* RoomModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomModel.swift; sourceTree = "<group>"; };
+		3D22F4021DBEB24B00EC3309 /* ChannelModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelModel.swift; sourceTree = "<group>"; };
+		3D22F4061DBEB8BB00EC3309 /* ChanHop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChanHop.entitlements; sourceTree = "<group>"; };
 		3D870F6F1DB67FC7008FB083 /* ChanHop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChanHop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D870F721DB67FC7008FB083 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D870F741DB67FC7008FB083 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +150,7 @@
 		3D870F711DB67FC7008FB083 /* ChanHop */ = {
 			isa = PBXGroup;
 			children = (
+				3D22F4061DBEB8BB00EC3309 /* ChanHop.entitlements */,
 				3D870FDA1DB6A8AD008FB083 /* Models */,
 				3D870FDD1DB6A97B008FB083 /* Views */,
 				3D870FDC1DB6A910008FB083 /* Controllers */,
@@ -178,6 +184,8 @@
 		3D870FDA1DB6A8AD008FB083 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3D22F4001DBEB04D00EC3309 /* RoomModel.swift */,
+				3D22F4021DBEB24B00EC3309 /* ChannelModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -287,6 +295,14 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = DE9LVH9PK3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					3D870F821DB67FC7008FB083 = {
 						CreatedOnToolsVersion = 8.0;
@@ -413,6 +429,8 @@
 				3D047C411DBA65F500D2BD5C /* TestContentViewController.swift in Sources */,
 				3D047C4B1DBA6F4200D2BD5C /* ChannelViewController.swift in Sources */,
 				3D870F731DB67FC7008FB083 /* AppDelegate.swift in Sources */,
+				3D22F4011DBEB04D00EC3309 /* RoomModel.swift in Sources */,
+				3D22F4031DBEB24B00EC3309 /* ChannelModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

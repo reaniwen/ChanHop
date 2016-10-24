@@ -10,10 +10,15 @@ import UIKit
 
 class ChannelViewController: UIViewController {
     
+    @IBOutlet weak var settingBtn: UIButton!
+    @IBOutlet weak var channelBtn: UIButton!
+    @IBOutlet weak var memberBtn: UIButton!
+    
     var roomVC: RoomPageVC?
     var roomView: UIView!
     
     var channelID: Int! = 0
+    var channelName: String! = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +33,13 @@ class ChannelViewController: UIViewController {
             roomView = vc.view
             self.view.addSubview(roomView)
         }
+        
+        if channelName == "" {
+            channelBtn.setTitle("Channel " + String(channelID), for: .normal)
+        } else {
+            channelBtn.setTitle(channelName, for: .normal)
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {

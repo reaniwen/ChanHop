@@ -11,7 +11,7 @@ import UIKit
 class RoomPageVC: UIPageViewController {
     
     
-    var currentIndex = 2
+    var currentIndex = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,10 +44,12 @@ class RoomPageVC: UIPageViewController {
     func moveToNextRoom(gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
-            print("left")
+            print("swipe to previous room")
+            currentIndex += 1
             self.setViewControllers([getViewControllerAtIndex(index: currentIndex)], direction: .forward, animated:true, completion: nil)
         case UISwipeGestureRecognizerDirection.right:
-            print("right")
+            print("swipe to next room")
+            currentIndex -= 1
             self.setViewControllers([getViewControllerAtIndex(index: currentIndex)], direction: .reverse, animated:true, completion: nil)
         default:
             break

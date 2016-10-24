@@ -21,6 +21,8 @@ class ChatViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.inputToolbar.contentView.leftBarButtonItem = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,13 +49,16 @@ class ChatViewController: JSQMessagesViewController {
 
 
 extension ChatViewController {
+    // todo: get message
     func addDemoMessages() {
         for i in 1...10 {
             let sender = (i%2 == 0) ? "Server" : self.senderId
             let messageContent = "Message nr. \(i) \(roomID)"
-            let message = JSQMessage(senderId: sender, displayName: sender, text: messageContent)
+
+            let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: Date(), text: messageContent)
+            
             self.messages.append(message!)
-            //            self.messages += [message]
+            
         }
         self.reloadMessagesView()
     }
@@ -61,9 +66,6 @@ extension ChatViewController {
     func setup() {
         self.senderId = UIDevice.current.identifierForVendor?.uuidString
         self.senderDisplayName = "abc"//+UIDevice.current.identifierForVendor?.uuidString
-        
-        // set room and channel
-//        self.channelBtn.setTitle("Yankee", for: .normal)
     }
     
     func reloadMessagesView() {
@@ -97,7 +99,32 @@ extension ChatViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-        return nil
+//        return nil
+        let avatar = UIImage(named: "1.png")
+        // todo: add image
+        let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withPlaceholder: avatar, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+        
+        return AvatarJobs
+        
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        let message: JSQMessage = self.messages[indexPath.item]
+        
+        let dateformat = DateFormatter()
+        dateformat.dateStyle = .short
+        dateformat.timeStyle = .short
+        
+        let myAttributes = [ NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 12.0)]
+        
+        // todo: customize color of date and time
+//        print(JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date))
+        return NSAttributedString(string: dateformat.string(from: message.date), attributes: myAttributes)
+        
+//        return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+    }
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        return 20
     }
 }
 
@@ -118,4 +145,7 @@ extension ChatViewController {
         
     }
 }
+
+//JSQMessageAvatarImageDataSource
+// JSQMessagesAvatarImageFactory
 

@@ -40,6 +40,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("Got token data! (deviceToken)")
+        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>")
+        
+        let deviceTokenString:String = (deviceToken.description as NSString )
+            .trimmingCharacters(in: characterSet)
+            .replacingOccurrences(of: " ", with: "")
+        
+        print(deviceTokenString)
+    }
 
 
 }

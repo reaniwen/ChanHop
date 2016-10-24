@@ -10,7 +10,7 @@ import UIKit
 
 class ChannelPageVC: UIPageViewController {
     
-    var currentIndex = 2
+    var currentIndex = 0
     weak var channelVC: ChannelViewController?
     
     override func viewDidLoad() {
@@ -64,11 +64,18 @@ class ChannelPageVC: UIPageViewController {
     func moveToNextChannel(gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
-            print("left")
-            self.setViewControllers([getViewControllerAtIndex(index: currentIndex)], direction: .forward, animated:true, completion: nil)
+            print("Swipe to previous channel")
+            currentIndex += 1
+            UIView.animate(withDuration: 2, animations: {
+                self.setViewControllers([self.getViewControllerAtIndex(index: self.currentIndex)], direction: .forward, animated:true, completion: nil)
+            })
         case UISwipeGestureRecognizerDirection.right:
-            print("right")
-            self.setViewControllers([getViewControllerAtIndex(index: currentIndex)], direction: .reverse, animated:true, completion: nil)
+            print("swipe to next channels")
+            currentIndex -= 1
+            UIView.animate(withDuration: 2, animations: {
+                self.setViewControllers([self.getViewControllerAtIndex(index: self.currentIndex)], direction: .reverse, animated:true, completion: nil)
+            })
+            
         default:
             break
         }
