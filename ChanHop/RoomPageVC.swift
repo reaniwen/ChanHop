@@ -18,7 +18,7 @@ class RoomPageVC: UIPageViewController {
 
         // Do any additional setup after loading the view.
         dataSource = nil
-        self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,32 +41,32 @@ class RoomPageVC: UIPageViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func moveToNextRoom(gesture: UISwipeGestureRecognizer) {
+    func moveToNextRoom(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
             print("swipe to previous room")
             currentIndex += 1
-            self.setViewControllers([getViewControllerAtIndex(index: currentIndex)], direction: .forward, animated:true, completion: nil)
+            self.setViewControllers([getViewControllerAtIndex(currentIndex)], direction: .forward, animated:true, completion: nil)
         case UISwipeGestureRecognizerDirection.right:
             print("swipe to next room")
             currentIndex -= 1
-            self.setViewControllers([getViewControllerAtIndex(index: currentIndex)], direction: .reverse, animated:true, completion: nil)
+            self.setViewControllers([getViewControllerAtIndex(currentIndex)], direction: .reverse, animated:true, completion: nil)
         default:
             break
         }
     }
     
-    func handleSwipe(gestureRecognizer: UIGestureRecognizer) {
+    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
         if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
             print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
             //            print("the direction you swiped is \(swipeGesture.direction)")
-            moveToNextRoom(gesture: swipeGesture)
+            moveToNextRoom(swipeGesture)
             
         }
         
     }
     
-    func getViewControllerAtIndex(index: NSInteger) -> RoomViewController
+    func getViewControllerAtIndex(_ index: NSInteger) -> RoomViewController
     {
         let roomContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "RoomViewController") as! RoomViewController
         roomContentViewController.roomID = index

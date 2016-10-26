@@ -41,7 +41,7 @@ class TutorialViewController: UIPageViewController {
         ]
         arrPagePhoto = ["1.jpg", "2.jpg", "3.jpg", "3.jpg"];
         
-        self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
         
         indicator = UIPageControl(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         indicator.numberOfPages = PAGE_COUNT
@@ -68,7 +68,7 @@ class TutorialViewController: UIPageViewController {
         self.view.addConstraint(y)
     }
     
-    func getViewControllerAtIndex(index: NSInteger) -> TutorialContentViewController
+    func getViewControllerAtIndex(_ index: NSInteger) -> TutorialContentViewController
     {
         let tutorialContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "tutorialContent") as! TutorialContentViewController
         tutorialContentViewController.strTitle = "TUTORIAL \(index)"//"\(arrPageTitle[index])"
@@ -98,7 +98,7 @@ extension TutorialViewController: UIPageViewControllerDataSource {
         {
             return nil;
         }
-        return getViewControllerAtIndex(index: index)
+        return getViewControllerAtIndex(index)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController,
@@ -111,7 +111,7 @@ extension TutorialViewController: UIPageViewControllerDataSource {
             return nil
         }
         index -= 1
-        return getViewControllerAtIndex(index: index)
+        return getViewControllerAtIndex(index)
     }
 }
 

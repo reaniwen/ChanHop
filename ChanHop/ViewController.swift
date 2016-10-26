@@ -134,10 +134,6 @@ extension ViewController {
         self.finishSendingMessage()
     }
     
-    func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        // there is some bugs here, have to write this method
-    }
-    
     override func didPressAccessoryButton(_ sender: UIButton!) {
         
     }

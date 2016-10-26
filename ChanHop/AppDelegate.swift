@@ -7,15 +7,24 @@
 //
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var locationManager: CLLocationManager!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
         return true
     }
 
@@ -27,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        locationManager.stopUpdatingLocation()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -54,5 +64,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+}
+
+extension AppDelegate: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways {
+            if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+                if CLLocationManager.isRangingAvailable() {
+                    // do stuff
+                }
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if UIApplication.shared.applicationState == .background {
+            
+        } else {
+            if let coordinate = manager.location?.coordinate {
+                NotificationCenter.default.post(name: NSNotification.Name(UPDATE_LOC), object: self, userInfo: ["latitude": coordinate.latitude, "longitude": coordinate.longitude])
+
+            } else {
+                // todo: get location error
+            }
+//            print(manager.location?.coordinate.latitude, manager.location?.coordinate.longitude)
+            
+        }
+    }
 }
 

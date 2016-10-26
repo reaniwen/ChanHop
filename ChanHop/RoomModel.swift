@@ -17,7 +17,7 @@ class RoomModel: NSObject {
     var roomSize: Int = 25
     
     
-    func configureRoom (response: NSDictionary) {
+    func configureRoom (_ response: NSDictionary) {
         if let roomIndex = response.value(forKey: "roomIndex") {
             self.roomIndex = roomIndex as! Int
         }

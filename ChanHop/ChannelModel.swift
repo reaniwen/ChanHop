@@ -14,7 +14,7 @@ class ChannelModel: NSObject {
     var rooms: [RoomModel] = []
     
     
-    func configureChannel (response: NSDictionary) {
+    func configureChannel (_ response: NSDictionary) {
         if let channelIndex = response.value(forKey: "channelIndex") {
             self.channelIndex = channelIndex as! Int
         }

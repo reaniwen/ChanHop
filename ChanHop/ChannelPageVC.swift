@@ -13,13 +13,24 @@ class ChannelPageVC: UIPageViewController {
     var currentIndex = 0
     weak var channelVC: ChannelViewController?
     
+    let userManager = UserManager.shared
+    let connectionManager = ConnectionManager.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         dataSource = nil
         
-        self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+
+        let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
+        singleSwipeLeft.direction = .left
+        singleSwipeLeft.numberOfTouchesRequired = 1
+        
+        let singleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
+        singleSwipeRight.direction = .right
+        singleSwipeRight.numberOfTouchesRequired = 1
         
         let doubleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         doubleSwipeLeft.direction = .left
@@ -29,31 +40,33 @@ class ChannelPageVC: UIPageViewController {
         doubleSwipeRight.direction = .right
         doubleSwipeRight.numberOfTouchesRequired = 2
         
-        self.view.addGestureRecognizer(doubleSwipeLeft)
-        self.view.addGestureRecognizer(doubleSwipeRight)
-        
-        let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
-        singleSwipeLeft.direction = .left
-        singleSwipeLeft.numberOfTouchesRequired = 1
-        
-        let singleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
-        singleSwipeRight.direction = .right
-        singleSwipeRight.numberOfTouchesRequired = 1
-        
         self.view.addGestureRecognizer(singleSwipeLeft)
         self.view.addGestureRecognizer(singleSwipeRight)
+        
+        self.view.addGestureRecognizer(doubleSwipeLeft)
+        self.view.addGestureRecognizer(doubleSwipeRight)
         
         if UserDefaults.standard.bool(forKey: "com.chanhop.finishTutorial") == false{
             if let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorialViewController") as? TutorialViewController {
                 self.present(vc, animated: false, completion: nil)
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(UPDATE_LOC), object: nil)
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
-
+        connectionManager.checkServer {
+            res, message in
+            if res {
+                // status == 200
+                // get room
+            } else {
+                print(message)
+            }
+        }
+//        userManager.checkAndJoinRoomInChannel()
     }
     
     override func didReceiveMemoryWarning() {
@@ -61,49 +74,8 @@ class ChannelPageVC: UIPageViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func moveToNextChannel(gesture: UISwipeGestureRecognizer) {
-        switch gesture.direction {
-        case UISwipeGestureRecognizerDirection.left:
-            print("Swipe to previous channel")
-            currentIndex += 1
-            UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewControllerAtIndex(index: self.currentIndex)], direction: .forward, animated:true, completion: nil)
-            })
-        case UISwipeGestureRecognizerDirection.right:
-            print("swipe to next channels")
-            currentIndex -= 1
-            UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewControllerAtIndex(index: self.currentIndex)], direction: .reverse, animated:true, completion: nil)
-            })
-            
-        default:
-            break
-        }
-    }
     
-    func handleSwipe(gestureRecognizer: UIGestureRecognizer) {
-        if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
-            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
-            //            print("the direction you swiped is \(swipeGesture.direction)")
-            moveToNextChannel(gesture: swipeGesture)
-            
-        }
-        
-    }
-    
-    func handleSingleSwipe(gestureRecognizer: UIGestureRecognizer) {
-        if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
-            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
-            //            print("the direction you swiped is \(swipeGesture.direction)")
-//            moveToNextChannel(gesture: swipeGesture)
-            if let vc = channelVC {
-                vc.handleGesture(gesture: swipeGesture)
-            }
-            
-        }
-    }
-    
-    func getViewControllerAtIndex(index: NSInteger) -> ChannelViewController
+    func getViewControllerAtIndex(_ index: NSInteger) -> ChannelViewController
     {
         let channelContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChannelViewController") as! ChannelViewController
         channelContentViewController.channelID = index
@@ -112,15 +84,59 @@ class ChannelPageVC: UIPageViewController {
         return channelContentViewController
     }
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
+}
+
+// MARK: - Handle swipe
+extension ChannelPageVC {
+    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
+        if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
+            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
+            moveToNextChannel(swipeGesture)
+            
+        }
+        
+    }
+    
+    func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
+        if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
+            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
+            if let vc = channelVC {
+                vc.handleGesture(swipeGesture)
+            }
+            
+        }
+    }
+    
+    func moveToNextChannel(_ gesture: UISwipeGestureRecognizer) {
+        switch gesture.direction {
+        case UISwipeGestureRecognizerDirection.left:
+            print("Swipe to previous channel")
+            currentIndex += 1
+            UIView.animate(withDuration: 2, animations: {
+                self.setViewControllers([self.getViewControllerAtIndex(self.currentIndex)], direction: .forward, animated:true, completion: nil)
+            })
+        case UISwipeGestureRecognizerDirection.right:
+            print("swipe to next channels")
+            currentIndex -= 1
+            UIView.animate(withDuration: 2, animations: {
+                self.setViewControllers([self.getViewControllerAtIndex(self.currentIndex)], direction: .reverse, animated:true, completion: nil)
+            })
+            
+        default:
+            break
+        }
+    }
+}
+
+extension ChannelPageVC {
+    func updateLocation(notification: Notification) {
+        print(notification.userInfo)
+        if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
+//            userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude)
+        }
+    }
 }

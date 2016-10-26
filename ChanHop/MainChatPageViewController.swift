@@ -19,7 +19,7 @@ class MainChatPageViewController: UIPageViewController {
         dataSource = nil
         
         
-        self.setViewControllers([getViewControllerAtIndex(index: 0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
         
         let doubleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         doubleSwipeLeft.direction = .left
@@ -38,7 +38,7 @@ class MainChatPageViewController: UIPageViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func getViewControllerAtIndex(index: NSInteger) -> ViewController
+    func getViewControllerAtIndex(_ index: NSInteger) -> ViewController
     {
         let chatContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
         chatContentViewController.pageIndex = index
@@ -48,24 +48,24 @@ class MainChatPageViewController: UIPageViewController {
     // Todo achieve the logic of switch Channel and room
     func moveToNextRoom(){}
     
-    func moveToNextChannel(gesture: UISwipeGestureRecognizer) {
+    func moveToNextChannel(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
             print("left")
-            self.setViewControllers([getViewControllerAtIndex(index: currentIndex)] as [UIViewController], direction: .forward, animated:true, completion: nil)
+            self.setViewControllers([getViewControllerAtIndex(currentIndex)] as [UIViewController], direction: .forward, animated:true, completion: nil)
         case UISwipeGestureRecognizerDirection.right:
             print("right")
-            self.setViewControllers([getViewControllerAtIndex(index: currentIndex)] as [UIViewController], direction: .reverse, animated:true, completion: nil)
+            self.setViewControllers([getViewControllerAtIndex(currentIndex)] as [UIViewController], direction: .reverse, animated:true, completion: nil)
         default:
             break
         }
     }
     
-    func handleSwipe(gestureRecognizer: UIGestureRecognizer) {
+    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
         if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
             print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
 //            print("the direction you swiped is \(swipeGesture.direction)")
-            moveToNextChannel(gesture: swipeGesture)
+            moveToNextChannel(swipeGesture)
             
         }
         
@@ -89,7 +89,7 @@ extension MainChatPageViewController: UIPageViewControllerDataSource {
         {
             return nil;
         }
-        return getViewControllerAtIndex(index: index)
+        return getViewControllerAtIndex(index)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController,
@@ -102,6 +102,6 @@ extension MainChatPageViewController: UIPageViewControllerDataSource {
             return nil
         }
         index -= 1
-        return getViewControllerAtIndex(index: index)
+        return getViewControllerAtIndex(index)
     }
 }

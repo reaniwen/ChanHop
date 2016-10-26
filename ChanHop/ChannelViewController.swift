@@ -55,9 +55,9 @@ class ChannelViewController: UIViewController {
     }
     
     
-    func handleGesture(gesture: UISwipeGestureRecognizer) {
+    func handleGesture(_ gesture: UISwipeGestureRecognizer) {
         if let vc = roomVC {
-            vc.moveToNextRoom(gesture: gesture)
+            vc.moveToNextRoom(gesture)
         }
     }
     
