@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CC3956C311B42B33D49D0A2D03CDF1EB'
-               BlueprintName = 'Pods-ChanHop'
+               BlueprintIdentifier = 'FCE6A0D3FF2E752DE6760A078772A624'
+               BlueprintName = 'Socket.IO-Client-Swift'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods-ChanHop.framework'>
+               BuildableName = 'Socket.IO-Client-Swift.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
