@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178DB6381DC05D29006334E1 /* SocketIOManager.swift */; };
 		3D047C3D1DB957F300D2BD5C /* TopNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D047C3C1DB957F300D2BD5C /* TopNavigationBar.xib */; };
 		3D047C3F1DB9623B00D2BD5C /* MainChatPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C3E1DB9623B00D2BD5C /* MainChatPageViewController.swift */; };
 		3D047C411DBA65F500D2BD5C /* TestContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C401DBA65F500D2BD5C /* TestContentViewController.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		178DB6381DC05D29006334E1 /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		3D047C3C1DB957F300D2BD5C /* TopNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopNavigationBar.xib; sourceTree = "<group>"; };
 		3D047C3E1DB9623B00D2BD5C /* MainChatPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatPageViewController.swift; sourceTree = "<group>"; };
 		3D047C401DBA65F500D2BD5C /* TestContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestContentViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			children = (
 				3D22F4001DBEB04D00EC3309 /* RoomModel.swift */,
 				3D22F4021DBEB24B00EC3309 /* ChannelModel.swift */,
+				178DB6381DC05D29006334E1 /* SocketIOManager.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D870F751DB67FC7008FB083 /* ViewController.swift in Sources */,
+				178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */,
 				3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */,
 				3D870FDF1DB6A99B008FB083 /* TopNavigationBar.swift in Sources */,
 				3D047C431DBA6CA800D2BD5C /* ChatViewController.swift in Sources */,
