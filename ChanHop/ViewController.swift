@@ -36,7 +36,7 @@ class ViewController: JSQMessagesViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         // if first time launch, jump to tutorial
-        if UserDefaults.standard.bool(forKey: "com.chanhop.finishTutorial") == false{
+        if UserDefaults.standard.bool(forKey: FINISH_TUTORIAL) == false{
             if let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorialViewController") as? TutorialViewController {
                 self.present(vc, animated: false, completion: nil)
             }

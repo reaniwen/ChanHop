@@ -20,6 +20,10 @@ class ChannelViewController: UIViewController {
     var channelID: Int! = 0
     var channelName: String! = ""
 
+    let userManager = UserManager.shared
+    let connectionManager = ConnectionManager.shared
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,6 +66,14 @@ class ChannelViewController: UIViewController {
     }
     
     
+    @IBAction func testJoinRoom(_ sender: AnyObject) {
+//        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { roomName in
+//            self.channelName = roomName
+//        }
+    }
+    @IBAction func testLeavingRoom(_ sender: AnyObject) {
+//        userManager.userLeaveRoom(room: self.channelName)
+    }
 
     /*
     // MARK: - Navigation

@@ -9,5 +9,8 @@
 import Foundation
 
 let CHANHOP_URL = "http://chanhop.elasticbeanstalk.com/api/v1"
-let CURRENT_LOC = "com.chanhop.currentLocation"
-let UPDATE_LOC = "com.chanhop.updateLocation"
+
+let CURRENT_LOC = "com.chanhop.currentLocation"         // for userdefault
+let FINISH_TUTORIAL = "com.chanhop.finishTutorial"      // for userdefault
+
+let UPDATE_LOC = "com.chanhop.updateLocation"           // for notification

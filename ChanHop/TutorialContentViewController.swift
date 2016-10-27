@@ -47,7 +47,7 @@ class TutorialContentViewController: UIViewController {
     
     @IBAction func dismissTutorial(_ sender: AnyObject) {
         self.dismiss(animated: true, completion: nil)
-        UserDefaults.standard.set(true, forKey: "com.chanhop.finishTutorial")
+        UserDefaults.standard.set(true, forKey: FINISH_TUTORIAL)
     }
 
     /*

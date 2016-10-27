@@ -6,6 +6,8 @@
 //  Copyright © 2016 Rean Wen. All rights reserved.
 //
 
+
+// display a indicator, if get location, clear the indicator and call to join the local hop
 import UIKit
 
 class ChannelPageVC: UIPageViewController {
@@ -46,7 +48,7 @@ class ChannelPageVC: UIPageViewController {
         self.view.addGestureRecognizer(doubleSwipeLeft)
         self.view.addGestureRecognizer(doubleSwipeRight)
         
-        if UserDefaults.standard.bool(forKey: "com.chanhop.finishTutorial") == false{
+        if UserDefaults.standard.bool(forKey: FINISH_TUTORIAL) == false{
             if let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorialViewController") as? TutorialViewController {
                 self.present(vc, animated: false, completion: nil)
             }
@@ -57,16 +59,21 @@ class ChannelPageVC: UIPageViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        connectionManager.checkServer {
-            res, message in
-            if res {
-                // status == 200
-                // get room
-            } else {
-                print(message)
-            }
-        }
-//        userManager.checkAndJoinRoomInChannel()
+        // check location authrization
+        // if not allow, inform user to allow
+        // if allow, show an indicator to wait for location "getting location"
+//        connectionManager.checkServer {
+//            res, message in
+//            if res {
+//                weak var weakSelf = self
+//                // get room
+//                if weakSelf != nil {
+//                }
+//            } else {
+//                print(message)
+//                // Todo: popup the error message
+//            }
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -134,9 +141,18 @@ extension ChannelPageVC {
 
 extension ChannelPageVC {
     func updateLocation(notification: Notification) {
-        print(notification.userInfo)
         if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
-//            userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude)
+            // if user haven't join any room, then join a room
+            // else update location
+//            if userManager.userID == 0 {
+//                // join local hop and get a user id
+//                userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude, channelName: "LocalHop") { roomName in
+//                    print(roomName)
+//                }
+//            } else {
+//                userManager.updateLocation(latitude: latitude, longitude: longitude)
+//            }
+            
         }
     }
 }
