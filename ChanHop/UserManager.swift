@@ -23,19 +23,19 @@ class UserManager: NSObject {
                             "locationCoordinate": String(format: "%f,%f", arguments: [Float(latitude), Float(longitude)]),
                             "username":"aaa"]
         print("joining channel:", parameters)
-//        Alamofire.request(CHANHOP_URL + "/checkandjoinroominchannel", method: .post, parameters: parameters)
-//            .responseJSON { response in
-//                switch response.result {
-//                case .success(let JSONdata):
-//                    let data = JSON(JSONdata)
-//                    self.userID = data["id"].intValue
-//                    self.colorHex = data["colorHex"].stringValue
-//                    print("the result of first join room is: ", data)
-//                    completion(data["roomName"].stringValue)
-//                case .failure(let error):
-//                    print("the result of first join room is: ", error.localizedDescription)
-//                }
-//        }
+        Alamofire.request(CHANHOP_URL + "/checkandjoinroominchannel", method: .post, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONdata):
+                    let data = JSON(JSONdata)
+                    self.userID = data["id"].intValue
+                    self.colorHex = data["colorHex"].stringValue
+                    print("the result of first join room is: ", data)
+                    completion(data["roomName"].stringValue)
+                case .failure(let error):
+                    print("the result of first join room is: ", error.localizedDescription)
+                }
+        }
         
     }
     

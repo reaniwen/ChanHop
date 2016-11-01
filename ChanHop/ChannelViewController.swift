@@ -67,12 +67,12 @@ class ChannelViewController: UIViewController {
     
     
     @IBAction func testJoinRoom(_ sender: AnyObject) {
-//        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { roomName in
-//            self.channelName = roomName
-//        }
+        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { roomName in
+            self.channelName = roomName
+        }
     }
     @IBAction func testLeavingRoom(_ sender: AnyObject) {
-//        userManager.userLeaveRoom(room: self.channelName)
+        userManager.userLeaveRoom(room: self.channelName)
     }
 
     /*

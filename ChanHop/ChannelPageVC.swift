@@ -144,14 +144,14 @@ extension ChannelPageVC {
         if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
             // if user haven't join any room, then join a room
             // else update location
-//            if userManager.userID == 0 {
-//                // join local hop and get a user id
-//                userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude, channelName: "LocalHop") { roomName in
-//                    print(roomName)
-//                }
-//            } else {
-//                userManager.updateLocation(latitude: latitude, longitude: longitude)
-//            }
+            if userManager.userID == 0 {
+                // join local hop and get a user id
+                userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude, channelName: "LocalHop") { roomName in
+                    print(roomName)
+                }
+            } else {
+                userManager.updateLocation(latitude: latitude, longitude: longitude)
+            }
             
         }
     }
