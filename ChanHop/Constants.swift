@@ -14,6 +14,7 @@ let CURRENT_LOC = "com.chanhop.currentLocation"         // for userdefault
 let FINISH_TUTORIAL = "com.chanhop.finishTutorial"      // for userdefault
 
 let UPDATE_LOC = "com.chanhop.updateLocation"           // for notification
+let CHANNEL_NAME = "com.chanhop.getChannelName"         // for notification
 
 
 

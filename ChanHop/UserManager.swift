@@ -27,11 +27,16 @@ class UserManager: NSObject {
             .responseJSON { response in
                 switch response.result {
                 case .success(let JSONdata):
+                    // 200 is success, 202 seems to be joined
                     let data = JSON(JSONdata)
-                    self.userID = data["id"].intValue
-                    self.colorHex = data["colorHex"].stringValue
-                    print("the result of first join room is: ", data)
-                    completion(data["roomName"].stringValue)
+                    if data["status"].string == "200" {
+                        self.userID = data["id"].intValue
+                        self.colorHex = data["colorHex"].stringValue
+                        print("the result of first join room is: ", data)
+                        completion(data["roomName"].stringValue)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CHANNEL_NAME), object: self, userInfo: ["channelName": data["roomName"].stringValue])
+                    }
+                    
                 case .failure(let error):
                     print("the result of first join room is: ", error.localizedDescription)
                 }
@@ -57,11 +62,11 @@ class UserManager: NSObject {
         
     }
     
-    func userLeaveRoom(room: String) {
+    func userLeaveRoom(channel: String) {
         let parameters: [String: Any] = ["userID": userID,
-                          "roomName": room
+                          "roomName": channel
                           ]
-        print("parameters for leaving room are: ", parameters)
+        print("parameters for leaving channel are: ", parameters)
         Alamofire.request(CHANHOP_URL + "/userleavesroom", method: .post, parameters: parameters)
             .responseJSON { response in
                 switch response.result {

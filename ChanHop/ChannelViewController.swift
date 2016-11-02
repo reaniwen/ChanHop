@@ -28,6 +28,7 @@ class ChannelViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(configureChannel), name: NSNotification.Name(rawValue: CHANNEL_NAME), object: nil)
 
     }
     
@@ -65,14 +66,26 @@ class ChannelViewController: UIViewController {
         }
     }
     
+    func configureChannel(notification: Notification) {
+        let userInfo = notification.userInfo
+        if let channelName:String = userInfo?["channelName"] as? String {
+            self.channelName = channelName
+        }
+    }
+    
     
     @IBAction func testJoinRoom(_ sender: AnyObject) {
-        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { roomName in
-            self.channelName = roomName
+        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { channelName in
+            self.channelName = channelName
         }
     }
     @IBAction func testLeavingRoom(_ sender: AnyObject) {
-        userManager.userLeaveRoom(room: self.channelName)
+        userManager.userLeaveRoom(channel: self.channelName)
+    }
+    
+    deinit {
+//        self.removeno
+        NotificationCenter.default.removeObserver(self)
     }
 
     /*

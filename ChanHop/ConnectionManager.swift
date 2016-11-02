@@ -48,7 +48,7 @@ class ConnectionManager: NSObject {
                         var locations: [FourSquareLocation] = []
                         for i in 0..<data["response","venues"].count {
                             let locData = data["response","venues",i]
-                            let location = FourSquareLocation(name: locData["name"].stringValue, longitude: locData["location","lng"].doubleValue, latitude: locData["location","lat"].doubleValue, distance: locData["location","distance"].intValue, address: locData["location","formattedAddress",0].stringValue)
+                            let location = FourSquareLocation(name: locData["name"].stringValue, longitude: locData["location","lng"].doubleValue, latitude: locData["location","lat"].doubleValue, distance: locData["location","distance"].intValue, address: locData["location","address"].stringValue)
                         
                             locations.append(location)
                         }
