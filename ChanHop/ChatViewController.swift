@@ -2,32 +2,35 @@
 //  ChatViewController.swift
 //  ChanHop
 //
-//  Created by Rean Wen on 10/21/16.
+//  Created by Rean Wen on 11/3/16.
 //  Copyright © 2016 Rean Wen. All rights reserved.
 //
 
 import UIKit
 import JSQMessagesViewController
 
-
 class ChatViewController: JSQMessagesViewController {
     
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
     var messages = [JSQMessage]()
-    
-    var roomID: Int = 0
-    var channelID: Int = 0
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.setup()
+        self.addDemoMessages()
         
         self.inputToolbar.contentView.leftBarButtonItem = nil
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.setup()
-        self.addDemoMessages()
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,24 +40,22 @@ class ChatViewController: JSQMessagesViewController {
                 self.present(vc, animated: false, completion: nil)
             }
         }
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
-    override func viewDidLayoutSubviews() {
+    func reloadMessagesView() {
+        self.collectionView?.reloadData()
     }
 }
 
-
+// MARK - Configuration
 extension ChatViewController {
     // todo: get message
     func addDemoMessages() {
         for i in 1...10 {
             let sender = (i%2 == 0) ? "Server" : self.senderId
-            let messageContent = "Message nr. \(i) \(roomID)"
-
+            let messageContent = "Message nr. \(i)"
+            
             let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: Date(), text: messageContent)
             
             self.messages.append(message!)
@@ -67,14 +68,10 @@ extension ChatViewController {
         self.senderId = UIDevice.current.identifierForVendor?.uuidString
         self.senderDisplayName = "abc"//+UIDevice.current.identifierForVendor?.uuidString
     }
-    
-    func reloadMessagesView() {
-        self.collectionView?.reloadData()
-    }
 }
 
+// MARK - DataSource and Delegation
 extension ChatViewController {
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.messages.count
     }
@@ -99,12 +96,14 @@ extension ChatViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-//        return nil
+        
         let avatar = UIImage(named: "1.png")
         // todo: add image
         let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withPlaceholder: avatar, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
         
         return AvatarJobs
+        
+        //        return nil
         
     }
     
@@ -118,11 +117,12 @@ extension ChatViewController {
         let myAttributes = [ NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 12.0)]
         
         // todo: customize color of date and time
-//        print(JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date))
+        //        print(JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date))
         return NSAttributedString(string: dateformat.string(from: message.date), attributes: myAttributes)
         
-//        return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+        //        return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
     }
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
         return 20
     }
@@ -141,7 +141,3 @@ extension ChatViewController {
         
     }
 }
-
-//JSQMessageAvatarImageDataSource
-// JSQMessagesAvatarImageFactory
-

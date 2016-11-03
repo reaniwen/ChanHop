@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="grR-ig-y8X">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="TtH-ee-HiR">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -8,24 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Test Content View Controller-->
-        <scene sceneID="xY2-LX-ZOj">
-            <objects>
-                <viewController id="5iE-9r-08A" customClass="TestContentViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="onD-os-HOa"/>
-                        <viewControllerLayoutGuide type="bottom" id="tRd-9F-Dur"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="yPo-uZ-teH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cao-T9-n7i" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1953" y="356"/>
-        </scene>
         <!--Tutorial View Controller-->
         <scene sceneID="VSa-dG-X7R">
             <objects>
@@ -111,7 +93,7 @@
         <!--Channel PageVC-->
         <scene sceneID="ylb-Lg-X2P">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="grR-ig-y8X" customClass="ChannelPageVC" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="ChannelPageVC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="grR-ig-y8X" customClass="ChannelPageVC" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qwk-9P-mIj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="249" y="519"/>
@@ -137,7 +119,7 @@
                                         </constraints>
                                         <state key="normal" image="SettingsButton"/>
                                         <connections>
-                                            <action selector="testJoinRoom:" destination="RQo-yc-vLJ" eventType="touchUpInside" id="CKa-dr-4mj"/>
+                                            <action selector="settingAct:" destination="RQo-yc-vLJ" eventType="touchUpInside" id="pJk-4Z-e8Y"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pie-5W-9hj">
@@ -149,7 +131,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="testLeavingRoom:" destination="RQo-yc-vLJ" eventType="touchUpInside" id="4sx-Zl-IXE"/>
+                                            <action selector="memberAct:" destination="RQo-yc-vLJ" eventType="touchUpInside" id="LRq-OA-STR"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mkg-tZ-BYF">
@@ -159,6 +141,9 @@
                                         <state key="normal" title="Button" backgroundImage="ChannelButtonBackground">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="showChannelListAct:" destination="RQo-yc-vLJ" eventType="touchUpInside" id="zDv-wV-wye"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.61960784310000006" green="0.87058823529999996" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
@@ -199,28 +184,10 @@
             </objects>
             <point key="canvasLocation" x="1236" y="519"/>
         </scene>
-        <!--Chat View Controller-->
-        <scene sceneID="aCE-YS-lLf">
-            <objects>
-                <viewController storyboardIdentifier="ChatViewController" id="SQQ-Vl-lRz" customClass="ChatViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="37y-gJ-Fl7"/>
-                        <viewControllerLayoutGuide type="bottom" id="oJt-eR-q1Q"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9rq-ml-O11">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SpI-jW-RUW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2130" y="528"/>
-        </scene>
         <!--Channel List View Controller-->
         <scene sceneID="YeK-kt-FOB">
             <objects>
-                <viewController id="bAj-SC-hvW" customClass="ChannelListViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChannelListViewController" id="bAj-SC-hvW" customClass="ChannelListViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9z7-PE-u2x"/>
                         <viewControllerLayoutGuide type="bottom" id="OPz-Vz-1bm"/>
@@ -233,10 +200,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="NearbyVenueTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="NearbyVenueTableViewCell" rowHeight="68" id="WXY-Iz-fbG" customClass="NearbyVenueTableViewCell" customModule="ChanHop" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="68"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WXY-Iz-fbG" id="q3Z-Sg-AF0">
-                                            <frame key="frameInset" width="375" height="67"/>
+                                            <frame key="frameInset" width="1000" height="67"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxX-ib-IYn">
@@ -345,6 +312,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ORf-gv-aDI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1481" y="631"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Gmw-ka-wmu">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" id="6ln-E8-KgW" customClass="ViewController" customModule="ChanHop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GrA-Gf-ykJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="XP8-NS-76E"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="g6J-cf-AcB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Ev-aO-7t4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2274" y="659"/>
         </scene>
     </scenes>
     <resources>

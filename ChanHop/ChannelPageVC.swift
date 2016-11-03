@@ -59,21 +59,6 @@ class ChannelPageVC: UIPageViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // check location authrization
-        // if not allow, inform user to allow
-        // if allow, show an indicator to wait for location "getting location"
-//        connectionManager.checkServer {
-//            res, message in
-//            if res {
-//                weak var weakSelf = self
-//                // get room
-//                if weakSelf != nil {
-//                }
-//            } else {
-//                print(message)
-//                // Todo: popup the error message
-//            }
-//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,7 +71,10 @@ class ChannelPageVC: UIPageViewController {
     {
         let channelContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChannelViewController") as! ChannelViewController
         channelContentViewController.channelID = index
+        
+        self.channelVC?.removeFromParentViewController()
         self.channelVC = channelContentViewController
+        self.addChildViewController(channelVC!)
         
         return channelContentViewController
     }
@@ -101,7 +89,7 @@ class ChannelPageVC: UIPageViewController {
 extension ChannelPageVC {
     func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
         if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
-            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
+            print("Use \(gestureRecognizer.numberOfTouches) to swipe")
             moveToNextChannel(swipeGesture)
             
         }
@@ -110,7 +98,7 @@ extension ChannelPageVC {
     
     func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
         if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
-            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
+            print("Use \(gestureRecognizer.numberOfTouches) to swipe")
             if let vc = channelVC {
                 vc.handleGesture(swipeGesture)
             }
@@ -121,13 +109,13 @@ extension ChannelPageVC {
     func moveToNextChannel(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
-            print("Swipe to previous channel")
+            print("Swiping to previous channel")
             currentIndex += 1
             UIView.animate(withDuration: 2, animations: {
                 self.setViewControllers([self.getViewControllerAtIndex(self.currentIndex)], direction: .forward, animated:true, completion: nil)
             })
         case UISwipeGestureRecognizerDirection.right:
-            print("swipe to next channels")
+            print("Swiping to next channel")
             currentIndex -= 1
             UIView.animate(withDuration: 2, animations: {
                 self.setViewControllers([self.getViewControllerAtIndex(self.currentIndex)], direction: .reverse, animated:true, completion: nil)

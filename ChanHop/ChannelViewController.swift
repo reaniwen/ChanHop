@@ -36,15 +36,12 @@ class ChannelViewController: UIViewController {
         roomVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomPageVC") as? RoomPageVC
         if let vc = roomVC {
             roomView = vc.view
+            self.addChildViewController(roomVC!)
             self.view.addSubview(roomView)
         }
         
-        if channelName == "" {
-            channelBtn.setTitle("Channel " + String(channelID), for: .normal)
-        } else {
-            channelBtn.setTitle(channelName, for: .normal)
-        }
         
+        setChannelBtn()
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,21 +63,20 @@ class ChannelViewController: UIViewController {
         }
     }
     
+    func setChannelBtn() {
+        if channelName == "" {
+            channelBtn.setTitle("Channel " + String(channelID), for: .normal)
+        } else {
+            channelBtn.setTitle(channelName, for: .normal)
+        }
+    }
+    
     func configureChannel(notification: Notification) {
         let userInfo = notification.userInfo
         if let channelName:String = userInfo?["channelName"] as? String {
             self.channelName = channelName
+            self.setChannelBtn()
         }
-    }
-    
-    
-    @IBAction func testJoinRoom(_ sender: AnyObject) {
-        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { channelName in
-            self.channelName = channelName
-        }
-    }
-    @IBAction func testLeavingRoom(_ sender: AnyObject) {
-        userManager.userLeaveRoom(channel: self.channelName)
     }
     
     deinit {
@@ -88,14 +84,33 @@ class ChannelViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+   
 
+// MARK: - Defination of three buttons
+    @IBAction func settingAct(_ sender: AnyObject) {
+        print("Setting button pressed")
+//        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { channelName in
+//            self.channelName = channelName
+//        }
+    }
+    
+    @IBAction func memberAct(_ sender: AnyObject) {
+        print("Room member button pressed")
+        
+        
+//        userManager.userLeaveRoom(channel: self.channelName)
+    }
+    
+    @IBAction func showChannelListAct(_ sender: AnyObject) {
+        print("Show channel list button pressed")
+    }
 }

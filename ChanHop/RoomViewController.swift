@@ -24,15 +24,15 @@ class RoomViewController: UIViewController {
         roomNameLabel.text = "Room" + String(roomID)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let chatVC = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as? ViewController {
         
-        if let chatVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController {
-            
-//                        self.view.addSubview(roomNameView)
+            self.view.addSubview(roomNameView)
             self.addChildViewController(chatVC)
             chatView = chatVC.view
             self.view.addSubview(chatView)
+//            self.present(chatVC, animated: true, completion: nil)
         }
     }
     

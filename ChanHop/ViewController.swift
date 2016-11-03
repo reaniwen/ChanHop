@@ -2,82 +2,54 @@
 //  ViewController.swift
 //  ChanHop
 //
-//  Created by Rean Wen on 10/18/16.
+//  Created by Rean Wen on 11/3/16.
 //  Copyright © 2016 Rean Wen. All rights reserved.
 //
 
 import UIKit
 import JSQMessagesViewController
 
-
 class ViewController: JSQMessagesViewController {
 
-    @IBOutlet weak var topBar: UIView!
-    @IBOutlet weak var channelBtn: UIButton!
-    @IBOutlet weak var configBtn: UIButton!
-    @IBOutlet weak var memberBtn: UIButton!
-    @IBOutlet weak var roomLabel: UILabel!
-    
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
     var messages = [JSQMessage]()
     
-    var pageIndex: Int = 0
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         self.setup()
         self.addDemoMessages()
         
-        self.view.addSubview(topBar)
+        self.inputToolbar.contentView.leftBarButtonItem = nil
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        // if first time launch, jump to tutorial
-        if UserDefaults.standard.bool(forKey: FINISH_TUTORIAL) == false{
-            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorialViewController") as? TutorialViewController {
-                self.present(vc, animated: false, completion: nil)
-            }
-        }
-    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidLayoutSubviews() {
-        self.collectionView?.frame = CGRect(x: 0, y: 120, width: self.view.frame.width, height: self.view.frame.height - 120)
-        self.topBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        var parent: AnyObject!
-        var child: AnyObject!
-        parent = self.view
-        child = topBar
-        
-        let left = NSLayoutConstraint(item: parent, attribute: .leading, relatedBy: .equal, toItem: child, attribute: .leading, multiplier: 1, constant: 0)
-        let right = NSLayoutConstraint(item: parent, attribute: .trailing, relatedBy: .equal, toItem: child, attribute: .trailing, multiplier: 1, constant: 0)
-        let top = NSLayoutConstraint(item: parent, attribute: .top, relatedBy: .equal, toItem: child, attribute: .top, multiplier: 1, constant: 0)
-        let height = NSLayoutConstraint(item: child, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 120)
-        parent.addConstraint(left)
-        parent.addConstraint(right)
-        parent.addConstraint(top)
-        parent.addConstraint(height)
-        
-        
+    func reloadMessagesView() {
+        self.collectionView?.reloadData()
     }
+
 }
 
-
 extension ViewController {
+    // todo: get message
     func addDemoMessages() {
         for i in 1...10 {
             let sender = (i%2 == 0) ? "Server" : self.senderId
-            let messageContent = "Message nr. \(i) \(pageIndex)"
-            let message = JSQMessage(senderId: sender, displayName: sender, text: messageContent)
+            let messageContent = "Message nr. \(i)"
+            
+            let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: Date(), text: messageContent)
+            
             self.messages.append(message!)
-            //            self.messages += [message]
+            
         }
         self.reloadMessagesView()
     }
@@ -85,18 +57,11 @@ extension ViewController {
     func setup() {
         self.senderId = UIDevice.current.identifierForVendor?.uuidString
         self.senderDisplayName = "abc"//+UIDevice.current.identifierForVendor?.uuidString
-        
-        // set room and channel
-        self.channelBtn.setTitle("Yankee", for: .normal)
-    }
-    
-    func reloadMessagesView() {
-        self.collectionView?.reloadData()
     }
 }
 
+// MARK - DataSource and Delegation
 extension ViewController {
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.messages.count
     }
@@ -121,13 +86,40 @@ extension ViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-        return nil
+        
+        let avatar = UIImage(named: "1.png")
+        // todo: add image
+        let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withPlaceholder: avatar, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+        
+        return AvatarJobs
+        
+        //        return nil
+        
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        let message: JSQMessage = self.messages[indexPath.item]
+        
+        let dateformat = DateFormatter()
+        dateformat.dateStyle = .short
+        dateformat.timeStyle = .short
+        
+        let myAttributes = [ NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 12.0)]
+        
+        // todo: customize color of date and time
+        //        print(JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date))
+        return NSAttributedString(string: dateformat.string(from: message.date), attributes: myAttributes)
+        
+        //        return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        return 20
     }
 }
 
 //MARK - Toolbar
 extension ViewController {
-    
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date as Date!, text: text)
         self.messages.append(message!)

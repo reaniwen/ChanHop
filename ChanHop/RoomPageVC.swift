@@ -12,6 +12,7 @@ class RoomPageVC: UIPageViewController {
     
     
     var currentIndex = 0
+    weak var roomVC: RoomViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,9 @@ class RoomPageVC: UIPageViewController {
     {
         let roomContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "RoomViewController") as! RoomViewController
         roomContentViewController.roomID = index
+        self.roomVC?.removeFromParentViewController()
+        self.roomVC = roomContentViewController
+        self.addChildViewController(roomVC!)
         
         return roomContentViewController
     }
