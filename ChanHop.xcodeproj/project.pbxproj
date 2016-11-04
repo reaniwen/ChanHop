@@ -10,7 +10,6 @@
 		178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178DB6381DC05D29006334E1 /* SocketIOManager.swift */; };
 		3D032D551DCBDCAD00951C3B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D032D541DCBDCAD00951C3B /* ChatViewController.swift */; };
 		3D032D571DCBE0BE00951C3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D032D561DCBE0BE00951C3B /* ViewController.swift */; };
-		3D047C3D1DB957F300D2BD5C /* TopNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D047C3C1DB957F300D2BD5C /* TopNavigationBar.xib */; };
 		3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */; };
 		3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */; };
 		3D047C491DBA6F3300D2BD5C /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */; };
@@ -29,7 +28,6 @@
 		3D870F7D1DB67FC7008FB083 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D870F7B1DB67FC7008FB083 /* LaunchScreen.storyboard */; };
 		3D870F881DB67FC7008FB083 /* ChanHopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F871DB67FC7008FB083 /* ChanHopTests.swift */; };
 		3D870F931DB67FC7008FB083 /* ChanHopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870F921DB67FC7008FB083 /* ChanHopUITests.swift */; };
-		3D870FDF1DB6A99B008FB083 /* TopNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870FDE1DB6A99B008FB083 /* TopNavigationBar.swift */; };
 		3D870FE11DB6C164008FB083 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870FE01DB6C164008FB083 /* TutorialViewController.swift */; };
 		3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D870FE21DB6C32B008FB083 /* TutorialContentViewController.swift */; };
 		3D8890A91DC2A94D00EEEB3D /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8890A81DC2A94D00EEEB3D /* Singleton.swift */; };
@@ -57,7 +55,6 @@
 		178DB6381DC05D29006334E1 /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		3D032D541DCBDCAD00951C3B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		3D032D561DCBE0BE00951C3B /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3D047C3C1DB957F300D2BD5C /* TopNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopNavigationBar.xib; sourceTree = "<group>"; };
 		3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPageVC.swift; sourceTree = "<group>"; };
 		3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelPageVC.swift; sourceTree = "<group>"; };
 		3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
@@ -83,7 +80,6 @@
 		3D870F8E1DB67FC7008FB083 /* ChanHopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChanHopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D870F921DB67FC7008FB083 /* ChanHopUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChanHopUITests.swift; sourceTree = "<group>"; };
 		3D870F941DB67FC7008FB083 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3D870FDE1DB6A99B008FB083 /* TopNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopNavigationBar.swift; sourceTree = "<group>"; };
 		3D870FE01DB6C164008FB083 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		3D870FE21DB6C32B008FB083 /* TutorialContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		3D8890A81DC2A94D00EEEB3D /* Singleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
@@ -155,7 +151,6 @@
 			children = (
 				3D22F4061DBEB8BB00EC3309 /* ChanHop.entitlements */,
 				3D870FDA1DB6A8AD008FB083 /* Models */,
-				3D870FDD1DB6A97B008FB083 /* Views */,
 				3D870FDC1DB6A910008FB083 /* Controllers */,
 				3D870F761DB67FC7008FB083 /* Main.storyboard */,
 				3D57E1CC1DC1488F00E986C4 /* Constants.swift */,
@@ -212,15 +207,6 @@
 				3D32D3851DC927D70085A789 /* NearbyVenueTableViewCell.swift */,
 			);
 			name = Controllers;
-			sourceTree = "<group>";
-		};
-		3D870FDD1DB6A97B008FB083 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				3D870FDE1DB6A99B008FB083 /* TopNavigationBar.swift */,
-				3D047C3C1DB957F300D2BD5C /* TopNavigationBar.xib */,
-			);
-			name = Views;
 			sourceTree = "<group>";
 		};
 		3D9A77FD1DCBB23C00AFBE0F /* Tutorials */ = {
@@ -364,7 +350,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D870F7D1DB67FC7008FB083 /* LaunchScreen.storyboard in Resources */,
-				3D047C3D1DB957F300D2BD5C /* TopNavigationBar.xib in Resources */,
 				3D870F7A1DB67FC7008FB083 /* Assets.xcassets in Resources */,
 				3D870F781DB67FC7008FB083 /* Main.storyboard in Resources */,
 			);
@@ -444,7 +429,6 @@
 				3D8890A91DC2A94D00EEEB3D /* Singleton.swift in Sources */,
 				178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */,
 				3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */,
-				3D870FDF1DB6A99B008FB083 /* TopNavigationBar.swift in Sources */,
 				3D32D3841DC926B90085A789 /* ChannelListViewController.swift in Sources */,
 				3D870FE11DB6C164008FB083 /* TutorialViewController.swift in Sources */,
 				3D32D3861DC927D70085A789 /* NearbyVenueTableViewCell.swift in Sources */,
