@@ -42,6 +42,16 @@ class RoomPageVC: UIPageViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
+        if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
+            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
+            //            print("the direction you swiped is \(swipeGesture.direction)")
+            moveToNextRoom(swipeGesture)
+            
+        }
+        
+    }
+    
     func moveToNextRoom(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
@@ -55,16 +65,6 @@ class RoomPageVC: UIPageViewController {
         default:
             break
         }
-    }
-    
-    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
-        if let swipeGesture = gestureRecognizer as? UISwipeGestureRecognizer {
-            print("the fingers you use is \(gestureRecognizer.numberOfTouches)")
-            //            print("the direction you swiped is \(swipeGesture.direction)")
-            moveToNextRoom(swipeGesture)
-            
-        }
-        
     }
     
     func getViewControllerAtIndex(_ index: NSInteger) -> RoomViewController

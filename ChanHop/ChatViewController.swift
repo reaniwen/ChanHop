@@ -10,17 +10,17 @@ import UIKit
 import JSQMessagesViewController
 
 class ChatViewController: JSQMessagesViewController {
-    
+
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
     var messages = [JSQMessage]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         self.setup()
         self.addDemoMessages()
@@ -33,22 +33,12 @@ class ChatViewController: JSQMessagesViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        // if first time launch, jump to tutorial
-        if UserDefaults.standard.bool(forKey: FINISH_TUTORIAL) == false{
-            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorialViewController") as? TutorialViewController {
-                self.present(vc, animated: false, completion: nil)
-            }
-        }
-        
-    }
-    
     func reloadMessagesView() {
         self.collectionView?.reloadData()
     }
+
 }
 
-// MARK - Configuration
 extension ChatViewController {
     // todo: get message
     func addDemoMessages() {
@@ -130,7 +120,6 @@ extension ChatViewController {
 
 //MARK - Toolbar
 extension ChatViewController {
-    
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date as Date!, text: text)
         self.messages.append(message!)

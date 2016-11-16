@@ -26,13 +26,12 @@ class RoomViewController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        if let chatVC = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as? ViewController {
+        if let chatVC = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as? ChatViewController {
         
             self.view.addSubview(roomNameView)
             self.addChildViewController(chatVC)
             chatView = chatVC.view
             self.view.addSubview(chatView)
-//            self.present(chatVC, animated: true, completion: nil)
         }
     }
     

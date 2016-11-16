@@ -1,0 +1,23 @@
+## Current stage:
+ChatViewController is used for showing chat information.
+RoomViewController is used for adding top bar to the chatVC, just add chatVC as childVC and the view of chatVC as subView
+Room pageVC is the page view controller for switching room
+
+channel view controller and channelPageVC is almost the same.
+
+communicate with backend server with connectionManager and userManager so far.
+
+there is no entrance to jump into nearbyVenueTableViewController. This table view controller is to ask form four square about the nearby Venue to create public channels.
+
+the tutorial page has almost been finished.
+
+## todo:
+define the function of left button and right button on channelViewController
+
+solve the wired problem that cannot the chat inbox won't move when developer add the roompagevc to the channelViewController.
+
+grab the whole backend service to front end to receive and send message.
+
+achieve the search function in channel list view controller
+
+change the images in tutorials page.
