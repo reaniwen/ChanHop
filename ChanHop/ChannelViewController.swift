@@ -33,6 +33,7 @@ class ChannelViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        roomVC?.removeFromParentViewController()
         roomVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomPageVC") as? RoomPageVC
         if let vc = roomVC {
             roomView = vc.view

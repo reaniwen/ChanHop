@@ -25,16 +25,16 @@ class RoomPageVC: UIPageViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         
-//        let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
-//        singleSwipeLeft.direction = .left
-//        singleSwipeLeft.numberOfTouchesRequired = 1
-//        
-//        let singleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
-//        singleSwipeRight.direction = .right
-//        singleSwipeRight.numberOfTouchesRequired = 1
-//        
-//        self.view.addGestureRecognizer(singleSwipeLeft)
-//        self.view.addGestureRecognizer(singleSwipeRight)
+        let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        singleSwipeLeft.direction = .left
+        singleSwipeLeft.numberOfTouchesRequired = 1
+        
+        let singleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        singleSwipeRight.direction = .right
+        singleSwipeRight.numberOfTouchesRequired = 1
+        
+        self.view.addGestureRecognizer(singleSwipeLeft)
+        self.view.addGestureRecognizer(singleSwipeRight)
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,6 +71,7 @@ class RoomPageVC: UIPageViewController {
     {
         let roomContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "RoomViewController") as! RoomViewController
         roomContentViewController.roomID = index
+        
         self.roomVC?.removeFromParentViewController()
         self.roomVC = roomContentViewController
         self.addChildViewController(roomVC!)
