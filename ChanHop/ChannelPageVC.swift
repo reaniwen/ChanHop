@@ -24,7 +24,6 @@ class ChannelPageVC: UIPageViewController {
         // Do any additional setup after loading the view.
         dataSource = nil
         
-        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
 
         let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
         singleSwipeLeft.direction = .left
@@ -58,7 +57,9 @@ class ChannelPageVC: UIPageViewController {
 
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

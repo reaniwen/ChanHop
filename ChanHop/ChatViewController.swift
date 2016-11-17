@@ -22,10 +22,16 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         self.setup()
         self.addDemoMessages()
         
         self.inputToolbar.contentView.leftBarButtonItem = nil
+        
     }
     
     override func didReceiveMemoryWarning() {

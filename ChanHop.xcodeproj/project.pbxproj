@@ -17,6 +17,7 @@
 		3D22F4031DBEB24B00EC3309 /* ChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22F4021DBEB24B00EC3309 /* ChannelModel.swift */; };
 		3D32D3841DC926B90085A789 /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D32D3831DC926B90085A789 /* ChannelListViewController.swift */; };
 		3D32D3861DC927D70085A789 /* NearbyVenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D32D3851DC927D70085A789 /* NearbyVenueTableViewCell.swift */; };
+		3D368FED1DDE4C9F0038C3FF /* MemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D368FEC1DDE4C9F0038C3FF /* MemberListViewController.swift */; };
 		3D57E1C91DC12E7F00E986C4 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D57E1C81DC12E7F00E986C4 /* ConnectionManager.swift */; };
 		3D57E1CB1DC147A800E986C4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D57E1CA1DC147A800E986C4 /* UserManager.swift */; };
 		3D57E1CD1DC1488F00E986C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D57E1CC1DC1488F00E986C4 /* Constants.swift */; };
@@ -62,6 +63,7 @@
 		3D22F4061DBEB8BB00EC3309 /* ChanHop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChanHop.entitlements; sourceTree = "<group>"; };
 		3D32D3831DC926B90085A789 /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		3D32D3851DC927D70085A789 /* NearbyVenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyVenueTableViewCell.swift; sourceTree = "<group>"; };
+		3D368FEC1DDE4C9F0038C3FF /* MemberListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberListViewController.swift; sourceTree = "<group>"; };
 		3D57E1C81DC12E7F00E986C4 /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		3D57E1CA1DC147A800E986C4 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		3D57E1CC1DC1488F00E986C4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				3D032D561DCBE0BE00951C3B /* ChatViewController.swift */,
 				3D32D3831DC926B90085A789 /* ChannelListViewController.swift */,
 				3D32D3851DC927D70085A789 /* NearbyVenueTableViewCell.swift */,
+				3D368FEC1DDE4C9F0038C3FF /* MemberListViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				3D32D3841DC926B90085A789 /* ChannelListViewController.swift in Sources */,
 				3D870FE11DB6C164008FB083 /* TutorialViewController.swift in Sources */,
 				3D32D3861DC927D70085A789 /* NearbyVenueTableViewCell.swift in Sources */,
+				3D368FED1DDE4C9F0038C3FF /* MemberListViewController.swift in Sources */,
 				3D047C491DBA6F3300D2BD5C /* RoomViewController.swift in Sources */,
 				3D032D571DCBE0BE00951C3B /* ChatViewController.swift in Sources */,
 				3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */,
