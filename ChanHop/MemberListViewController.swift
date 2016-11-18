@@ -9,6 +9,8 @@
 import UIKit
 
 class MemberListViewController: UIViewController {
+    
+    var members: [Member] = []
 
     @IBOutlet weak var memberTable: UITableView!
     override func viewDidLoad() {
@@ -17,6 +19,10 @@ class MemberListViewController: UIViewController {
         memberTable.dataSource = self
         memberTable.delegate = self
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // get memebers in the list
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,13 +43,23 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 25
+        return members.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = "\(indexPath.row)"
+        cell.textLabel?.text = members[indexPath.row].name
+        cell.textLabel?.textColor = UIColor.black
         return cell
     }
     
+}
+
+class Member {
+    var name: String
+    var color: String
+    init(name: String, color: String) {
+        self.name = name
+        self.color = color
+    }
 }
