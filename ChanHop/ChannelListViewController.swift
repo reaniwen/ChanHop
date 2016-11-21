@@ -11,6 +11,8 @@ import UIKit
 class ChannelListViewController: UIViewController {
     
     @IBOutlet weak var channelTable: UITableView!
+    @IBOutlet weak var channelNameLabel: UILabel!
+    @IBOutlet weak var roomNameLabel: UILabel!
     
     let connectionManager = ConnectionManager.shared
     

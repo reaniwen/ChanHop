@@ -9,10 +9,13 @@
 import UIKit
 
 class MemberListViewController: UIViewController {
-    
-    var members: [Member] = []
 
     @IBOutlet weak var memberTable: UITableView!
+    @IBOutlet weak var channelNameLabel: UILabel!
+    @IBOutlet weak var roomNameLabel: UILabel!
+    
+    var members: [Member] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -8,12 +8,15 @@
 
 import UIKit
 import JSQMessagesViewController
+import SocketIO
 
 class ChatViewController: JSQMessagesViewController {
 
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
     var messages = [JSQMessage]()
+    
+    var socket: SocketIOClient?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +35,29 @@ class ChatViewController: JSQMessagesViewController {
         
         self.inputToolbar.contentView.leftBarButtonItem = nil
         
+//        self.socket = [[SocketIOClient alloc] initWithSocketURL:@"http://chanhop.elasticbeanstalk.com" opts:@{@"log": @NO}];
+//        [self.socket onEvent:@"connect" callback:^(NSArray * data, void (^ack)(NSArray *)) {
+//        if (data == nil) {
+//        }
+//        //NSLog(@"socket connected");
+//        ////NSLog(@"%@", data);
+//        }];
+//
+//        [self.socket connect];
+//        [self startListeningForNewMessages];
+        socket = SocketIOClient(socketURL: NSURL(string: "http://chanhop.elasticbeanstalk.com")!, config: ["log":false])
+        
+        socket?.on("connect") {data, ack in
+//            if let cur = data[0] as? Double {
+//                self.socket?.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
+//                    self.socket?.emit("update", ["amount": cur + 2.50])
+//                }
+//            
+//                ack.with("Got your currentAmount", "dude")
+//            }
+            print(data)
+        }
+        socket?.connect()
     }
     
     override func didReceiveMemoryWarning() {

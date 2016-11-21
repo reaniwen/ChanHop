@@ -301,7 +301,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="channelNameLabel" destination="eGd-xQ-zJK" id="kd5-bL-aYb"/>
                         <outlet property="channelTable" destination="tNS-kI-koN" id="YiB-Au-NNR"/>
+                        <outlet property="roomNameLabel" destination="u38-je-fyv" id="vSi-1O-99m"/>
                         <outlet property="searchDisplayController" destination="LUa-hr-jn4" id="atE-gB-QYP"/>
                     </connections>
                 </viewController>
@@ -350,7 +352,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room 8" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maz-gu-Ea9">
-                                <rect key="frame" x="166" y="66" width="43.5" height="14.5"/>
+                                <rect key="frame" x="166" y="66" width="44" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -385,12 +387,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="channelNameLabel" destination="lKl-JG-8MO" id="Ojh-dj-pyo"/>
                         <outlet property="memberTable" destination="NMj-Ee-YL2" id="37O-K8-DRp"/>
+                        <outlet property="roomNameLabel" destination="maz-gu-Ea9" id="4kw-7L-nTj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L1y-XI-hNi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1395" y="-303"/>
+            <point key="canvasLocation" x="1394.4000000000001" y="-303.59820089955025"/>
         </scene>
         <!--Room View Controller-->
         <scene sceneID="kZS-pj-HcH">
