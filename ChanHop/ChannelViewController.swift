@@ -13,6 +13,8 @@ class ChannelViewController: UIViewController {
     @IBOutlet weak var settingBtn: UIButton!
     @IBOutlet weak var channelBtn: UIButton!
     @IBOutlet weak var memberBtn: UIButton!
+    @IBOutlet weak var backgroundMask: UIView!
+    @IBOutlet weak var settingMenuView: UIView!
     
     var roomVC: RoomPageVC?
     var roomView: UIView!
@@ -43,6 +45,7 @@ class ChannelViewController: UIViewController {
         
         
         setChannelBtn()
+        addMaskGesture()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,6 +58,11 @@ class ChannelViewController: UIViewController {
             let frame = self.view.frame
             roomView.frame = CGRect(x: frame.origin.x, y: frame.origin.y + 90, width: frame.width, height: frame.height - 90)
         }
+        
+        self.view.bringSubview(toFront: backgroundMask)
+        self.view.bringSubview(toFront: settingMenuView)
+        backgroundMask.isHidden = true
+        settingMenuView.isHidden = true
     }
     
     
@@ -84,7 +92,6 @@ class ChannelViewController: UIViewController {
 //        self.removeno
         NotificationCenter.default.removeObserver(self)
     }
-
     
     // MARK: - Navigation
 
@@ -104,6 +111,11 @@ class ChannelViewController: UIViewController {
 //        }
     }
     
+    @IBAction func showMenu(_ sender: AnyObject) {
+        self.backgroundMask.isHidden = false
+        self.settingMenuView.isHidden = false
+    }
+    
     @IBAction func memberAct(_ sender: AnyObject) {
         print("Room member button pressed")
         
@@ -113,5 +125,51 @@ class ChannelViewController: UIViewController {
     
     @IBAction func showChannelListAct(_ sender: AnyObject) {
         print("Show channel list button pressed")
+    }
+}
+
+extension ChannelViewController {
+    func addMaskGesture() {
+        let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
+        singleSwipeLeft.direction = .left
+        singleSwipeLeft.numberOfTouchesRequired = 1
+        
+        let singleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
+        singleSwipeRight.direction = .right
+        singleSwipeRight.numberOfTouchesRequired = 1
+        
+        let doubleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        doubleSwipeLeft.direction = .left
+        doubleSwipeLeft.numberOfTouchesRequired = 2
+        
+        let doubleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        doubleSwipeRight.direction = .right
+        doubleSwipeRight.numberOfTouchesRequired = 2
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideMenu))
+        
+        backgroundMask.addGestureRecognizer(singleSwipeLeft)
+        backgroundMask.addGestureRecognizer(singleSwipeRight)
+        
+        backgroundMask.addGestureRecognizer(doubleSwipeLeft)
+        backgroundMask.addGestureRecognizer(doubleSwipeRight)
+        
+        backgroundMask.addGestureRecognizer(tap)
+    }
+    
+    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
+        print("here")
+        
+    }
+    
+    func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
+        print("here")
+    }
+    
+    
+    
+    func hideMenu() {
+        self.backgroundMask.isHidden = true
+        self.settingMenuView.isHidden = true
     }
 }
