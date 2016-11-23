@@ -77,6 +77,8 @@ class ChannelPageVC: UIPageViewController {
         self.channelVC = channelContentViewController
         self.addChildViewController(channelVC!)
         
+//        channelVC?.delegate = self
+        
         return channelContentViewController
     }
     
@@ -145,3 +147,24 @@ extension ChannelPageVC {
         }
     }
 }
+
+//extension ChannelPageVC: CallMenusDelegate{
+//    func callChannelMenu(channelName: String, roomName: String) {
+//        print("call channel menu"+channelName, roomName)
+//    }
+//    
+//    
+//    
+//    func callMemberMenu() {
+//        print("call member menu")
+//    }
+//}
+//
+//@objc protocol CallMenusDelegate {
+//    @objc optional func callChannelMenu(channelName: String, roomName: String)
+//    
+//    @objc optional func removeChannelMenu()
+//    
+//    @objc optional func callMemberMenu()
+//    
+//}

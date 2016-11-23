@@ -34,30 +34,7 @@ class ChatViewController: JSQMessagesViewController {
         self.addDemoMessages()
         
         self.inputToolbar.contentView.leftBarButtonItem = nil
-        
-//        self.socket = [[SocketIOClient alloc] initWithSocketURL:@"http://chanhop.elasticbeanstalk.com" opts:@{@"log": @NO}];
-//        [self.socket onEvent:@"connect" callback:^(NSArray * data, void (^ack)(NSArray *)) {
-//        if (data == nil) {
-//        }
-//        //NSLog(@"socket connected");
-//        ////NSLog(@"%@", data);
-//        }];
-//
-//        [self.socket connect];
-//        [self startListeningForNewMessages];
-        socket = SocketIOClient(socketURL: NSURL(string: "http://chanhop.elasticbeanstalk.com")!, config: ["log":false])
-        
-        socket?.on("connect") {data, ack in
-//            if let cur = data[0] as? Double {
-//                self.socket?.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
-//                    self.socket?.emit("update", ["amount": cur + 2.50])
-//                }
-//            
-//                ack.with("Got your currentAmount", "dude")
-//            }
-            print(data)
-        }
-        socket?.connect()
+
     }
     
     override func didReceiveMemoryWarning() {

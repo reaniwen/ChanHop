@@ -25,6 +25,10 @@ class ChannelViewController: UIViewController {
     let userManager = UserManager.shared
     let connectionManager = ConnectionManager.shared
     
+//    weak var delegate: CallMenusDelegate? = nil
+    
+    weak var menuViewController: UIViewController? = nil
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,6 +129,14 @@ class ChannelViewController: UIViewController {
     
     @IBAction func showChannelListAct(_ sender: AnyObject) {
         print("Show channel list button pressed")
+        
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChannelListViewController") {
+            self.menuViewController = vc
+            if let menuVC = menuViewController {
+                self.addChildViewController(menuVC)
+                self.view.addSubview(menuVC.view)
+            }
+        }
     }
 }
 

@@ -24,6 +24,7 @@ class ChannelListViewController: UIViewController {
         // Do any additional setup after loading the view.
         channelTable.dataSource = self
         channelTable.delegate = self
+        channelTable.backgroundColor = UIColor.clear
         
         connectionManager.getFourSquareRoom { res,locations in
             print("finished")
@@ -31,6 +32,28 @@ class ChannelListViewController: UIViewController {
             weakSelf?.locations = locations
             weakSelf?.channelTable.reloadData()
         }
+        
+        let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
+        singleSwipeLeft.direction = .left
+        singleSwipeLeft.numberOfTouchesRequired = 1
+        
+        let singleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
+        singleSwipeRight.direction = .right
+        singleSwipeRight.numberOfTouchesRequired = 1
+        
+        let doubleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        doubleSwipeLeft.direction = .left
+        doubleSwipeLeft.numberOfTouchesRequired = 2
+        
+        let doubleSwipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        doubleSwipeRight.direction = .right
+        doubleSwipeRight.numberOfTouchesRequired = 2
+        
+        self.view.addGestureRecognizer(singleSwipeLeft)
+        self.view.addGestureRecognizer(singleSwipeRight)
+        
+        self.view.addGestureRecognizer(doubleSwipeLeft)
+        self.view.addGestureRecognizer(doubleSwipeRight)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,8 +62,13 @@ class ChannelListViewController: UIViewController {
     }
 
     @IBAction func backToMainAct(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+//        self.dismiss(animated: true, completion: nil)
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
     }
+    
+    func handleSwipe(){}
+    func handleSingleSwipe(){}
 }
 
 extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -63,6 +91,11 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
         cell.distanceLabel.text = String(self.locations[indexPath.row].distance) + "m"
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(locations[indexPath.row].name)
+        
     }
     
     // Todo: remove the responder on the search bar

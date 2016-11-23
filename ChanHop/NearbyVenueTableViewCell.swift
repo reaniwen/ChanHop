@@ -18,6 +18,13 @@ class NearbyVenueTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.backgroundColor = UIColor.clear
+        self.backgroundView = UIView()
+        self.selectedBackgroundView = UIView()
+        
+        nameLabel.textColor = UIColor.white
+        amountLabel.textColor = UIColor.white
+        distanceLabel.textColor = UIColor.white
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

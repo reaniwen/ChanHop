@@ -45,6 +45,7 @@ class ConnectionManager: NSObject {
                     switch response.result {
                     case .success(let JSONData):
                         let data = JSON(JSONData)
+                        print(data["response","venues","0"])
                         var locations: [FourSquareLocation] = []
                         for i in 0..<data["response","venues"].count {
                             let locData = data["response","venues",i]
