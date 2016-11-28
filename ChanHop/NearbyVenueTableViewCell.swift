@@ -19,8 +19,8 @@ class NearbyVenueTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.backgroundColor = UIColor.clear
-        self.backgroundView = UIView()
-        self.selectedBackgroundView = UIView()
+//        self.backgroundView = UIView()
+//        self.selectedBackgroundView = UIView()
         
         nameLabel.textColor = UIColor.white
         amountLabel.textColor = UIColor.white

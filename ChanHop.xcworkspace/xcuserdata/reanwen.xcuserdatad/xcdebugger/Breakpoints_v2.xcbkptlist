@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChanHop/ChannelPageVC.swift"
-            timestampString = "501626041.229633"
+            timestampString = "502054180.812134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "updateLocation(notification:)"
             landmarkType = "7">
          </BreakpointContent>

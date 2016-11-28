@@ -83,9 +83,9 @@ extension AppDelegate: CLLocationManagerDelegate {
         } else {
             if let coordinate = manager.location?.coordinate {
                 let location = ["latitude": coordinate.latitude as Double, "longitude": coordinate.longitude as Double]
-                NotificationCenter.default.post(name: NSNotification.Name(UPDATE_LOC), object: self, userInfo: location)
+//                NotificationCenter.default.post(name: NSNotification.Name(UPDATE_LOC), object: self, userInfo: location)
                 UserDefaults.standard.set(location, forKey: CURRENT_LOC)
-                // MARK something wrong here
+                print(UserDefaults.standard.dictionary(forKey: CURRENT_LOC))
             } else {
                 // Todo: get location error
             }

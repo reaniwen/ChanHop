@@ -26,12 +26,6 @@ class ChannelListViewController: UIViewController {
         channelTable.delegate = self
         channelTable.backgroundColor = UIColor.clear
         
-        connectionManager.getFourSquareRoom { res,locations in
-            print("finished")
-            weak var weakSelf = self
-            weakSelf?.locations = locations
-            weakSelf?.channelTable.reloadData()
-        }
         
         let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
         singleSwipeLeft.direction = .left
@@ -51,9 +45,17 @@ class ChannelListViewController: UIViewController {
         
         self.view.addGestureRecognizer(singleSwipeLeft)
         self.view.addGestureRecognizer(singleSwipeRight)
-        
         self.view.addGestureRecognizer(doubleSwipeLeft)
         self.view.addGestureRecognizer(doubleSwipeRight)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        connectionManager.getFourSquareRoom { res,locations in
+            print("finished")
+            weak var weakSelf = self
+            weakSelf?.locations = locations
+            weakSelf?.channelTable.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {

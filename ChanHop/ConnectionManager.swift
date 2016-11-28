@@ -40,7 +40,9 @@ class ConnectionManager: NSObject {
             dateFormatter.dateFormat = "yyyyMMdd"
             let todayStr = dateFormatter.string(from: Date())
             let coordination: String = "\(location["latitude"]!),\(location["longitude"]!)"
-            Alamofire.request("\(FS_BASE_URL)client_id=\(FS_CLIENT_ID)&client_secret=\(FS_SECRET_KEY)&v=\(todayStr)&ll=\(coordination)&query=&limit=\(FS_QUERY_LIMIT)", method: .get, parameters: nil)
+            let url = "\(FS_BASE_URL)client_id=\(FS_CLIENT_ID)&client_secret=\(FS_SECRET_KEY)&v=\(todayStr)&ll=\(coordination)&query=&limit=\(FS_QUERY_LIMIT)"
+            print(url)
+            Alamofire.request(url, method: .get, parameters: nil)
                 .responseJSON { response in
                     switch response.result {
                     case .success(let JSONData):
@@ -49,7 +51,7 @@ class ConnectionManager: NSObject {
                         var locations: [FourSquareLocation] = []
                         for i in 0..<data["response","venues"].count {
                             let locData = data["response","venues",i]
-                            let location = FourSquareLocation(name: locData["name"].stringValue, longitude: locData["location","lng"].doubleValue, latitude: locData["location","lat"].doubleValue, distance: locData["location","distance"].intValue, address: locData["location","address"].stringValue)
+                            let location = FourSquareLocation(name: locData["name"].stringValue, longitude: locData["location","lng"].doubleValue, latitude: locData["location","lat"].doubleValue, distance: locData["location","distance"].intValue, address: locData["location","address"].stringValue, imageURL: "")
                         
                             locations.append(location)
                         }
@@ -74,4 +76,5 @@ struct FourSquareLocation {
     var latitude: Double
     var distance: Int
     var address: String = ""
+    var imageURL: String = ""
 }

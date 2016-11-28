@@ -14,7 +14,7 @@ class ChannelViewController: UIViewController {
     @IBOutlet weak var channelBtn: UIButton!
     @IBOutlet weak var memberBtn: UIButton!
     @IBOutlet weak var backgroundMask: UIView!
-    @IBOutlet weak var settingMenuView: UIView!
+//    @IBOutlet weak var settingMenuView: UIView!
     
     var roomVC: RoomPageVC?
     var roomView: UIView!
@@ -47,7 +47,6 @@ class ChannelViewController: UIViewController {
             self.view.addSubview(roomView)
         }
         
-        
         setChannelBtn()
         addMaskGesture()
     }
@@ -64,13 +63,13 @@ class ChannelViewController: UIViewController {
         }
         
         self.view.bringSubview(toFront: backgroundMask)
-        self.view.bringSubview(toFront: settingMenuView)
+//        self.view.bringSubview(toFront: settingMenuView)
         backgroundMask.isHidden = true
-        settingMenuView.isHidden = true
+//        settingMenuView.isHidden = true
     }
     
     
-    func handleGesture(_ gesture: UISwipeGestureRecognizer) {
+    func moveToNextRoom(_ gesture: UISwipeGestureRecognizer) {
         if let vc = roomVC {
             vc.moveToNextRoom(gesture)
         }
@@ -117,25 +116,34 @@ class ChannelViewController: UIViewController {
     
     @IBAction func showMenu(_ sender: AnyObject) {
         self.backgroundMask.isHidden = false
-        self.settingMenuView.isHidden = false
+//        self.settingMenuView.isHidden = false
     }
     
     @IBAction func memberAct(_ sender: AnyObject) {
         print("Room member button pressed")
-        
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "MemberListViewController") {
+            self.addChildViewController(vc)
+            self.view.addSubview(vc.view)
+//            self.menuViewController = vc
+//            if let menuVC = menuViewController {
+//                self.addChildViewController(menuVC)
+//                self.view.addSubview(menuVC.view)
+//            }
+        }
         
 //        userManager.userLeaveRoom(channel: self.channelName)
     }
     
     @IBAction func showChannelListAct(_ sender: AnyObject) {
         print("Show channel list button pressed")
-        
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChannelListViewController") {
-            self.menuViewController = vc
-            if let menuVC = menuViewController {
-                self.addChildViewController(menuVC)
-                self.view.addSubview(menuVC.view)
-            }
+            self.addChildViewController(vc)
+            self.view.addSubview(vc.view)
+//            self.menuViewController = vc
+//            if let menuVC = menuViewController {
+//                self.addChildViewController(menuVC)
+//                self.view.addSubview(menuVC.view)
+//            }
         }
     }
 }
@@ -162,26 +170,24 @@ extension ChannelViewController {
         
         backgroundMask.addGestureRecognizer(singleSwipeLeft)
         backgroundMask.addGestureRecognizer(singleSwipeRight)
-        
         backgroundMask.addGestureRecognizer(doubleSwipeLeft)
         backgroundMask.addGestureRecognizer(doubleSwipeRight)
-        
         backgroundMask.addGestureRecognizer(tap)
     }
     
     func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
-        print("here")
+        print("two fingers swipe on mask")
         
     }
     
     func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
-        print("here")
+        print("one finger swipe on mask")
     }
     
     
     
     func hideMenu() {
         self.backgroundMask.isHidden = true
-        self.settingMenuView.isHidden = true
+//        self.settingMenuView.isHidden = true
     }
 }
