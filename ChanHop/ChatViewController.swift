@@ -21,10 +21,14 @@ class ChatViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.collectionView.backgroundColor = UIColor.clear
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        let imageView = UIImageView(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
+        imageView.image = UIImage(named: "1")
+        self.view.insertSubview(imageView, at: 0)
     }
     
     override func viewDidAppear(_ animated: Bool) {

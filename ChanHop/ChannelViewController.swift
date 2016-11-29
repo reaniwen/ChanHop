@@ -175,14 +175,8 @@ extension ChannelViewController {
         backgroundMask.addGestureRecognizer(tap)
     }
     
-    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
-        print("two fingers swipe on mask")
-        
-    }
-    
-    func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {
-        print("one finger swipe on mask")
-    }
+    func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {}
+    func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {}
     
     
     

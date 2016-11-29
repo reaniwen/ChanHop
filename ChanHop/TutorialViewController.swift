@@ -16,14 +16,6 @@ class TutorialViewController: UIPageViewController {
     
     var indicator: UIPageControl!
     let PAGE_COUNT = 4
-    
-//    override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
-//        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
