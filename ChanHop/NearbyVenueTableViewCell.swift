@@ -24,7 +24,9 @@ class NearbyVenueTableViewCell: UITableViewCell {
         
         nameLabel.textColor = UIColor.white
         amountLabel.textColor = UIColor.white
-        distanceLabel.textColor = UIColor.white
+        distanceLabel.textColor = UIColor.gray
+        
+        amountLabel.text = "CUSTOM ROOM"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

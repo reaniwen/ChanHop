@@ -9,6 +9,7 @@
 import Foundation
 
 class ChannelModel: NSObject {
+    var channelType: ChannelType = .pub
     var channelIndex: Int = 0
     var channelName: String = ""
     var rooms: [RoomModel] = []
@@ -23,4 +24,9 @@ class ChannelModel: NSObject {
         }
         // todo: set rooms
     }
+}
+
+
+enum ChannelType: Int {
+    case pub = 0, custom, priv
 }

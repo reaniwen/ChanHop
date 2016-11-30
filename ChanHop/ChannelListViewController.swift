@@ -88,10 +88,20 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let row = indexPath.row - 1
         let cell: NearbyVenueTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NearbyVenueTableViewCell", for: indexPath) as! NearbyVenueTableViewCell
-        cell.nameLabel.text = "\(self.locations[indexPath.row].name) (\(self.locations[indexPath.row].address))"
-        cell.distanceLabel.text = String(self.locations[indexPath.row].distance) + "m"
-        
+        if row < 0 {
+            cell.nameLabel.text = "Local Hop"
+            cell.distanceLabel.text = "0.0m"
+            let color = UIColor(red: 147/255, green: 222/255, blue: 49/255, alpha: 1)
+            cell.nameLabel.textColor = color
+            cell.distanceLabel.textColor = color
+        } else {
+            cell.nameLabel.text = "\(self.locations[row].name) (\(self.locations[row].address))"
+            cell.distanceLabel.text = String(self.locations[row].distance) + "m"
+            cell.nameLabel.textColor = UIColor.white
+            cell.distanceLabel.textColor = UIColor.white
+        }
         return cell
     }
     

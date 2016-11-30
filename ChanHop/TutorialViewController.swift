@@ -31,7 +31,7 @@ class TutorialViewController: UIPageViewController {
             "Single finger swipe switches rooms \n in the same channel. Double finger \n swipe switches channel",
             "Switch to different channels based \n on your location and events \n around you."
         ]
-        arrPagePhoto = ["1.jpg", "2.jpg", "3.jpg", "3.jpg"];
+        arrPagePhoto = ["tu0", "tu1", "tu2", "tu3"];
         
         self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
         
@@ -54,7 +54,7 @@ class TutorialViewController: UIPageViewController {
         self.indicator.translatesAutoresizingMaskIntoConstraints = false
         
         let midX = NSLayoutConstraint(item: self.view, attribute: .centerX, relatedBy: .equal, toItem: self.indicator, attribute: .centerX, multiplier: 1, constant: 0)
-        let y = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: self.indicator, attribute: .bottom, multiplier: 1, constant: 100)
+        let y = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: self.indicator, attribute: .bottom, multiplier: 1, constant: 80)
         
         self.view.addConstraint(midX)
         self.view.addConstraint(y)
@@ -63,7 +63,7 @@ class TutorialViewController: UIPageViewController {
     func getViewControllerAtIndex(_ index: NSInteger) -> TutorialContentViewController
     {
         let tutorialContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "tutorialContent") as! TutorialContentViewController
-        tutorialContentViewController.strTitle = "TUTORIAL \(index)"//"\(arrPageTitle[index])"
+        tutorialContentViewController.strTitle = "TUTORIAL"
         tutorialContentViewController.strPhotoName = "\(arrPagePhoto[index])"
         tutorialContentViewController.titleStr = "\(arrPageTitle[index])"
         tutorialContentViewController.desStr = arrPageDes[index]
