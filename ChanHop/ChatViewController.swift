@@ -18,27 +18,50 @@ class ChatViewController: JSQMessagesViewController {
     
     var socket: SocketIOClient?
     
+    var backgroundImage = UIImageView()
+    var backgroundMask = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.collectionView.backgroundColor = UIColor.clear
-        // Do any additional setup after loading the view.
+        
+        self.setup()
+        self.inputToolbar.contentView.leftBarButtonItem = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let imageView = UIImageView(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
-        imageView.image = UIImage(named: "1")
-        self.view.insertSubview(imageView, at: 0)
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.setup()
-        self.addDemoMessages()
         
-        self.inputToolbar.contentView.leftBarButtonItem = nil
+        self.addDemoMessages()
 
+        
+        
+        loadTheme(url: "")
+
+    }
+    
+    func loadTheme(url:String) {
+        backgroundImage.image = UIImage(named: "1")
+        backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
+        self.view.insertSubview(backgroundMask, at: 0)
+        self.view.insertSubview(backgroundImage, at: 0)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let viewWidth = self.view.frame.width
+        let viewHeight = self.view.frame.height
+        
+        backgroundImage.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight)
+        backgroundMask.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight)
+        
     }
     
     override func didReceiveMemoryWarning() {
