@@ -50,12 +50,19 @@ class ChannelListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        connectionManager.getFourSquareRoom { res,locations in
-            print("finished")
+//        connectionManager.getFourSquareRoom { res,locations in
+////            print("Finish getting channels from four square")
+//            weak var weakSelf = self
+//            weakSelf?.locations = locations
+//            weakSelf?.channelTable.reloadData()
+//        }
+        connectionManager.getChannels { res,locations in
+            //            print("Finish getting channels from four square")
             weak var weakSelf = self
             weakSelf?.locations = locations
             weakSelf?.channelTable.reloadData()
         }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,7 +104,7 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
             cell.nameLabel.textColor = color
             cell.distanceLabel.textColor = color
         } else {
-            cell.nameLabel.text = "\(self.locations[row].name) (\(self.locations[row].address))"
+            cell.nameLabel.text = "\(self.locations[row].name)"// (\(self.locations[row].address))"
             cell.distanceLabel.text = String(self.locations[row].distance) + "m"
             cell.nameLabel.textColor = UIColor.white
             cell.distanceLabel.textColor = UIColor.white
@@ -106,7 +113,7 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(locations[indexPath.row].name)
+//        print(locations[indexPath.row].name)
         
     }
     

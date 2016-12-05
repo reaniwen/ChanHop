@@ -63,9 +63,7 @@ class ChannelViewController: UIViewController {
         }
         
         self.view.bringSubview(toFront: backgroundMask)
-//        self.view.bringSubview(toFront: settingMenuView)
         backgroundMask.isHidden = true
-//        settingMenuView.isHidden = true
     }
     
     
@@ -92,7 +90,6 @@ class ChannelViewController: UIViewController {
     }
     
     deinit {
-//        self.removeno
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -116,7 +113,10 @@ class ChannelViewController: UIViewController {
     
     @IBAction func showMenu(_ sender: AnyObject) {
         self.backgroundMask.isHidden = false
-//        self.settingMenuView.isHidden = false
+    }
+    
+    @IBAction func hideMenu() {
+        self.backgroundMask.isHidden = true
     }
     
     @IBAction func memberAct(_ sender: AnyObject) {
@@ -130,8 +130,6 @@ class ChannelViewController: UIViewController {
 //                self.view.addSubview(menuVC.view)
 //            }
         }
-        
-//        userManager.userLeaveRoom(channel: self.channelName)
     }
     
     @IBAction func showChannelListAct(_ sender: AnyObject) {
@@ -166,22 +164,16 @@ extension ChannelViewController {
         doubleSwipeRight.direction = .right
         doubleSwipeRight.numberOfTouchesRequired = 2
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(hideMenu))
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(hideMenu))
         
         backgroundMask.addGestureRecognizer(singleSwipeLeft)
         backgroundMask.addGestureRecognizer(singleSwipeRight)
         backgroundMask.addGestureRecognizer(doubleSwipeLeft)
         backgroundMask.addGestureRecognizer(doubleSwipeRight)
-        backgroundMask.addGestureRecognizer(tap)
+//        backgroundMask.addGestureRecognizer(tap)
     }
     
     func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {}
     func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {}
-    
-    
-    
-    func hideMenu() {
-        self.backgroundMask.isHidden = true
-//        self.settingMenuView.isHidden = true
-    }
+
 }
