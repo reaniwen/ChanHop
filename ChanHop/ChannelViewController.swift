@@ -25,7 +25,7 @@ class ChannelViewController: UIViewController {
     let userManager = UserManager.shared
     let connectionManager = ConnectionManager.shared
     
-//    weak var delegate: CallMenusDelegate? = nil
+    weak var joinChannelDelegate: JoinChannelDelegate? = nil
     
     weak var menuViewController: UIViewController? = nil
     
@@ -134,7 +134,8 @@ class ChannelViewController: UIViewController {
     
     @IBAction func showChannelListAct(_ sender: AnyObject) {
         print("Show channel list button pressed")
-        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChannelListViewController") {
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChannelListViewController") as? ChannelListViewController {
+            vc.joinChannelDelegate = self
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
 //            self.menuViewController = vc
@@ -176,4 +177,12 @@ extension ChannelViewController {
     func handleSwipe(_ gestureRecognizer: UIGestureRecognizer) {}
     func handleSingleSwipe(_ gestureRecognizer: UIGestureRecognizer) {}
 
+}
+
+extension ChannelViewController: JoinChannelDelegate {
+    func joinChannelAct(channel: Channel) {
+        if let delegate = self.joinChannelDelegate {
+            delegate.joinChannelAct(channel: channel)
+        }
+    }
 }

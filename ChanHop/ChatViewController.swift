@@ -145,8 +145,6 @@ extension ChatViewController {
         // todo: customize color of date and time
         //        print(JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date))
         return NSAttributedString(string: dateformat.string(from: message.date), attributes: myAttributes)
-        
-        //        return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {

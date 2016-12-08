@@ -16,7 +16,9 @@ class ChannelListViewController: UIViewController {
     
     let connectionManager = ConnectionManager.shared
     
-    var locations:[FourSquareLocation] = []
+    weak var joinChannelDelegate: JoinChannelDelegate? = nil
+    
+    var locations:[Channel] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +52,6 @@ class ChannelListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        connectionManager.getFourSquareRoom { res,locations in
-////            print("Finish getting channels from four square")
-//            weak var weakSelf = self
-//            weakSelf?.locations = locations
-//            weakSelf?.channelTable.reloadData()
-//        }
         connectionManager.getChannels { res,locations in
             //            print("Finish getting channels from four square")
             weak var weakSelf = self
@@ -71,7 +67,7 @@ class ChannelListViewController: UIViewController {
     }
 
     @IBAction func backToMainAct(_ sender: Any) {
-//        self.dismiss(animated: true, completion: nil)
+        self.joinChannelDelegate = nil
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
     }
@@ -114,6 +110,8 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print(locations[indexPath.row].name)
+        self.joinChannelDelegate?.joinChannelAct(channel: locations[indexPath.row+1])
+        self.backToMainAct(self)
         
     }
     

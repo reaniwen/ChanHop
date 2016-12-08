@@ -52,8 +52,10 @@ class ChannelPageVC: UIPageViewController {
         let channelContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChannelViewController") as! ChannelViewController
         channelContentViewController.channelID = index
         
+        self.channelVC?.joinChannelDelegate = nil
         self.channelVC?.removeFromParentViewController()
         self.channelVC = channelContentViewController
+        self.channelVC?.joinChannelDelegate = self
         self.addChildViewController(channelVC!)
         
         return channelContentViewController
@@ -147,23 +149,12 @@ extension ChannelPageVC {
     }
 }
 
-//extension ChannelPageVC: CallMenusDelegate{
-//    func callChannelMenu(channelName: String, roomName: String) {
-//        print("call channel menu"+channelName, roomName)
-//    }
-//    
-//    
-//    
-//    func callMemberMenu() {
-//        print("call member menu")
-//    }
-//}
-//
-//@objc protocol CallMenusDelegate {
-//    @objc optional func callChannelMenu(channelName: String, roomName: String)
-//    
-//    @objc optional func removeChannelMenu()
-//    
-//    @objc optional func callMemberMenu()
-//    
-//}
+extension ChannelPageVC: JoinChannelDelegate {
+    func joinChannelAct(channel: Channel) {
+        print("channel Page vc got the command of change channel to \(channel.name)")
+    }
+}
+
+protocol JoinChannelDelegate: class {
+    func joinChannelAct(channel: Channel)
+}
