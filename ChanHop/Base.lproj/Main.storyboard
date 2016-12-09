@@ -249,6 +249,9 @@
                                         <state key="normal" title="Enter Room" backgroundImage="LargeEnterBtn">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="EnterRoomAct:" destination="RQo-yc-vLJ" eventType="touchUpInside" id="JY9-LW-FR0"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Username will identify you in ChanHop Rooms." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MVd-gk-twH">
                                         <rect key="frame" x="20" y="392" width="335" height="17"/>
@@ -321,8 +324,11 @@
                     </view>
                     <connections>
                         <outlet property="backgroundMask" destination="HhT-2C-XcB" id="WBK-VP-oco"/>
+                        <outlet property="cancelBtn" destination="Fm5-vX-FDM" id="fYO-YC-tfU"/>
                         <outlet property="channelBtn" destination="Mkg-tZ-BYF" id="C3O-o4-A5C"/>
+                        <outlet property="enterBtn" destination="eGV-hh-qHB" id="YFk-MP-lnF"/>
                         <outlet property="memberBtn" destination="pie-5W-9hj" id="Zcm-H5-D3j"/>
+                        <outlet property="nameTextField" destination="VbG-qS-LlH" id="FUA-fn-e78"/>
                         <outlet property="settingBtn" destination="vFn-gg-IB9" id="Wrv-JL-ra8"/>
                     </connections>
                 </viewController>
@@ -410,7 +416,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WXY-Iz-fbG" id="q3Z-Sg-AF0">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="67"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="68"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxX-ib-IYn">
@@ -537,7 +543,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vN0-6u-4EY" id="dZT-9h-00B">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>

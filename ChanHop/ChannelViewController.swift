@@ -15,6 +15,9 @@ class ChannelViewController: UIViewController {
     @IBOutlet weak var memberBtn: UIButton!
     @IBOutlet weak var backgroundMask: UIView!
 //    @IBOutlet weak var settingMenuView: UIView!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var cancelBtn: UIButton!
+    @IBOutlet weak var enterBtn: UIButton!
     
     var roomVC: RoomPageVC?
     var roomView: UIView!
@@ -24,6 +27,7 @@ class ChannelViewController: UIViewController {
 
     let userManager = UserManager.shared
     let connectionManager = ConnectionManager.shared
+    let singleton = Singleton.shared
     
     weak var joinChannelDelegate: JoinChannelDelegate? = nil
     
@@ -49,6 +53,15 @@ class ChannelViewController: UIViewController {
         
         setChannelBtn()
         addMaskGesture()
+        
+        backgroundMask.isHidden = true
+        enterBtn.setTitle("Update Name", for: .normal)
+        if singleton.userID == 0 || singleton.user == nil {
+            self.showMenu(self)
+            enterBtn.setTitle("Enter Room", for: .normal)
+            cancelBtn.isHidden = true
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,7 +76,7 @@ class ChannelViewController: UIViewController {
         }
         
         self.view.bringSubview(toFront: backgroundMask)
-        backgroundMask.isHidden = true
+        
     }
     
     
@@ -88,29 +101,16 @@ class ChannelViewController: UIViewController {
             self.setChannelBtn()
         }
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func EnterRoomAct(_ sender: Any) {
+        if singleton.userID == 0 || singleton.user == nil {
+            print("enter room")
+        } else {
+            print("update name")
+        }
     }
-   
 
-// MARK: - Defination of three buttons
-    @IBAction func settingAct(_ sender: AnyObject) {
-        print("Setting button pressed")
-//        userManager.checkAndJoinRoomInChannel(latitude: 40.757309271122942, longitude: -73.983339379290399, channelName: "LocalHop") { channelName in
-//            self.channelName = channelName
-//        }
-    }
-    
+    // MARK: - Defination of three buttons
     @IBAction func showMenu(_ sender: AnyObject) {
         self.backgroundMask.isHidden = false
     }
@@ -124,11 +124,6 @@ class ChannelViewController: UIViewController {
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "MemberListViewController") {
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
-//            self.menuViewController = vc
-//            if let menuVC = menuViewController {
-//                self.addChildViewController(menuVC)
-//                self.view.addSubview(menuVC.view)
-//            }
         }
     }
     
@@ -138,13 +133,22 @@ class ChannelViewController: UIViewController {
             vc.joinChannelDelegate = self
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
-//            self.menuViewController = vc
-//            if let menuVC = menuViewController {
-//                self.addChildViewController(menuVC)
-//                self.view.addSubview(menuVC.view)
-//            }
         }
     }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
 
 extension ChannelViewController {

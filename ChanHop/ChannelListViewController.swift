@@ -18,7 +18,7 @@ class ChannelListViewController: UIViewController {
     
     weak var joinChannelDelegate: JoinChannelDelegate? = nil
     
-    var locations:[Channel] = []
+    var locations:[ChannelInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +110,7 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print(locations[indexPath.row].name)
-        self.joinChannelDelegate?.joinChannelAct(channel: locations[indexPath.row+1])
+        self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row+1])
         self.backToMainAct(self)
         
     }

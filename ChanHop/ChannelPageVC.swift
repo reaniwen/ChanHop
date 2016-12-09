@@ -14,7 +14,7 @@ class ChannelPageVC: UIPageViewController {
     var currentIndex = 0
     weak var channelVC: ChannelViewController?
     
-    let userManager = UserManager.shared
+    let singleton = Singleton.shared
     let connectionManager = ConnectionManager.shared
     var channel: ChannelModel? = nil
     
@@ -138,18 +138,6 @@ extension ChannelPageVC {
             // if user haven't join any room, then join a room
             // else update location
             // Todo: here
-            
-            
-            
-//            if userManager.userID == 0 && false{
-//                // join local hop and get a user id
-//                userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude, channelName: "LocalHop") { roomName in
-//                    print(roomName)
-//                }
-//            } else {
-//                userManager.updateLocation(latitude: latitude, longitude: longitude)
-//            }
-            
         }
     }
 }
@@ -158,7 +146,7 @@ extension ChannelPageVC: JoinChannelDelegate {
     func joinChannelAct(channelInfo: ChannelInfo) {
         print("channel Page vc got the command of change channel to \(channelInfo.name)")
         connectionManager.joinChannel(userName: "abc", userID: 0, channel: channelInfo) { channel in
-            
+            print(channel.channelID, channel.channelName)
         }
     }
 }
