@@ -180,9 +180,9 @@ extension ChannelViewController {
 }
 
 extension ChannelViewController: JoinChannelDelegate {
-    func joinChannelAct(channel: Channel) {
+    func joinChannelAct(channelInfo: ChannelInfo) {
         if let delegate = self.joinChannelDelegate {
-            delegate.joinChannelAct(channel: channel)
+            delegate.joinChannelAct(channelInfo: channelInfo)
         }
     }
 }

@@ -14,7 +14,7 @@ class ConnectionManager: NSObject {
     
     static let shared = ConnectionManager()
     
-//    weak let userManager 
+    weak var userManager: UserManager? = UserManager.shared
     
     func checkServer(completion: @escaping (_ status: Bool, _ info: String) -> Void) {
         Alamofire.request(CHANHOP_URL + "/checkserver", method: .get, parameters: nil)
@@ -70,7 +70,7 @@ class ConnectionManager: NSObject {
 //        
 //    }
     
-    func getChannels(completion: @escaping(_ res: Bool, _ locations:[Channel]) -> Void) {
+    func getChannels(completion: @escaping(_ res: Bool, _ locations:[ChannelInfo]) -> Void) {
         if let location: [String: Double] = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) as? [String: Double] {
             let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1/getchannels/\(location["latitude"]!)/\(location["longitude"]!)"
             print(url)
@@ -80,10 +80,10 @@ class ConnectionManager: NSObject {
                     case .success(let JSONData):
                         let data = JSON(JSONData)
 //                        print("response code \(data["status"].intValue), total rev is \(data["channels"].count)")
-                        var locations: [Channel] = []
+                        var locations: [ChannelInfo] = []
                         for i in 0..<data["channels"].count {
                             let locData = data["channels", i]
-                            let location = Channel(name: locData["name"].stringValue, id: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "")
+                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "")
                             
                             locations.append(location)
                         }
@@ -101,11 +101,12 @@ class ConnectionManager: NSObject {
         }
     }
     
-    func joinChannel(userName: String, userID: Int, channel: Channel) {
-        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.id, longitude: channel.longitude, latitude: channel.latitude)
+    func joinChannel(userName: String, userID: Int, channel: ChannelInfo, completion: (_ channel: ChannelModel)->Void) {
+        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.id, longitude: channel.longitude, latitude: channel.latitude, completion: completion)
+        
     }
     
-    func joinChannel(userName: String, userID: Int, channelName: String, channelId: String, longitude: Double, latitude: Double) {
+    func joinChannel(userName: String, userID: Int, channelName: String, channelId: String, longitude: Double, latitude: Double, completion: (_ channel: ChannelModel)->Void) {
         if let _: [String: Double] = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) as? [String: Double] {
             let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1/channel/add"
             let parameters = [
@@ -117,14 +118,38 @@ class ConnectionManager: NSObject {
                 "longitude": longitude
             ] as [String : Any]
             Alamofire.request(url, method: .post, parameters: parameters)
-            .responseString(completionHandler: { response in
-                print("result of join channel is \(response.result.value)")
-            })
+                .responseJSON { response in
+                    switch response.result {
+                    case .success(let JSONData):
+                        let data = JSON(JSONData)
+                        if data["status"].stringValue == "200" {
+                            let roomName = data["room"].stringValue
+                            let userID = data["user"].intValue
+                            // userName
+                            let backgroundURL = data["photo"].stringValue
+                            let assignedColor = data["assignedColor"].stringValue
+                            if let user = self.userManager {
+                                user.userName = userName
+                                user.userID = userID
+                                user.colorHex = assignedColor
+                                let channel = ChannelModel()
+                                channel.configureChannel(channelID: channelId, channelName: channelName, longitude: longitude, latitude: latitude)
+                            }
+                        } else {
+                            // error
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+//                .responseString { response in
+//                    print("result of join channel is \(response.result.value)")
+//                }
         }
     }
 }
 
-struct Channel {
+struct ChannelInfo {
     var name: String
     var id: String = ""
     var longitude: Double

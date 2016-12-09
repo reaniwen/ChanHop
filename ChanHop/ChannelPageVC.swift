@@ -16,6 +16,7 @@ class ChannelPageVC: UIPageViewController {
     
     let userManager = UserManager.shared
     let connectionManager = ConnectionManager.shared
+    var channel: ChannelModel? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,25 +137,32 @@ extension ChannelPageVC {
         if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
             // if user haven't join any room, then join a room
             // else update location
-            if userManager.userID == 0 && false{
-                // join local hop and get a user id
-                userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude, channelName: "LocalHop") { roomName in
-                    print(roomName)
-                }
-            } else {
-                userManager.updateLocation(latitude: latitude, longitude: longitude)
-            }
+            // Todo: here
+            
+            
+            
+//            if userManager.userID == 0 && false{
+//                // join local hop and get a user id
+//                userManager.checkAndJoinRoomInChannel(latitude: latitude, longitude: longitude, channelName: "LocalHop") { roomName in
+//                    print(roomName)
+//                }
+//            } else {
+//                userManager.updateLocation(latitude: latitude, longitude: longitude)
+//            }
             
         }
     }
 }
 
 extension ChannelPageVC: JoinChannelDelegate {
-    func joinChannelAct(channel: Channel) {
-        print("channel Page vc got the command of change channel to \(channel.name)")
+    func joinChannelAct(channelInfo: ChannelInfo) {
+        print("channel Page vc got the command of change channel to \(channelInfo.name)")
+        connectionManager.joinChannel(userName: "abc", userID: 0, channel: channelInfo) { channel in
+            
+        }
     }
 }
 
 protocol JoinChannelDelegate: class {
-    func joinChannelAct(channel: Channel)
+    func joinChannelAct(channelInfo: ChannelInfo)
 }
