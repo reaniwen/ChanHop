@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "685A062F4473D6F5BCDD638E25488618"
+               BlueprintIdentifier = "785F981BD1A7F4F4EDE2C27CA9F4DFC1"
                BuildableName = "Pods_ChanHop.framework"
                BlueprintName = "Pods-ChanHop"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "685A062F4473D6F5BCDD638E25488618"
+            BlueprintIdentifier = "785F981BD1A7F4F4EDE2C27CA9F4DFC1"
             BuildableName = "Pods_ChanHop.framework"
             BlueprintName = "Pods-ChanHop"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -16,7 +16,7 @@ class ChannelListViewController: UIViewController {
     
     let connectionManager = ConnectionManager.shared
     
-    weak var joinChannelDelegate: JoinChannelDelegate? = nil
+    weak var joinChannelDelegate: JoinChannelDelegate? = nil // channelviewcontroller
     
     var locations:[ChannelInfo] = []
 
@@ -109,7 +109,6 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(locations[indexPath.row].name)
         self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row+1])
         self.backToMainAct(self)
         

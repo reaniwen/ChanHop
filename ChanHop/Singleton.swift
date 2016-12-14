@@ -13,5 +13,6 @@ class Singleton: NSObject {
     static let shared = Singleton()
     
     var userID: Int = 0
+    var userName: String = ""
     var user: UserManager? = nil
 }

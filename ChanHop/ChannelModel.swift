@@ -47,3 +47,15 @@ class ChannelModel: NSObject {
 enum ChannelType: Int {
     case pub = 0, custom, priv
 }
+
+
+struct ChannelInfo {
+    var name: String
+    var id: String = ""
+    var longitude: Double
+    var latitude: Double
+    var distance: Int
+    var address: String = ""
+    var imageURL: String = ""
+    
+}

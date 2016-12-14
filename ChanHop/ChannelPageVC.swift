@@ -11,7 +11,7 @@ import UIKit
 
 class ChannelPageVC: UIPageViewController {
     
-    var currentIndex = 0
+//    var currentIndex = 0
     weak var channelVC: ChannelViewController?
     
     let singleton = Singleton.shared
@@ -34,12 +34,12 @@ class ChannelPageVC: UIPageViewController {
         
         initGesture()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(UPDATE_LOC), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(UPDATE_LOC), object: nil)
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewControllerAtIndex()] as [UIViewController], direction: .forward, animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,16 +48,18 @@ class ChannelPageVC: UIPageViewController {
     }
     
     
-    func getViewControllerAtIndex(_ index: NSInteger) -> ChannelViewController
+    func getViewControllerAtIndex(name: String = "") -> ChannelViewController
     {
         let channelContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChannelViewController") as! ChannelViewController
-        channelContentViewController.channelID = index
+        channelContentViewController.channelID = 0
         
         self.channelVC?.joinChannelDelegate = nil
         self.channelVC?.removeFromParentViewController()
         self.channelVC = channelContentViewController
         self.channelVC?.joinChannelDelegate = self
         self.addChildViewController(channelVC!)
+        
+        channelContentViewController.channelName = name
         
         return channelContentViewController
     }
@@ -87,9 +89,9 @@ class ChannelPageVC: UIPageViewController {
         self.view.addGestureRecognizer(doubleSwipeRight)
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+//    deinit {
+//        NotificationCenter.default.removeObserver(self)
+//    }
 
 }
 
@@ -115,15 +117,13 @@ extension ChannelPageVC {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
             print("Swiping to previous channel")
-            currentIndex += 1
             UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewControllerAtIndex(self.currentIndex)], direction: .forward, animated:true, completion: nil)
+                self.setViewControllers([self.getViewControllerAtIndex()], direction: .forward, animated:true, completion: nil)
             })
         case UISwipeGestureRecognizerDirection.right:
             print("Swiping to next channel")
-            currentIndex -= 1
             UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewControllerAtIndex(self.currentIndex)], direction: .reverse, animated:true, completion: nil)
+                self.setViewControllers([self.getViewControllerAtIndex()], direction: .reverse, animated:true, completion: nil)
             })
             
         default:
@@ -132,14 +132,16 @@ extension ChannelPageVC {
     }
 }
 
+
+// Mark: Deprecated
 extension ChannelPageVC {
-    func updateLocation(notification: Notification) {
-        if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
-            // if user haven't join any room, then join a room
-            // else update location
-            // Todo: here
-        }
-    }
+//    func updateLocation(notification: Notification) {
+//        if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
+//            // if user haven't join any room, then join a room
+//            // else update location
+//            // Todo: here
+//        }
+//    }
 }
 
 extension ChannelPageVC: JoinChannelDelegate {
@@ -147,6 +149,7 @@ extension ChannelPageVC: JoinChannelDelegate {
         print("channel Page vc got the command of change channel to \(channelInfo.name)")
         connectionManager.joinChannel(userName: "abc", userID: 0, channel: channelInfo) { channel in
             print(channel.channelID, channel.channelName)
+            self.setViewControllers([self.getViewControllerAtIndex()] as [UIViewController], direction: .forward, animated: true, completion: nil)
         }
     }
 }

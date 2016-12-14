@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class ChannelViewController: UIViewController {
     
@@ -29,7 +30,7 @@ class ChannelViewController: UIViewController {
     let connectionManager = ConnectionManager.shared
     let singleton = Singleton.shared
     
-    weak var joinChannelDelegate: JoinChannelDelegate? = nil
+    weak var joinChannelDelegate: JoinChannelDelegate? = nil // channelPagevc
     
     weak var menuViewController: UIViewController? = nil
     
@@ -56,6 +57,7 @@ class ChannelViewController: UIViewController {
         
         backgroundMask.isHidden = true
         enterBtn.setTitle("Update Name", for: .normal)
+        
         if singleton.userID == 0 || singleton.user == nil {
             self.showMenu(self)
             enterBtn.setTitle("Enter Room", for: .normal)
@@ -103,10 +105,26 @@ class ChannelViewController: UIViewController {
     }
 
     @IBAction func EnterRoomAct(_ sender: Any) {
-        if singleton.userID == 0 || singleton.user == nil {
-            print("enter room")
+        var name = nameTextField.text?.replacingOccurrences(of: " ", with: "")
+        if name?.characters.count != 0 {
+            singleton.userName = name!
+            if singleton.userID == 0 || singleton.user == nil {
+                print("Enter room")
+                if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
+                    let localHopInfo = ChannelInfo(name: "localHop", id: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "")
+                    let demoChannelInfo = ChannelInfo(name: "Hotel St James", id: "4b4ba81df964a5200ba326e3", longitude: -73.983466, latitude: 40.757048239999996, distance: 22, address: "", imageURL: "")
+                    self.joinChannelAct(channelInfo: demoChannelInfo)
+                } else {
+                    // Popup an info to get user to allow location
+                    SVProgressHUD.showError(withStatus: "Please allow location in setting")
+                }
+                
+            } else {
+                print("Update name")
+            }
         } else {
-            print("update name")
+            // Popup to show user to enter a legal name
+            SVProgressHUD.showError(withStatus: "Please input a legal name")
         }
     }
 
