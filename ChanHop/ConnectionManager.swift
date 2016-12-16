@@ -150,9 +150,13 @@ class ConnectionManager: NSObject {
                         var messages: [Message] = []
                         for i in 0..<data["messages"].count {
                             let mData = data["messages",i]
-                            let message = Message(id: mData["id"].stringValue, content: mData["message"].stringValue, senderName: mData["username"].stringValue, senderId: mData["user_id"].intValue/1000, color: mData["hex_color"].stringValue, date: mData["created_at"].intValue)
-                            print("interval: ", mData["user_id"].intValue/1000)
-                            messages.append(message)
+                            let str = mData["created_at"].stringValue
+                            if let interval = Int(str.substring(to: str.index(str.endIndex, offsetBy: -3))){
+                                print("interval ", interval)
+                                let message = Message(id: mData["id"].stringValue, content: mData["message"].stringValue, senderName: mData["username"].stringValue, senderId: mData["user_id"].intValue, color: mData["hex_color"].stringValue, date: interval)
+                                
+                                messages.append(message)
+                            }
                         }
                         self.messageManager?.refreshMessage(messages: messages)
                         completion()
