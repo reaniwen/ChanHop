@@ -45,12 +45,32 @@ class ConnectionManager: NSObject {
                         let data = JSON(JSONData)
 //                        print("response code \(data["status"].intValue), total rev is \(data["channels"].count)")
                         var locations: [ChannelInfo] = []
+                        // public channels
                         for i in 0..<data["channels"].count {
                             let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "")
+                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: locData["channel_type_id"].intValue)
                             
                             locations.append(location)
                         }
+                        
+                        // todo: append the data structure of channel info and channel to support custom ad
+                        // featured channels
+                        for i in 0..<data["featuredChannels"].count {
+                            let locData = data["channels", i]
+                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 3)
+                            
+                            locations.append(location)
+                        }
+                        
+                        // todo: talk with kailash about the data structure
+                        // custom channels
+                        for i in 0..<data["customChannels"].count {
+                            let locData = data["channels", i]
+                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 4)
+                            
+                            locations.append(location)
+                            }
+                        
                         completion(true, locations)
                     case .failure(let error):
                         print(error.localizedDescription)
@@ -66,21 +86,23 @@ class ConnectionManager: NSObject {
     }
     
     func joinChannel(userName: String, userID: Int, channel: ChannelInfo, completion: @escaping (_ channel: ChannelModel)->Void) {
-        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.id, longitude: channel.longitude, latitude: channel.latitude, completion: completion)
+        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.id, longitude: channel.longitude, latitude: channel.latitude, channelType: channel.channelType, completion: completion)
         
     }
     
-    func joinChannel(userName: String, userID: Int, channelName: String, channelId: String, longitude: Double, latitude: Double, completion: @escaping (_ channel: ChannelModel)->Void) {
+    func joinChannel(userName: String, userID: Int, channelName: String, channelId: String, longitude: Double, latitude: Double, channelType: Int, completion: @escaping (_ channel: ChannelModel)->Void) {
         if let _: [String: Double] = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) as? [String: Double] {
-            let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1/channel/add"
+            let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1/channel/join"
             let parameters = [
                 "username": userName,
                 "userid": userID,
                 "name": channelName,
                 "venueid": channelId,
                 "latitude": latitude,
-                "longitude": longitude
+                "longitude": longitude,
+                "type": channelType
             ] as [String : Any]
+            print("calling join channel \(parameters)")
             Alamofire.request(url, method: .post, parameters: parameters)
                 .responseJSON { response in
                     switch response.result {
@@ -98,8 +120,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel()
-                                channel.configureChannel(channelID: channelId, channelName: channelName, longitude: longitude, latitude: latitude)
+                                let channel = ChannelModel(channelID: channelId, channelName: channelName, longitude: longitude, latitude: latitude)
                                 completion(channel)
                             }
                         } else {

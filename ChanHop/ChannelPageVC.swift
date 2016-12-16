@@ -39,7 +39,7 @@ class ChannelPageVC: UIPageViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.setViewControllers([getViewControllerAtIndex()] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewController()] as [UIViewController], direction: .forward, animated: false, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,7 +48,7 @@ class ChannelPageVC: UIPageViewController {
     }
     
     
-    func getViewControllerAtIndex(name: String = "") -> ChannelViewController
+    func getViewController(name: String = "") -> ChannelViewController
     {
         let channelContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChannelViewController") as! ChannelViewController
         channelContentViewController.channelID = 0
@@ -59,7 +59,7 @@ class ChannelPageVC: UIPageViewController {
         self.channelVC?.joinChannelDelegate = self
         self.addChildViewController(channelVC!)
         
-        channelContentViewController.channelName = name
+//        channelContentViewController.channelName = name
         
         return channelContentViewController
     }
@@ -118,12 +118,12 @@ extension ChannelPageVC {
         case UISwipeGestureRecognizerDirection.left:
             print("Swiping to previous channel")
             UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewControllerAtIndex()], direction: .forward, animated:true, completion: nil)
+                self.setViewControllers([self.getViewController()], direction: .forward, animated:true, completion: nil)
             })
         case UISwipeGestureRecognizerDirection.right:
             print("Swiping to next channel")
             UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewControllerAtIndex()], direction: .reverse, animated:true, completion: nil)
+                self.setViewControllers([self.getViewController()], direction: .reverse, animated:true, completion: nil)
             })
             
         default:
@@ -148,8 +148,9 @@ extension ChannelPageVC: JoinChannelDelegate {
     func joinChannelAct(channelInfo: ChannelInfo) {
         print("channel Page vc got the command of change channel to \(channelInfo.name)")
         connectionManager.joinChannel(userName: "abc", userID: 0, channel: channelInfo) { channel in
-            print(channel.channelID, channel.channelName)
-            self.setViewControllers([self.getViewControllerAtIndex()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+            self.singleton.channel = channel
+//            print(channel.channelID, channel.channelName)
+            self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
         }
     }
 }

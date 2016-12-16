@@ -19,7 +19,7 @@ class RoomPageVC: UIPageViewController {
 
         // Do any additional setup after loading the view.
         dataSource = nil
-        self.setViewControllers([getViewControllerAtIndex(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewController(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,17 +57,17 @@ class RoomPageVC: UIPageViewController {
         case UISwipeGestureRecognizerDirection.left:
             print("swipe to previous room")
             currentIndex += 1
-            self.setViewControllers([getViewControllerAtIndex(currentIndex)], direction: .forward, animated:true, completion: nil)
+            self.setViewControllers([getViewController(currentIndex)], direction: .forward, animated:true, completion: nil)
         case UISwipeGestureRecognizerDirection.right:
             print("swipe to next room")
             currentIndex -= 1
-            self.setViewControllers([getViewControllerAtIndex(currentIndex)], direction: .reverse, animated:true, completion: nil)
+            self.setViewControllers([getViewController(currentIndex)], direction: .reverse, animated:true, completion: nil)
         default:
             break
         }
     }
     
-    func getViewControllerAtIndex(_ index: NSInteger) -> RoomViewController
+    func getViewController(_ index: NSInteger) -> RoomViewController
     {
         let roomContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "RoomViewController") as! RoomViewController
         roomContentViewController.roomID = index

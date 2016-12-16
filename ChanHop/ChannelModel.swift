@@ -30,7 +30,7 @@ class ChannelModel: NSObject {
 //        // todo: set rooms
 //    }
     
-    func configureChannel(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0) {
+    init(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0, channelType: Int = 1) {
         self.channelID = channelID
         
         self.channelName = channelName
@@ -38,14 +38,24 @@ class ChannelModel: NSObject {
         self.latitude = latitude
         
         self.channelIndex = channelIndex
-        // Todo: set room
+        self.channelType = ChannelType(rawValue: channelType)!
+    }
+    
+    func configureChannel(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0, channelType: Int = 1) {
+        self.channelID = channelID
         
+        self.channelName = channelName
+        self.longitude = longitude
+        self.latitude = latitude
+        
+        self.channelIndex = channelIndex
+        self.channelType = ChannelType(rawValue: channelType)!
     }
 }
 
 
 enum ChannelType: Int {
-    case pub = 0, custom, priv
+    case pub = 1, featured = 2, custom = 4
 }
 
 
@@ -57,5 +67,6 @@ struct ChannelInfo {
     var distance: Int
     var address: String = ""
     var imageURL: String = ""
+    var channelType: Int = 1
     
 }

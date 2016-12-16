@@ -24,33 +24,22 @@ class ChannelViewController: UIViewController {
     var roomView: UIView!
     
     var channelID: Int! = 0
-    var channelName: String! = ""
+//    var channelName: String! = ""
 
-    let userManager = UserManager.shared
     let connectionManager = ConnectionManager.shared
+    
+    let userManager = UserManager.shared
     let singleton = Singleton.shared
     
     weak var joinChannelDelegate: JoinChannelDelegate? = nil // channelPagevc
     
-    weak var menuViewController: UIViewController? = nil
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        NotificationCenter.default.addObserver(self, selector: #selector(configureChannel), name: NSNotification.Name(rawValue: CHANNEL_NAME), object: nil)
-
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(configureChannel), name: NSNotification.Name(rawValue: CHANNEL_NAME), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        roomVC?.removeFromParentViewController()
-        roomVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomPageVC") as? RoomPageVC
-        if let vc = roomVC {
-            roomView = vc.view
-            self.addChildViewController(roomVC!)
-            self.view.addSubview(roomView)
-        }
         
         setChannelBtn()
         addMaskGesture()
@@ -58,11 +47,19 @@ class ChannelViewController: UIViewController {
         backgroundMask.isHidden = true
         enterBtn.setTitle("Update Name", for: .normal)
         
-        if singleton.userID == 0 || singleton.user == nil {
+        if userManager.userID == 0 || userManager.userName == "" {
             self.showMenu(self)
             enterBtn.setTitle("Enter Room", for: .normal)
             cancelBtn.isHidden = true
             
+        }
+        
+        roomVC?.removeFromParentViewController()
+        roomVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomPageVC") as? RoomPageVC
+        if let vc = roomVC {
+            roomView = vc.view
+            self.addChildViewController(roomVC!)
+            self.view.addSubview(roomView)
         }
     }
 
@@ -89,38 +86,29 @@ class ChannelViewController: UIViewController {
     }
     
     func setChannelBtn() {
-        if channelName == "" {
-            channelBtn.setTitle("Channel " + String(channelID), for: .normal)
+        if let channel = singleton.channel {
+            channelBtn.setTitle(channel.channelName, for: .normal)
         } else {
-            channelBtn.setTitle(channelName, for: .normal)
-        }
-    }
-    
-    func configureChannel(notification: Notification) {
-        let userInfo = notification.userInfo
-        if let channelName:String = userInfo?["channelName"] as? String {
-            self.channelName = channelName
-            self.setChannelBtn()
+            channelBtn.setTitle("Welcom to ChanHop", for: .normal)
         }
     }
 
     @IBAction func EnterRoomAct(_ sender: Any) {
         var name = nameTextField.text?.replacingOccurrences(of: " ", with: "")
         if name?.characters.count != 0 {
-            singleton.userName = name!
-            if singleton.userID == 0 || singleton.user == nil {
+//            singleton.userName = name!
+            if userManager.userID == 0 || userManager.userName == "" {
                 print("Enter room")
                 if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-                    let localHopInfo = ChannelInfo(name: "localHop", id: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "")
-                    let demoChannelInfo = ChannelInfo(name: "Hotel St James", id: "4b4ba81df964a5200ba326e3", longitude: -73.983466, latitude: 40.757048239999996, distance: 22, address: "", imageURL: "")
-                    self.joinChannelAct(channelInfo: demoChannelInfo)
+                    let localHopInfo = ChannelInfo(name: "localHop", id: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3)
+                    self.joinChannelAct(channelInfo: localHopInfo)
                 } else {
                     // Popup an info to get user to allow location
                     SVProgressHUD.showError(withStatus: "Please allow location in setting")
                 }
                 
             } else {
-                print("Update name")
+                print("Update name, \(name!)")
             }
         } else {
             // Popup to show user to enter a legal name

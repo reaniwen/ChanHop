@@ -80,7 +80,8 @@ extension ChatViewController {
     func addDemoMessages() {
         for i in 1...10 {
             let sender = (i%2 == 0) ? "Server" : self.senderId
-            let messageContent = "Message nr. \(i)"
+//            let messageContent = "Message nr. \(i)"
+            let messageContent = "This is a demo message"
             
             let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: Date(), text: messageContent)
             
