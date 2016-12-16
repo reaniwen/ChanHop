@@ -9,6 +9,7 @@
 import UIKit
 import JSQMessagesViewController
 import SocketIO
+import UIColor_Hex_Swift
 
 class ChatViewController: JSQMessagesViewController {
 
@@ -16,10 +17,16 @@ class ChatViewController: JSQMessagesViewController {
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
     var messages = [JSQMessage]()
     
-    var socket: SocketIOClient?
+//    var socket: SocketIOClient?
     
     var backgroundImage = UIImageView()
     var backgroundMask = UIView()
+    
+    
+    let singleton: Singleton = Singleton.shared
+    let userManager: UserManager = UserManager.shared
+    let messageManager = MessageManager.shared
+    let connectionManager = ConnectionManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +45,13 @@ class ChatViewController: JSQMessagesViewController {
         super.viewDidAppear(animated)
         
         
-        self.addDemoMessages()
+
+        
+        connectionManager.getRoomInfo(roomId: singleton.roomName, userId: userManager.userID) {
+            print("info achieved")
+//        self.addDemoMessages()
+            self.loadMessage()
+        }
 
         
         
@@ -76,16 +89,30 @@ class ChatViewController: JSQMessagesViewController {
 }
 
 extension ChatViewController {
-    // todo: get message
-    func addDemoMessages() {
-        for i in 1...10 {
-            let sender = (i%2 == 0) ? "Server" : self.senderId
-//            let messageContent = "Message nr. \(i)"
-            let messageContent = "This is a demo message"
-            
-            let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: Date(), text: messageContent)
-            
-            self.messages.append(message!)
+//    func addDemoMessages() {
+//        for i in 1...10 {
+//            let sender = (i%2 == 0) ? "Server" : self.senderId
+////            let messageContent = "Message nr. \(i)"
+//            let messageContent = "This is a demo message"
+//            
+//            let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: Date(), text: messageContent)
+//            
+//            self.messages.append(message!)
+//            
+//        }
+//        self.reloadMessagesView()
+//    }
+    
+    func loadMessage() {
+        self.messages = []
+        for i in 0..<messageManager.messages.count {
+            let rawMessage = messageManager.messages[i]
+            let sender = rawMessage.senderName
+            let messageContent = rawMessage.content
+            let sendTime = Date(timeIntervalSince1970: TimeInterval(rawMessage.date))
+            if let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: sendTime, text: messageContent) {
+                self.messages.append(message)
+            }
             
         }
         self.reloadMessagesView()
@@ -95,12 +122,13 @@ extension ChatViewController {
         self.senderId = UIDevice.current.identifierForVendor?.uuidString
         self.senderDisplayName = "abc"//+UIDevice.current.identifierForVendor?.uuidString
     }
+    
 }
 
 // MARK - DataSource and Delegation
 extension ChatViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.messages.count
+        return self.messageManager.messages.count
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
@@ -113,25 +141,28 @@ extension ChatViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
-        let data = messages[indexPath.row]
+
+        // todo: set the incoming and outgoing
+        let data = messageManager.messages[indexPath.row]
         switch data.senderId {
-        case self.senderId:
-            return self.outgoingBubble
+        case userManager.userID:
+            return JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor(data.color))
         default:
-            return self.incomingBubble
+            return JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(data.color))
         }
+        
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
+        let data = messageManager.messages[indexPath.row]
+        let initStr = String(data.senderName[data.senderName.startIndex]).uppercased()
+        let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withUserInitials: initStr, backgroundColor: UIColor(data.color), textColor: UIColor.white, font: UIFont.boldSystemFont(ofSize: 19), diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
         
-        let avatar = UIImage(named: "1.png")
-        // todo: add image
-        let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withPlaceholder: avatar, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+//        let avatar = UIImage(named: "1.png")
+//        let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withPlaceholder: avatar, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+//        open class func avatarImage(withUserInitials userInitials: String!, backgroundColor: UIColor!, textColor: UIColor!, font: UIFont!, diameter: UInt) -> JSQMessagesAvatarImage!
         
         return AvatarJobs
-        
-        //        return nil
-        
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {

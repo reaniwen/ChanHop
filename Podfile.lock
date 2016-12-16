@@ -6,6 +6,7 @@ PODS:
   - Socket.IO-Client-Swift (8.1.2)
   - SVProgressHUD (2.0.3)
   - SwiftyJSON (3.1.1)
+  - UIColor_Hex_Swift (3.0.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - Socket.IO-Client-Swift (~> 8.1.2)
   - SVProgressHUD
   - SwiftyJSON
+  - UIColor_Hex_Swift (~> 3.0.2)
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
@@ -21,7 +23,8 @@ SPEC CHECKSUMS:
   Socket.IO-Client-Swift: 542d82e6708f9901b3f6c1d134fb60fa0d09d4d1
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
+  UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
 
-PODFILE CHECKSUM: 5dcf6c9b20e4819cc69e04d3963d2ef188df86a8
+PODFILE CHECKSUM: 77845e604b383fdf33917a91270080d0e885611b
 
 COCOAPODS: 1.1.1

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "785F981BD1A7F4F4EDE2C27CA9F4DFC1"
+               BlueprintIdentifier = "6C387D330B0BE682C36A605587C634E5"
                BuildableName = "Pods_ChanHop.framework"
                BlueprintName = "Pods-ChanHop"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "785F981BD1A7F4F4EDE2C27CA9F4DFC1"
+            BlueprintIdentifier = "6C387D330B0BE682C36A605587C634E5"
             BuildableName = "Pods_ChanHop.framework"
             BlueprintName = "Pods-ChanHop"
             ReferencedContainer = "container:Pods.xcodeproj">

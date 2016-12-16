@@ -17,6 +17,7 @@
 		3D22F4031DBEB24B00EC3309 /* ChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D22F4021DBEB24B00EC3309 /* ChannelModel.swift */; };
 		3D32D3841DC926B90085A789 /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D32D3831DC926B90085A789 /* ChannelListViewController.swift */; };
 		3D32D3861DC927D70085A789 /* NearbyVenueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D32D3851DC927D70085A789 /* NearbyVenueTableViewCell.swift */; };
+		3D3387951E0482D10057CC9A /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3387941E0482D10057CC9A /* MessageManager.swift */; };
 		3D368FED1DDE4C9F0038C3FF /* MemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D368FEC1DDE4C9F0038C3FF /* MemberListViewController.swift */; };
 		3D495A351DECFEE70052B5BE /* CreateChannelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D495A341DECFEE70052B5BE /* CreateChannelVC.swift */; };
 		3D495A371DECFF150052B5BE /* CreateChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D495A361DECFF150052B5BE /* CreateChannelPageVC.swift */; };
@@ -67,6 +68,7 @@
 		3D22F4061DBEB8BB00EC3309 /* ChanHop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChanHop.entitlements; sourceTree = "<group>"; };
 		3D32D3831DC926B90085A789 /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		3D32D3851DC927D70085A789 /* NearbyVenueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyVenueTableViewCell.swift; sourceTree = "<group>"; };
+		3D3387941E0482D10057CC9A /* MessageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		3D368FEC1DDE4C9F0038C3FF /* MemberListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberListViewController.swift; sourceTree = "<group>"; };
 		3D495A341DECFEE70052B5BE /* CreateChannelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateChannelVC.swift; sourceTree = "<group>"; };
 		3D495A361DECFF150052B5BE /* CreateChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateChannelPageVC.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			children = (
 				3D22F4001DBEB04D00EC3309 /* RoomModel.swift */,
 				3D22F4021DBEB24B00EC3309 /* ChannelModel.swift */,
+				3D3387941E0482D10057CC9A /* MessageManager.swift */,
 				178DB6381DC05D29006334E1 /* SocketIOManager.swift */,
 				3D57E1C81DC12E7F00E986C4 /* ConnectionManager.swift */,
 				3D57E1CA1DC147A800E986C4 /* UserManager.swift */,
@@ -313,7 +316,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Rean Wen";
 				TargetAttributes = {
 					3D870F6E1DB67FC7008FB083 = {
@@ -461,6 +464,7 @@
 				3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */,
 				3D495A3D1DECFF870052B5BE /* PrivChannelContentVC.swift in Sources */,
 				3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */,
+				3D3387951E0482D10057CC9A /* MessageManager.swift in Sources */,
 				3D57E1C91DC12E7F00E986C4 /* ConnectionManager.swift in Sources */,
 				3D047C4B1DBA6F4200D2BD5C /* ChannelViewController.swift in Sources */,
 				3D870F731DB67FC7008FB083 /* AppDelegate.swift in Sources */,

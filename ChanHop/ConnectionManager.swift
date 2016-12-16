@@ -15,6 +15,7 @@ class ConnectionManager: NSObject {
     static let shared = ConnectionManager()
     
     weak var userManager: UserManager? = UserManager.shared
+    weak var messageManager: MessageManager? = MessageManager.shared
     var singleton: Singleton = Singleton.shared
     
     func checkServer(completion: @escaping (_ status: Bool, _ info: String) -> Void) {
@@ -110,7 +111,7 @@ class ConnectionManager: NSObject {
                     case .success(let JSONData):
                         let data = JSON(JSONData)
                         if data["status"].stringValue == "200" {
-                            let roomName = data["room"].stringValue
+                            let roomName = data["room"].intValue
                             self.singleton.roomName = roomName
                             let userID = data["user"].intValue
                             // userName
@@ -135,6 +136,38 @@ class ConnectionManager: NSObject {
                 .responseString { response in
                     print("result of join channel is \(response.result.value)")
                 }
+        }
+    }
+    
+    func getRoomInfo(roomId: Int, userId: Int, completion:@escaping ()->Void) {
+        let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1/channel/room/\(roomId)/\(userId)"
+        Alamofire.request(url, method: .get)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONData):
+                    let data = JSON(JSONData)
+                    if data["status"].string == "200" {
+                        var messages: [Message] = []
+                        for i in 0..<data["messages"].count {
+                            let mData = data["messages",i]
+                            let message = Message(id: mData["id"].stringValue, content: mData["message"].stringValue, senderName: mData["username"].stringValue, senderId: mData["user_id"].intValue/1000, color: mData["hex_color"].stringValue, date: mData["created_at"].intValue)
+                            print("interval: ", mData["user_id"].intValue/1000)
+                            messages.append(message)
+                        }
+                        self.messageManager?.refreshMessage(messages: messages)
+                        completion()
+                    } else {
+                        // todo:
+                    }
+                case .failure(let error):
+                    // todo: 
+                    print(error.localizedDescription)
+                }
+                
+            }
+            .responseString {response in
+                print("result of get room infomation is \(response.result.value)")
+                
         }
     }
 }

@@ -9,5 +9,7 @@ target 'ChanHop' do
   pod 'Socket.IO-Client-Swift', '~> 8.1.2'
   pod 'Alamofire', '~> 4.0'
   pod 'SwiftyJSON'
+  pod 'UIColor_Hex_Swift', '~> 3.0.2'
+
 
 end

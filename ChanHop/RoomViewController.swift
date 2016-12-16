@@ -24,7 +24,7 @@ class RoomViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         roomID = Int(singleton.roomName)
-        roomNameLabel.text = "Room" + String(roomID)
+        roomNameLabel.text = "Room " + String(roomID)
     }
     
     

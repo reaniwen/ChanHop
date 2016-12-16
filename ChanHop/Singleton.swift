@@ -19,5 +19,5 @@ class Singleton: NSObject {
     
     var channel: ChannelModel? = nil
     
-    var roomName: String = ""
+    var roomName: Int = 0
 }
