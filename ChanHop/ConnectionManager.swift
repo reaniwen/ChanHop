@@ -15,6 +15,7 @@ class ConnectionManager: NSObject {
     static let shared = ConnectionManager()
     
     weak var userManager: UserManager? = UserManager.shared
+    var singleton: Singleton = Singleton.shared
     
     func checkServer(completion: @escaping (_ status: Bool, _ info: String) -> Void) {
         Alamofire.request(CHANHOP_URL + "/checkserver", method: .get, parameters: nil)
@@ -110,6 +111,7 @@ class ConnectionManager: NSObject {
                         let data = JSON(JSONData)
                         if data["status"].stringValue == "200" {
                             let roomName = data["room"].stringValue
+                            self.singleton.roomName = roomName
                             let userID = data["user"].intValue
                             // userName
                             let backgroundURL = data["photo"].stringValue
@@ -120,7 +122,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelID: channelId, channelName: channelName, longitude: longitude, latitude: latitude)
+                                let channel = ChannelModel(channelID: channelId, channelName: channelName, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
                                 completion(channel)
                             }
                         } else {

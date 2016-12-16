@@ -18,4 +18,6 @@ class Singleton: NSObject {
     
     
     var channel: ChannelModel? = nil
+    
+    var roomName: String = ""
 }

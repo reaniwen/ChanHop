@@ -17,10 +17,13 @@ class RoomViewController: UIViewController {
     
     var roomID: Int! = 0
     
+    var singleton: Singleton = Singleton.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        roomID = Int(singleton.roomName)
         roomNameLabel.text = "Room" + String(roomID)
     }
     

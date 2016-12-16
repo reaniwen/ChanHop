@@ -17,6 +17,8 @@ class ChannelModel: NSObject {
     var longitude: Double = 0
     var latitude: Double = 0
     
+    var backGroundImgURL: String = ""
+    
     var rooms: [RoomModel] = []
     
     
@@ -30,7 +32,7 @@ class ChannelModel: NSObject {
 //        // todo: set rooms
 //    }
     
-    init(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0, channelType: Int = 1) {
+    init(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0, channelType: Int = 1, backgroundImg: String) {
         self.channelID = channelID
         
         self.channelName = channelName
@@ -39,6 +41,8 @@ class ChannelModel: NSObject {
         
         self.channelIndex = channelIndex
         self.channelType = ChannelType(rawValue: channelType)!
+        
+        self.backGroundImgURL = backgroundImg
     }
     
     func configureChannel(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0, channelType: Int = 1) {
