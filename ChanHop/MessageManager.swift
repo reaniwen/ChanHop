@@ -14,7 +14,7 @@ struct Message {
     let senderName: String
     let senderId: Int
     let color: String
-    let date: Int
+    let date: Double
 }
 
 class MessageManager {

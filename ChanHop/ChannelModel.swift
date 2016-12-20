@@ -10,7 +10,7 @@ import Foundation
 
 class ChannelModel: NSObject {
     var channelType: ChannelType = .pub
-    var channelIndex: Int = 0
+//    var channelIndex: Int = 0
     var channelID: String = ""
     var channelName: String = ""
     
@@ -19,7 +19,7 @@ class ChannelModel: NSObject {
     
     var backGroundImgURL: String = ""
     
-    var rooms: [RoomModel] = []
+    var roomID: String = ""
     
     
 //    func configureChannel (_ response: NSDictionary) {
@@ -32,14 +32,14 @@ class ChannelModel: NSObject {
 //        // todo: set rooms
 //    }
     
-    init(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0, channelType: Int = 1, backgroundImg: String) {
+    init(channelID: String, channelName: String, roomID: String, longitude: Double, latitude: Double, channelType: Int = 1, backgroundImg: String) {
         self.channelID = channelID
-        
         self.channelName = channelName
+        self.roomID = roomId
         self.longitude = longitude
         self.latitude = latitude
         
-        self.channelIndex = channelIndex
+//        self.channelIndex = channelIndex
         self.channelType = ChannelType(rawValue: channelType)!
         
         self.backGroundImgURL = backgroundImg
@@ -52,7 +52,7 @@ class ChannelModel: NSObject {
         self.longitude = longitude
         self.latitude = latitude
         
-        self.channelIndex = channelIndex
+//        self.channelIndex = channelIndex
         self.channelType = ChannelType(rawValue: channelType)!
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 import JSQMessagesViewController
 import SocketIO
 import UIColor_Hex_Swift
+import SDWebImage
 
 class ChatViewController: JSQMessagesViewController {
 
@@ -60,7 +61,10 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     func loadTheme(url:String) {
-        backgroundImage.image = UIImage(named: "1")
+//        backgroundImage.image = UIImage(named: "1")
+//        backgroundImage.sd
+        backgroundImage.sd_setImage(with: URL(string: "http://www.domain.com/path/to/image.jpg")!, placeholderImage: UIImage(named: "1")!)
+//        backgroundImage.sd_setImageWithURL(NSURL(string: "http://www.domain.com/path/to/image.jpg"), placeholderImage:UIImage(imageNamed:"1"))
         backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
         self.view.insertSubview(backgroundMask, at: 0)
         self.view.insertSubview(backgroundImage, at: 0)
@@ -89,19 +93,6 @@ class ChatViewController: JSQMessagesViewController {
 }
 
 extension ChatViewController {
-//    func addDemoMessages() {
-//        for i in 1...10 {
-//            let sender = (i%2 == 0) ? "Server" : self.senderId
-////            let messageContent = "Message nr. \(i)"
-//            let messageContent = "This is a demo message"
-//            
-//            let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: Date(), text: messageContent)
-//            
-//            self.messages.append(message!)
-//            
-//        }
-//        self.reloadMessagesView()
-//    }
     
     func loadMessage() {
         self.messages = []
@@ -120,7 +111,7 @@ extension ChatViewController {
     
     func setup() {
         self.senderId = UIDevice.current.identifierForVendor?.uuidString
-        self.senderDisplayName = "abc"//+UIDevice.current.identifierForVendor?.uuidString
+        self.senderDisplayName = "abc" //deprecated
     }
     
 }
@@ -158,10 +149,6 @@ extension ChatViewController {
         let initStr = String(data.senderName[data.senderName.startIndex]).uppercased()
         let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withUserInitials: initStr, backgroundColor: UIColor(data.color), textColor: UIColor.white, font: UIFont.boldSystemFont(ofSize: 19), diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
         
-//        let avatar = UIImage(named: "1.png")
-//        let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withPlaceholder: avatar, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
-//        open class func avatarImage(withUserInitials userInitials: String!, backgroundColor: UIColor!, textColor: UIColor!, font: UIFont!, diameter: UInt) -> JSQMessagesAvatarImage!
-        
         return AvatarJobs
     }
     
@@ -187,8 +174,11 @@ extension ChatViewController {
 //MARK - Toolbar
 extension ChatViewController {
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+        let interval = Date().timeIntervalSince1970
+        let rawMessage: Message = Message(id: "0", content: text, senderName: userManager.userName, senderId: userManager.userID, color: userManager.colorHex, date: interval)
         let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date as Date!, text: text)
         self.messages.append(message!)
+        self.messageManager.messages.append(rawMessage)
         self.finishSendingMessage()
     }
     

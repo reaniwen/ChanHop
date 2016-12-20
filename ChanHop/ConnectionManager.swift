@@ -111,8 +111,8 @@ class ConnectionManager: NSObject {
                     case .success(let JSONData):
                         let data = JSON(JSONData)
                         if data["status"].stringValue == "200" {
-                            let roomName = data["room"].intValue
-                            self.singleton.roomName = roomName
+                            let roomName = data["room"].stringValue
+//                            self.singleton.roomName = roomName
                             let userID = data["user"].intValue
                             // userName
                             let backgroundURL = data["photo"].stringValue
@@ -123,7 +123,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelID: channelId, channelName: channelName, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
+                                let channel = ChannelModel(channelID: channelId, channelName: channelName,roomId: roomName, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
                                 completion(channel)
                             }
                         } else {
@@ -139,6 +139,8 @@ class ConnectionManager: NSObject {
         }
     }
     
+    // Mark: not only room info, but also chat history
+    // todo: parse create timestamp
     func getRoomInfo(roomId: Int, userId: Int, completion:@escaping ()->Void) {
         let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1/channel/room/\(roomId)/\(userId)"
         Alamofire.request(url, method: .get)
@@ -151,7 +153,7 @@ class ConnectionManager: NSObject {
                         for i in 0..<data["messages"].count {
                             let mData = data["messages",i]
                             let str = mData["created_at"].stringValue
-                            if let interval = Int(str.substring(to: str.index(str.endIndex, offsetBy: -3))){
+                            if let interval = Double(str.substring(to: str.index(str.endIndex, offsetBy: -3))){
                                 print("interval ", interval)
                                 let message = Message(id: mData["id"].stringValue, content: mData["message"].stringValue, senderName: mData["username"].stringValue, senderId: mData["user_id"].intValue, color: mData["hex_color"].stringValue, date: interval)
                                 
@@ -174,43 +176,18 @@ class ConnectionManager: NSObject {
                 
         }
     }
-}
-
-// Mark: Deprecated method
-extension ConnectionManager {
-
-    //    func getFourSquareRoom(completion: @escaping(_ res: Bool, _ locations:[FourSquareLocation]) -> Void) {
-    //        if let location: [String: Double] = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) as? [String: Double] {
-    //            let dateFormatter = DateFormatter()
-    //            dateFormatter.dateFormat = "yyyyMMdd"
-    //            let todayStr = dateFormatter.string(from: Date())
-    //            let coordination: String = "\(location["latitude"]!),\(location["longitude"]!)"
-    //            let url = "\(FS_BASE_URL)client_id=\(FS_CLIENT_ID)&client_secret=\(FS_SECRET_KEY)&v=\(todayStr)&ll=\(coordination)&query=&limit=\(FS_QUERY_LIMIT)"
-    ////            print(url)
-    //            Alamofire.request(url, method: .get, parameters: nil)
-    //                .responseJSON { response in
-    //                    switch response.result {
-    //                    case .success(let JSONData):
-    //                        let data = JSON(JSONData)
-    ////                        print(data["response","venues","0"])
-    //                        var locations: [FourSquareLocation] = []
-    //                        for i in 0..<data["response","venues"].count {
-    //                            let locData = data["response","venues",i]
-    //                            let location = FourSquareLocation(name: locData["name"].stringValue, longitude: locData["location","lng"].doubleValue, latitude: locData["location","lat"].doubleValue, distance: locData["location","distance"].intValue, address: locData["location","address"].stringValue, imageURL: "")
-    //
-    //                            locations.append(location)
-    //                        }
-    //                        completion(true, locations)
-    //                    case .failure(let error):
-    //                        print(error.localizedDescription)
-    //                        completion(false, [])
-    //                    }
-    //
-    //                }
-    ////                .responseString { response in
-    ////                    print(response.result)
-    ////            }
-    //        }
-    //        
-    //    }
+    
+    func getPreviousRoomInfo(direction: Int, channelId: String, roomId: String, userId: Int, completion: @escaping ()->Void) {
+        let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1//channel/room/switch"
+        let parameters = ["status": direction, // 0 previous, 1 next
+                          "channelid": channelId,
+                          "roomId": roomId,
+                          "userId": userId
+            ] as [String: Any]
+        print(parameters)
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseString { response in
+                print("result of switching room is \(response.result.value)")
+        }
+    }
 }

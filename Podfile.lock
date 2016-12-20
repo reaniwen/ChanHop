@@ -3,7 +3,10 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - Socket.IO-Client-Swift (8.1.2)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - Socket.IO-Client-Swift (8.2.0)
   - SVProgressHUD (2.0.3)
   - SwiftyJSON (3.1.1)
   - UIColor_Hex_Swift (3.0.2)
@@ -11,7 +14,8 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - JSQMessagesViewController
-  - Socket.IO-Client-Swift (~> 8.1.2)
+  - SDWebImage
+  - Socket.IO-Client-Swift (~> 8.2.0)
   - SVProgressHUD
   - SwiftyJSON
   - UIColor_Hex_Swift (~> 3.0.2)
@@ -20,11 +24,12 @@ SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  Socket.IO-Client-Swift: 542d82e6708f9901b3f6c1d134fb60fa0d09d4d1
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  Socket.IO-Client-Swift: 900cf511777045c80d1ce1f11f71261e87765dd1
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
   UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d
 
-PODFILE CHECKSUM: 77845e604b383fdf33917a91270080d0e885611b
+PODFILE CHECKSUM: 22a2fd21ca9b842d00b3266ccdad4143b6ee0c53
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.0.1

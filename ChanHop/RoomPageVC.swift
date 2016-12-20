@@ -10,9 +10,12 @@ import UIKit
 
 class RoomPageVC: UIPageViewController {
     
-    
     var currentIndex = 0
     weak var roomVC: RoomViewController?
+    
+    let connectionManager = ConnectionManager.shared
+    let userManager = UserManager.shared
+    let singleton = Singleton.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,11 +59,17 @@ class RoomPageVC: UIPageViewController {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
             print("swipe to previous room")
-            currentIndex += 1
-            self.setViewControllers([getViewController(currentIndex)], direction: .forward, animated:true, completion: nil)
+//            currentIndex += 1
+            if let channel = singleton.channel {
+                connectionManager.getPreviousRoomInfo(direction: 0, channelId: channel.channelID, roomId: channel.roomID, userId: userManager.userID) {
+                    print("complete")
+                }
+                self.setViewControllers([getViewController(currentIndex)], direction: .forward, animated:true, completion: nil)
+            }
+            
         case UISwipeGestureRecognizerDirection.right:
             print("swipe to next room")
-            currentIndex -= 1
+//            currentIndex -= 1
             self.setViewControllers([getViewController(currentIndex)], direction: .reverse, animated:true, completion: nil)
         default:
             break
