@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UIColor_Hex_Swift
 
 class MemberListViewController: UIViewController {
 
@@ -16,6 +17,9 @@ class MemberListViewController: UIViewController {
     @IBOutlet weak var memberAmountLabel: UILabel!
     
     var members: [Member] = [Member(name: "abdc", color:"000000")]
+    
+    var connectionManager: ConnectionManager = ConnectionManager.shared
+    var singleton: Singleton = Singleton.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +54,18 @@ class MemberListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         // todo: get memebers in the list
         
-        memberAmountLabel.text = "\(members.count)/25"
+        
+        
+        if let channel = singleton.channel {
+            connectionManager.getUserList(roomId: channel.roomID) { members in
+                self.members = members
+                self.memberAmountLabel.text = "\(members.count)/25"
+                self.memberTable.reloadData()
+            }
+        }
+        
+        
+        
     }
     
     func handleSwipe(){}
@@ -76,18 +91,15 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = members[indexPath.row].name
-        cell.textLabel?.textColor = UIColor.white
+        cell.textLabel?.textColor = UIColor(members[indexPath.row].color)
         cell.backgroundColor = UIColor.clear
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 19)
         return cell
     }
     
 }
 
-class Member {
+struct Member {
     var name: String
     var color: String
-    init(name: String, color: String) {
-        self.name = name
-        self.color = color
-    }
 }

@@ -132,22 +132,11 @@ extension ChannelPageVC {
     }
 }
 
-
-// Mark: Deprecated
-extension ChannelPageVC {
-//    func updateLocation(notification: Notification) {
-//        if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
-//            // if user haven't join any room, then join a room
-//            // else update location
-//            // Todo: here
-//        }
-//    }
-}
-
 extension ChannelPageVC: JoinChannelDelegate {
-    func joinChannelAct(channelInfo: ChannelInfo) {
+    func joinChannelAct(channelInfo: ChannelInfo, userName: String = "") {
         print("channel Page vc got the command of change channel to \(channelInfo.name)")
-        connectionManager.joinChannel(userName: "abc", userID: 0, channel: channelInfo) { channel in
+        // todo: change here to the real userName
+        connectionManager.joinChannel(userName: userName, userID: 0, channel: channelInfo) { channel in
             self.singleton.channel = channel
 //            print(channel.channelID, channel.channelName)
             self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
@@ -155,6 +144,17 @@ extension ChannelPageVC: JoinChannelDelegate {
     }
 }
 
+// Mark: Deprecated
+extension ChannelPageVC {
+    //    func updateLocation(notification: Notification) {
+    //        if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
+    //            // if user haven't join any room, then join a room
+    //            // else update location
+    //            // Todo: here
+    //        }
+    //    }
+}
+
 protocol JoinChannelDelegate: class {
-    func joinChannelAct(channelInfo: ChannelInfo)
+    func joinChannelAct(channelInfo: ChannelInfo, userName: String)
 }

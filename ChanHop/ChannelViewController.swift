@@ -36,7 +36,7 @@ class ChannelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(configureChannel), name: NSNotification.Name(rawValue: CHANNEL_NAME), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateAmountBtn), name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +93,16 @@ class ChannelViewController: UIViewController {
             channelBtn.setTitle("Welcom to ChanHop", for: .normal)
         }
     }
+    
+    func updateAmountBtn(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let amount = userInfo["amount"] as? Int else {
+                return
+        }
+        
+        memberBtn.setTitle(String(amount), for: .normal)
+    }
+
 
     @IBAction func EnterRoomAct(_ sender: Any) {
         var name = nameTextField.text?.replacingOccurrences(of: " ", with: "")
@@ -102,7 +112,7 @@ class ChannelViewController: UIViewController {
                 print("Enter room")
                 if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
                     let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3)
-                    self.joinChannelAct(channelInfo: localHopInfo)
+                    self.joinChannelAct(channelInfo: localHopInfo, userName: name!)
                 } else {
                     // Popup an info to get user to allow location
                     SVProgressHUD.showError(withStatus: "Please allow location in setting")
@@ -191,9 +201,9 @@ extension ChannelViewController {
 }
 
 extension ChannelViewController: JoinChannelDelegate {
-    func joinChannelAct(channelInfo: ChannelInfo) {
+    func joinChannelAct(channelInfo: ChannelInfo, userName: String = "") {
         if let delegate = self.joinChannelDelegate {
-            delegate.joinChannelAct(channelInfo: channelInfo)
+            delegate.joinChannelAct(channelInfo: channelInfo, userName: userName)
         }
     }
 }

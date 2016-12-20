@@ -15,6 +15,7 @@ class ChannelListViewController: UIViewController {
     @IBOutlet weak var roomNameLabel: UILabel!
     
     let connectionManager = ConnectionManager.shared
+    let userManager: UserManager = UserManager.shared
     
     weak var joinChannelDelegate: JoinChannelDelegate? = nil // channelviewcontroller
     
@@ -109,7 +110,7 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row+1])
+        self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row+1], userName: userManager.userName)
         self.backToMainAct(self)
         
     }

@@ -14,8 +14,8 @@ import SDWebImage
 
 class ChatViewController: JSQMessagesViewController {
 
-    let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
-    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
+//    let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
+//    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
     var messages = [JSQMessage]()
     
 //    var socket: SocketIOClient?
@@ -91,10 +91,11 @@ extension ChatViewController {
         self.messages = []
         for i in 0..<messageManager.messages.count {
             let rawMessage = messageManager.messages[i]
+            let senderid = rawMessage.senderId
             let sender = rawMessage.senderName
             let messageContent = rawMessage.content
             let sendTime = Date(timeIntervalSince1970: TimeInterval(rawMessage.date))
-            if let message = JSQMessage(senderId: sender, senderDisplayName: sender, date: sendTime, text: messageContent) {
+            if let message = JSQMessage(senderId: String(senderid), senderDisplayName: sender, date: sendTime, text: messageContent) {
                 self.messages.append(message)
             }
             
@@ -103,8 +104,8 @@ extension ChatViewController {
     }
     
     func setup() {
-        self.senderId = UIDevice.current.identifierForVendor?.uuidString
-        self.senderDisplayName = "abc" //deprecated
+        self.senderId = String(userManager.userID)
+        self.senderDisplayName = userManager.userName
     }
     
     func loadTheme(url:String) {
@@ -175,12 +176,17 @@ extension ChatViewController {
 //MARK - Toolbar
 extension ChatViewController {
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
-        let interval = Date().timeIntervalSince1970
-        let rawMessage: Message = Message(id: "0", content: text, senderName: userManager.userName, senderId: userManager.userID, color: userManager.colorHex, date: interval)
-        let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date as Date!, text: text)
-        self.messages.append(message!)
-        self.messageManager.messages.append(rawMessage)
-        self.finishSendingMessage()
+        if let channel = singleton.channel {
+            connectionManager.sendMessage(roomId: channel.roomID, userId: userManager.userID, userName: userManager.userName, message: text) {
+                let interval = Date().timeIntervalSince1970
+                let rawMessage: Message = Message(id: "0", content: text, senderName: self.userManager.userName, senderId: self.userManager.userID, color: self.userManager.colorHex, date: interval)
+                let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date as Date!, text: text)
+                self.messages.append(message!)
+                self.messageManager.messages.append(rawMessage)
+                self.finishSendingMessage()
+            }
+        }
+        
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
