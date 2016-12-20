@@ -14,9 +14,11 @@ class ChannelModel: NSObject {
     var channelName: String = "0"
     
     var channelType: ChannelType = .pub
+    var createTime: Double = 0
     
     var roomID: Int = 0
-//    var roomName: String = ""
+    var userCount: Int = 0
+    var roomName: String = ""
     
     var longitude: Double = 0
     var latitude: Double = 0
@@ -24,11 +26,15 @@ class ChannelModel: NSObject {
     var backGroundImgURL: String = ""
 
     
-    init(channelID: Int = 0, channelName: String, roomID: Int, roomName: String = "", longitude: Double, latitude: Double, channelType: Int = 1, backgroundImg: String) {
+    init(channelID: Int = 0, channelName: String, roomID: Int, roomName: String = "", userCount: Int = 0, createTime: Double = 0, longitude: Double, latitude: Double, channelType: Int = 1, backgroundImg: String) {
         self.channelID = channelID
         self.channelName = channelName
         self.roomID = roomID
-//        self.roomName = roomName
+        self.roomName = roomName
+        self.userCount = userCount
+        
+        self.createTime = createTime
+        
         self.longitude = longitude
         self.latitude = latitude
         

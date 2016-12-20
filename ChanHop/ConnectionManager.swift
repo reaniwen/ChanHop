@@ -117,13 +117,15 @@ class ConnectionManager: NSObject {
                             let userID = data["user"].intValue
                             let backgroundURL = data["photo"].stringValue
                             let assignedColor = data["assignedColor"].stringValue
+                            let userCount = data["user_count"].intValue
+                            let createTime = data["channelTimeStamp"].doubleValue
 //                            print(roomName, backgroundURL, assignedColor)
                             
                             if let user = self.userManager {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelName: channelName,roomID: roomID, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
+                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
                                 completion(channel)
                             }
                         } else {

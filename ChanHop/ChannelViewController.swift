@@ -88,6 +88,7 @@ class ChannelViewController: UIViewController {
     func setChannelBtn() {
         if let channel = singleton.channel {
             channelBtn.setTitle(channel.channelName, for: .normal)
+            memberBtn.setTitle(String(channel.userCount), for: .normal)
         } else {
             channelBtn.setTitle("Welcom to ChanHop", for: .normal)
         }
