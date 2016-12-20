@@ -23,7 +23,10 @@ class RoomViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        roomID = Int(singleton.roomName)
+        if let id = singleton.channel?.roomID{
+            roomID = id
+        }
+        
         roomNameLabel.text = "Room " + String(roomID)
     }
     

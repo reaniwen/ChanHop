@@ -22,7 +22,7 @@ class RoomPageVC: UIPageViewController {
 
         // Do any additional setup after loading the view.
         dataSource = nil
-        self.setViewControllers([getViewController(0)] as [UIViewController], direction: .forward, animated: false, completion: nil)
+        self.setViewControllers([getViewController()] as [UIViewController], direction: .forward, animated: false, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,28 +58,36 @@ class RoomPageVC: UIPageViewController {
     func moveToNextRoom(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
-            print("swipe to previous room")
+            print("swipe to next room")
 //            currentIndex += 1
             if let channel = singleton.channel {
-                connectionManager.getPreviousRoomInfo(direction: 0, channelId: channel.channelID, roomId: channel.roomID, userId: userManager.userID) {
+                connectionManager.getPreviousRoomInfo(direction: 1, channelID: 44, roomId: channel.roomID, userId: userManager.userID) {
                     print("complete")
+                    self.setViewControllers([self.getViewController()], direction: .forward, animated:true, completion: nil)
                 }
-                self.setViewControllers([getViewController(currentIndex)], direction: .forward, animated:true, completion: nil)
+                
             }
             
         case UISwipeGestureRecognizerDirection.right:
-            print("swipe to next room")
+            print("swipe to previous room")
 //            currentIndex -= 1
-            self.setViewControllers([getViewController(currentIndex)], direction: .reverse, animated:true, completion: nil)
+            if let channel = singleton.channel {
+                connectionManager.getPreviousRoomInfo(direction: 0, channelID: 44, roomId: channel.roomID, userId: userManager.userID) {
+                    print("complete")
+                    self.setViewControllers([self.getViewController()], direction: .reverse, animated:true, completion: nil)
+                }
+                
+            }
+            
         default:
             break
         }
     }
     
-    func getViewController(_ index: NSInteger) -> RoomViewController
+    func getViewController() -> RoomViewController
     {
         let roomContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "RoomViewController") as! RoomViewController
-        roomContentViewController.roomID = index
+        roomContentViewController.roomID = 0
         
         self.roomVC?.removeFromParentViewController()
         self.roomVC = roomContentViewController

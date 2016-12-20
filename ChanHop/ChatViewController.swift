@@ -45,10 +45,12 @@ class ChatViewController: JSQMessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        var id = 0
+        if singleton.channel != nil {
+            id = (singleton.channel?.roomID)!
+        }
         
-
-        
-        connectionManager.getRoomInfo(roomId: singleton.roomName, userId: userManager.userID) {
+        connectionManager.getRoomInfo(roomId: id, userId: userManager.userID) {
             print("info achieved")
 //        self.addDemoMessages()
             self.loadMessage()
@@ -59,16 +61,7 @@ class ChatViewController: JSQMessagesViewController {
         loadTheme(url: "")
 
     }
-    
-    func loadTheme(url:String) {
-//        backgroundImage.image = UIImage(named: "1")
-//        backgroundImage.sd
-        backgroundImage.sd_setImage(with: URL(string: "http://www.domain.com/path/to/image.jpg")!, placeholderImage: UIImage(named: "1")!)
-//        backgroundImage.sd_setImageWithURL(NSURL(string: "http://www.domain.com/path/to/image.jpg"), placeholderImage:UIImage(imageNamed:"1"))
-        backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
-        self.view.insertSubview(backgroundMask, at: 0)
-        self.view.insertSubview(backgroundImage, at: 0)
-    }
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -112,6 +105,14 @@ extension ChatViewController {
     func setup() {
         self.senderId = UIDevice.current.identifierForVendor?.uuidString
         self.senderDisplayName = "abc" //deprecated
+    }
+    
+    func loadTheme(url:String) {
+        //        backgroundImage.image = UIImage(named: "1")
+        backgroundImage.sd_setImage(with: URL(string: "http://www.domain.com/path/to/image.jpg")!, placeholderImage: UIImage(named: "1")!)
+        backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
+        self.view.insertSubview(backgroundMask, at: 0)
+        self.view.insertSubview(backgroundImage, at: 0)
     }
     
 }

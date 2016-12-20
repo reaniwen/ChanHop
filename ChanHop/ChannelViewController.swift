@@ -100,7 +100,7 @@ class ChannelViewController: UIViewController {
             if userManager.userID == 0 || userManager.userName == "" {
                 print("Enter room")
                 if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-                    let localHopInfo = ChannelInfo(name: "localHop", id: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3)
+                    let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3)
                     self.joinChannelAct(channelInfo: localHopInfo)
                 } else {
                     // Popup an info to get user to allow location

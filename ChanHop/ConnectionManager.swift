@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import SVProgressHUD
 
 class ConnectionManager: NSObject {
     
@@ -50,7 +51,7 @@ class ConnectionManager: NSObject {
                         // public channels
                         for i in 0..<data["channels"].count {
                             let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: locData["channel_type_id"].intValue)
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: locData["channel_type_id"].intValue)
                             
                             locations.append(location)
                         }
@@ -59,7 +60,7 @@ class ConnectionManager: NSObject {
                         // featured channels
                         for i in 0..<data["featuredChannels"].count {
                             let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 3)
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 3)
                             
                             locations.append(location)
                         }
@@ -68,7 +69,7 @@ class ConnectionManager: NSObject {
                         // custom channels
                         for i in 0..<data["customChannels"].count {
                             let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, id: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 4)
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 4)
                             
                             locations.append(location)
                             }
@@ -87,8 +88,9 @@ class ConnectionManager: NSObject {
         }
     }
     
+    // todo: delete channel id
     func joinChannel(userName: String, userID: Int, channel: ChannelInfo, completion: @escaping (_ channel: ChannelModel)->Void) {
-        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.id, longitude: channel.longitude, latitude: channel.latitude, channelType: channel.channelType, completion: completion)
+        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.venueID, longitude: channel.longitude, latitude: channel.latitude, channelType: channel.channelType, completion: completion)
         
     }
     
@@ -111,10 +113,8 @@ class ConnectionManager: NSObject {
                     case .success(let JSONData):
                         let data = JSON(JSONData)
                         if data["status"].stringValue == "200" {
-                            let roomName = data["room"].stringValue
-//                            self.singleton.roomName = roomName
+                            let roomID = data["room"].intValue
                             let userID = data["user"].intValue
-                            // userName
                             let backgroundURL = data["photo"].stringValue
                             let assignedColor = data["assignedColor"].stringValue
 //                            print(roomName, backgroundURL, assignedColor)
@@ -123,7 +123,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelID: channelId, channelName: channelName,roomId: roomName, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
+                                let channel = ChannelModel(channelName: channelName,roomID: roomID, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
                                 completion(channel)
                             }
                         } else {
@@ -177,15 +177,31 @@ class ConnectionManager: NSObject {
         }
     }
     
-    func getPreviousRoomInfo(direction: Int, channelId: String, roomId: String, userId: Int, completion: @escaping ()->Void) {
-        let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1//channel/room/switch"
+    func getPreviousRoomInfo(direction: Int, channelID: Int = 44, roomId: Int, userId: Int, completion: @escaping ()->Void) {
+        let url = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1/channel/room/switch"
         let parameters = ["status": direction, // 0 previous, 1 next
-                          "channelid": channelId,
-                          "roomId": roomId,
-                          "userId": userId
+                          "channelid": channelID,
+                          "roomid": roomId,
+                          "userid": userId
             ] as [String: Any]
         print(parameters)
         Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONData):
+                    let data = JSON(JSONData)
+                    if data["status"].string == "200" {
+                        self.singleton.channel?.roomID = data["room"].intValue
+                        self.messageManager?.refreshMessage(messages: [])
+                        // todo: optimize here to use the data
+                        completion()
+                    } else {
+                        SVProgressHUD.showError(withStatus: data["Reason"].stringValue)
+                    }
+                case .failure(let error):
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                }
+            }
             .responseString { response in
                 print("result of switching room is \(response.result.value)")
         }

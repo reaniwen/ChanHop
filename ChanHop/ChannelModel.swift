@@ -9,33 +9,26 @@
 import Foundation
 
 class ChannelModel: NSObject {
+    
+    var channelID: Int = 0
+    var channelName: String = "0"
+    
     var channelType: ChannelType = .pub
-//    var channelIndex: Int = 0
-    var channelID: String = ""
-    var channelName: String = ""
+    
+    var roomID: Int = 0
+//    var roomName: String = ""
     
     var longitude: Double = 0
     var latitude: Double = 0
     
     var backGroundImgURL: String = ""
+
     
-    var roomID: String = ""
-    
-    
-//    func configureChannel (_ response: NSDictionary) {
-//        if let channelIndex = response.value(forKey: "channelIndex") {
-//            self.channelIndex = channelIndex as! Int
-//        }
-//        if let channelName = response.value(forKey: "channelName") {
-//            self.channelName = channelName as! String
-//        }
-//        // todo: set rooms
-//    }
-    
-    init(channelID: String, channelName: String, roomID: String, longitude: Double, latitude: Double, channelType: Int = 1, backgroundImg: String) {
+    init(channelID: Int = 0, channelName: String, roomID: Int, roomName: String = "", longitude: Double, latitude: Double, channelType: Int = 1, backgroundImg: String) {
         self.channelID = channelID
         self.channelName = channelName
-        self.roomID = roomId
+        self.roomID = roomID
+//        self.roomName = roomName
         self.longitude = longitude
         self.latitude = latitude
         
@@ -43,17 +36,6 @@ class ChannelModel: NSObject {
         self.channelType = ChannelType(rawValue: channelType)!
         
         self.backGroundImgURL = backgroundImg
-    }
-    
-    func configureChannel(channelID: String, channelName: String, longitude: Double, latitude: Double, channelIndex: Int = 0, channelType: Int = 1) {
-        self.channelID = channelID
-        
-        self.channelName = channelName
-        self.longitude = longitude
-        self.latitude = latitude
-        
-//        self.channelIndex = channelIndex
-        self.channelType = ChannelType(rawValue: channelType)!
     }
 }
 
@@ -65,7 +47,7 @@ enum ChannelType: Int {
 
 struct ChannelInfo {
     var name: String
-    var id: String = ""
+    var venueID: String = ""
     var longitude: Double
     var latitude: Double
     var distance: Int
