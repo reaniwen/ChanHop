@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import SVProgressHUD
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var locationManager: CLLocationManager!
+    
+    lazy var singleton: Singleton = Singleton.shared
+    lazy var connectionManager: ConnectionManager = ConnectionManager.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -24,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
         
         return true
     }
@@ -84,10 +89,19 @@ extension AppDelegate: CLLocationManagerDelegate {
             
         } else {
             if let coordinate = manager.location?.coordinate {
+                if singleton.lastRequestLocation == nil {
+                    singleton.lastRequestLocation = manager.location
+                }
                 let location = ["latitude": coordinate.latitude as Double, "longitude": coordinate.longitude as Double]
 //                NotificationCenter.default.post(name: NSNotification.Name(UPDATE_LOC), object: self, userInfo: location)
                 UserDefaults.standard.set(location, forKey: CURRENT_LOC)
 //                print(UserDefaults.standard.dictionary(forKey: CURRENT_LOC))
+                let distance = manager.location?.distance(from: singleton.lastRequestLocation!)
+                if Double(distance!) > Double(5000) {
+                    connectionManager.getChannels() { _ in
+                        
+                    }
+                }
             } else {
                 // Todo: get location error
             }

@@ -65,7 +65,6 @@ class RoomPageVC: UIPageViewController {
                     print("complete")
                     self.setViewControllers([self.getViewController()], direction: .forward, animated:true, completion: nil)
                 }
-                
             }
             
         case UISwipeGestureRecognizerDirection.right:
@@ -76,7 +75,6 @@ class RoomPageVC: UIPageViewController {
                     print("complete")
                     self.setViewControllers([self.getViewController()], direction: .reverse, animated:true, completion: nil)
                 }
-                
             }
             
         default:

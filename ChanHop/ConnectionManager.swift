@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import SVProgressHUD
+import CoreLocation
 
 class ConnectionManager: NSObject {
     
@@ -73,7 +74,8 @@ class ConnectionManager: NSObject {
                             
                             locations.append(location)
                             }
-                        
+                        self.singleton.lastRequestLocation = CLLocation(latitude: location["latitude"]!, longitude: location["longitude"]!)
+                        self.singleton.channelInfos = locations
                         completion(true, locations)
                     case .failure(let error):
                         print(error.localizedDescription)
@@ -142,7 +144,6 @@ class ConnectionManager: NSObject {
     
     // Mark: not only room info, but also chat history
     // todo: parse create timestamp
-    // todo: send a notification for amount
     func getRoomInfo(roomId: Int, userId: Int, completion:@escaping ()->Void) {
         let url = CHANHOP_URL+"/channel/room/\(roomId)/\(userId)"
         Alamofire.request(url, method: .get)
@@ -162,8 +163,11 @@ class ConnectionManager: NSObject {
                                 messages.append(message)
                             }
                         }
+                        
                         let userCount = data["user_count"].intValue
+                        // Send a notification for amount
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil, userInfo: ["amount": userCount])
+                        
                         self.messageManager?.refreshMessage(messages: messages)
                         completion()
                     } else {
@@ -181,7 +185,44 @@ class ConnectionManager: NSObject {
         }
     }
     
+    // previous -1, next 1
+    func getPreviousChannel(direction: Int, channelName: String, completion: @escaping (_ channel: ChannelModel)-> Void) {
+        // get previous Channel Info from singleton
+        
+        var nextInfo: ChannelInfo? = nil
+        if channelName == "localhop" {
+            nextInfo = direction == -1 ? nil : singleton.channelInfos[0]
+        } else {
+            for i in 0..<singleton.channelInfos.count {
+                if channelName == singleton.channelInfos[i].name {
+                    if (i + direction < 0) || (i + direction >= singleton.channelInfos.count) {
+                        nextInfo = nil
+                    } else {
+                        nextInfo = singleton.channelInfos[i+direction]
+                    }
+                    break
+                }
+            }
+        }
+        
+        if nextInfo != nil {
+            // leave previous channel
+            if let roomId: Int = singleton.channel?.roomID, let user = userManager {
+                leaveRoom(roomId: roomId, userId: user.userID) {
+                    // join new Channnel
+                    self.joinChannel(userName: user.userName, userID: user.userID, channel: nextInfo!) { channel in
+                        completion(channel)
+                    }
+                }
+            }
+        } else {
+            // toco: pop up error info
+            SVProgressHUD.showError(withStatus: "No more Channel")
+        }
+    }
+    
     // Mark: switch room
+    // previous 0, next 1
     func getPreviousRoomInfo(direction: Int, channelID: Int = 44, roomId: Int, userId: Int, completion: @escaping ()->Void) {
         let url = CHANHOP_URL+"/channel/room/switch"
         let parameters = ["status": direction, // 0 previous, 1 next
@@ -255,6 +296,29 @@ class ConnectionManager: NSObject {
                 case .failure(let error):
                     SVProgressHUD.showError(withStatus: error.localizedDescription)
                 }
+        }
+    }
+    
+    func leaveRoom(roomId: Int, userId: Int, completion: @escaping ()->Void) {
+        let url = CHANHOP_URL+"/channel/room/leave"
+        let parameters = [
+            "roomid": roomId,
+            "userid": userId
+        ] as [String: Any]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONData):
+                    let data = JSON(JSONData)
+                    if data["status"].string == "200" {
+                        completion()
+                    } else {
+                        SVProgressHUD.showError(withStatus: "Leave room failed")
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                
         }
     }
 }

@@ -16,6 +16,7 @@ class ChannelPageVC: UIPageViewController {
     
     let singleton = Singleton.shared
     let connectionManager = ConnectionManager.shared
+    let userManager = UserManager.shared
     var channel: ChannelModel? = nil
     
     override func viewDidLoad() {
@@ -117,14 +118,25 @@ extension ChannelPageVC {
         switch gesture.direction {
         case UISwipeGestureRecognizerDirection.left:
             print("Swiping to previous channel")
-            UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewController()], direction: .forward, animated:true, completion: nil)
-            })
+            connectionManager.getPreviousChannel(direction: -1, channelName: (singleton.channel?.channelName)!) { channel in
+                self.singleton.channel = channel
+                self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+                self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+            }
+
+            
         case UISwipeGestureRecognizerDirection.right:
             print("Swiping to next channel")
-            UIView.animate(withDuration: 2, animations: {
-                self.setViewControllers([self.getViewController()], direction: .reverse, animated:true, completion: nil)
-            })
+            connectionManager.getPreviousChannel(direction: 1, channelName: (singleton.channel?.channelName)!) { channel in
+                self.singleton.channel = channel
+                self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+//                UIView.animate(withDuration: 2, animations: {
+                self.setViewControllers([self.getViewController()] as [UIViewController], direction: .reverse, animated: true, completion: nil)
+//                })
+            }
+//            UIView.animate(withDuration: 2, animations: {
+//                self.setViewControllers([self.getViewController()], direction: .reverse, animated:true, completion: nil)
+//            })
             
         default:
             break
@@ -136,10 +148,18 @@ extension ChannelPageVC: JoinChannelDelegate {
     func joinChannelAct(channelInfo: ChannelInfo, userName: String = "") {
         print("channel Page vc got the command of change channel to \(channelInfo.name)")
         // todo: change here to the real userName
-        connectionManager.joinChannel(userName: userName, userID: 0, channel: channelInfo) { channel in
-            self.singleton.channel = channel
-//            print(channel.channelID, channel.channelName)
-            self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+        if let channel = singleton.channel {
+            connectionManager.leaveRoom(roomId: channel.roomID, userId: userManager.userID) {
+                self.connectionManager.joinChannel(userName: userName, userID: 0, channel: channelInfo) { channel in
+                    self.singleton.channel = channel
+                    self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+                }
+            }
+        } else {
+            connectionManager.joinChannel(userName: userName, userID: 0, channel: channelInfo) { channel in
+                self.singleton.channel = channel
+                self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+            }
         }
     }
 }

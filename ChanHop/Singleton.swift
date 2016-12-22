@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class Singleton: NSObject {
     
@@ -20,4 +21,7 @@ class Singleton: NSObject {
     var channel: ChannelModel? = nil
     
 //    var roomName: Int = 0
+    
+    var lastRequestLocation: CLLocation? = nil
+    var channelInfos: [ChannelInfo] = []
 }
