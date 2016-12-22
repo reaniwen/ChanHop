@@ -28,6 +28,7 @@ class ChatViewController: JSQMessagesViewController {
     let userManager: UserManager = UserManager.shared
     let messageManager = MessageManager.shared
     let connectionManager = ConnectionManager.shared
+    let socketIOManager = SocketIOManager.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +49,10 @@ class ChatViewController: JSQMessagesViewController {
         var id = 0
         if singleton.channel != nil {
             id = (singleton.channel?.roomID)!
+            loadTheme(url: (singleton.channel?.backGroundImgURL)!)
         }
         
-        connectionManager.getRoomInfo(roomId: id, userId: userManager.userID) {
+        connectionManager.getRoomInfo(roomId: id, userId: userManager.userID, userName: userManager.userName) {
             print("info achieved")
 //        self.addDemoMessages()
             self.loadMessage()
@@ -58,7 +60,6 @@ class ChatViewController: JSQMessagesViewController {
 
         
         
-        loadTheme(url: "")
 
     }
 
@@ -110,10 +111,14 @@ extension ChatViewController {
     
     func loadTheme(url:String) {
         //        backgroundImage.image = UIImage(named: "1")
-        backgroundImage.sd_setImage(with: URL(string: "http://www.domain.com/path/to/image.jpg")!, placeholderImage: UIImage(named: "1")!)
-        backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
-        self.view.insertSubview(backgroundMask, at: 0)
-        self.view.insertSubview(backgroundImage, at: 0)
+        if url != "" {
+            backgroundImage.sd_setImage(with: URL(string: url)!, placeholderImage: UIImage(named: "1")!)
+            backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
+            self.view.insertSubview(backgroundMask, at: 0)
+            self.view.insertSubview(backgroundImage, at: 0)
+        }
+        
+        
     }
     
 }
@@ -176,14 +181,19 @@ extension ChatViewController {
 //MARK - Toolbar
 extension ChatViewController {
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+        print("Send button pressed")
+        
         if let channel = singleton.channel {
-            connectionManager.sendMessage(roomId: channel.roomID, userId: userManager.userID, userName: userManager.userName, message: text) {
-                let interval = Date().timeIntervalSince1970
-                let rawMessage: Message = Message(id: "0", content: text, senderName: self.userManager.userName, senderId: self.userManager.userID, color: self.userManager.colorHex, date: interval)
-                let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date as Date!, text: text)
-                self.messages.append(message!)
-                self.messageManager.messages.append(rawMessage)
-                self.finishSendingMessage()
+            socketIOManager.addMessage(roomId: channel.roomID, userid: userManager.userID, userName: userManager.userName, message: text) {
+                
+////            }
+////            connectionManager.sendMessage(roomId: channel.roomID, userId: userManager.userID, userName: userManager.userName, message: text) {
+//                let interval = Date().timeIntervalSince1970
+//                let rawMessage: Message = Message(id: "0", content: text, senderName: self.userManager.userName, senderId: self.userManager.userID, color: self.userManager.colorHex, date: interval)
+//                let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date as Date!, text: text)
+//                self.messages.append(message!)
+//                self.messageManager.messages.append(rawMessage)
+//                self.finishSendingMessage()
             }
         }
         

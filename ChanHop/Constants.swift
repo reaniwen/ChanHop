@@ -9,6 +9,7 @@
 import Foundation
 
 let CHANHOP_URL = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1"
+let SOCKETIO_URL = "http://chanhop-test.us-east-1.elasticbeanstalk.com/"
 
 let CURRENT_LOC = "com.chanhop.currentLocation"         // for userdefault
 let FINISH_TUTORIAL = "com.chanhop.finishTutorial"      // for userdefault

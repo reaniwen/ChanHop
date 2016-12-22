@@ -17,6 +17,7 @@ class ChannelPageVC: UIPageViewController {
     let singleton = Singleton.shared
     let connectionManager = ConnectionManager.shared
     let userManager = UserManager.shared
+    let socketIOManager = SocketIOManager.sharedInstance
     var channel: ChannelModel? = nil
     
     override func viewDidLoad() {
@@ -35,7 +36,8 @@ class ChannelPageVC: UIPageViewController {
         
         initGesture()
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(UPDATE_LOC), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(UPDATE_LOC), object: nil)s
+        
 
     }
     
@@ -147,12 +149,14 @@ extension ChannelPageVC {
 extension ChannelPageVC: JoinChannelDelegate {
     func joinChannelAct(channelInfo: ChannelInfo, userName: String = "") {
         print("channel Page vc got the command of change channel to \(channelInfo.name)")
-        // todo: change here to the real userName
+        // change here to the real userName
         if let channel = singleton.channel {
             connectionManager.leaveRoom(roomId: channel.roomID, userId: userManager.userID) {
                 self.connectionManager.joinChannel(userName: userName, userID: 0, channel: channelInfo) { channel in
                     self.singleton.channel = channel
                     self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+                    // todo: switch room
+//                    self.socketIOManager.joinRoom(userName, roomName: channel.roomName, created_at: channel.createTime)
                 }
             }
         } else {
