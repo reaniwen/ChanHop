@@ -15,7 +15,7 @@ class SocketIOManager: NSObject {
     
     override init() {
         super.init()
-        socket = SocketIOClient(socketURL: URL(string: "http://192.168.7.174:3000")!)
+        socket = SocketIOClient(socketURL: URL(string: CHANHOP_URL)!)
     }
     
     func establishConnection() {

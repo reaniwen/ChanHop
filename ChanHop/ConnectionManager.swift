@@ -163,7 +163,8 @@ class ConnectionManager: NSObject {
                                 messages.append(message)
                             }
                         }
-                        
+                        self.singleton.channel?.roomName = data["roomName"].stringValue
+                        self.singleton.channel?.createTime = data["channelTimestamp"].doubleValue
                         let userCount = data["user_count"].intValue
                         // Send a notification for amount
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil, userInfo: ["amount": userCount])
