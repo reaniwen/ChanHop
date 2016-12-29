@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 
 class PrivChannelContentVC: UIViewController {
 
@@ -18,6 +19,19 @@ class PrivChannelContentVC: UIViewController {
     
     var channelName: String = ""
     var channelPass: String = ""
+    
+//    var productIDs: Array<String> = ["com.chanhop.chanhop.PurchasePrivateChannel"]
+//    var productsArray: Array<SKProduct> = []
+    
+//    
+//    public static let purchasePrivateChannel = "com.chanhop.chanhop.PurchasePrivateChannel"
+//    
+//    fileprivate static let productIdentifiers: Set<ProductIdentifier> = [PrivChannelContentVC.purchasePrivateChannel]
+    
+    var product: SKProduct?
+    var productID: Set<String> = ["com.chanhop.privateChannel"]
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,6 +45,10 @@ class PrivChannelContentVC: UIViewController {
         setPassFrame(frame: confirmPassFrame)
         self.passwordLabel.attributedPlaceholder = NSAttributedString(string:"CREATE A PASSWORD",attributes:[NSForegroundColorAttributeName: UIColor(white: 1, alpha: 0.8)])
         self.confirmPassLabel.attributedPlaceholder = NSAttributedString(string: "RE-TYPE PASSWORD", attributes:[NSForegroundColorAttributeName: UIColor(white: 1, alpha: 0.8)])
+        
+//        SKPaymentQueue.default().add(self)
+        getProductInfo()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +57,13 @@ class PrivChannelContentVC: UIViewController {
     }
 
     @IBAction func createPrivChannelAct(_ sender: Any) {
+        if let product = product {
+            let payment = SKPayment(product: product)
+            SKPaymentQueue.default().add(payment)
+        } else {
+            print("payment not inited")
+        }
+        
     }
     
     func setPassFrame(frame: UIView) {
@@ -64,5 +89,60 @@ extension PrivChannelContentVC: UITextFieldDelegate {
             textField.resignFirstResponder()
         }
         return false // We do not want UITextField to insert line-breaks.
+    }
+}
+
+extension PrivChannelContentVC: SKProductsRequestDelegate {
+    func getProductInfo()
+    {
+        if SKPaymentQueue.canMakePayments() {
+            
+            let request = SKProductsRequest(productIdentifiers: self.productID)
+            request.delegate = self
+            request.start()
+        } else {
+            print("Please enable In App Purchase in Settings")
+        }
+    }
+    
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        
+        var products = response.products
+        print(response.products.count)
+        
+        if (products.count != 0) {
+            product = products[0]
+//            buyButton.isEnabled = true
+//            productTitle.text = product!.localizedTitle
+//            productDescription.text = product!.localizedDescription
+            
+        } else {
+            print("Product not found")
+        }
+        
+        let invalids = response.invalidProductIdentifiers
+        
+        for product in invalids
+        {
+            print("Product not found: \(product)")
+        }
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions {
+            
+            switch transaction.transactionState {
+                
+            case SKPaymentTransactionState.purchased:
+//                self.unlockFeature()
+                print("payment finished")
+                SKPaymentQueue.default().finishTransaction(transaction)
+                
+            case SKPaymentTransactionState.failed:
+                SKPaymentQueue.default().finishTransaction(transaction)
+            default:
+                break
+            }
+        }
     }
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178DB6381DC05D29006334E1 /* SocketIOManager.swift */; };
+		179A80111E14B600000EFC15 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 179A80101E14B600000EFC15 /* StoreKit.framework */; };
+		179A80151E155F8C000EFC15 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A80141E155F8C000EFC15 /* IAPHelper.swift */; };
 		3D032D571DCBE0BE00951C3B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D032D561DCBE0BE00951C3B /* ChatViewController.swift */; };
 		3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */; };
 		3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */; };
@@ -58,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		178DB6381DC05D29006334E1 /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		179A80101E14B600000EFC15 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		179A80141E155F8C000EFC15 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		3D032D561DCBE0BE00951C3B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPageVC.swift; sourceTree = "<group>"; };
 		3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelPageVC.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				179A80111E14B600000EFC15 /* StoreKit.framework in Frameworks */,
 				3D57E1CF1DC14C5000E986C4 /* CoreLocation.framework in Frameworks */,
 				F37E331F8B9E15454817514C /* Pods_ChanHop.framework in Frameworks */,
 			);
@@ -212,6 +217,7 @@
 				3D57E1C81DC12E7F00E986C4 /* ConnectionManager.swift */,
 				3D57E1CA1DC147A800E986C4 /* UserManager.swift */,
 				3D8890A81DC2A94D00EEEB3D /* Singleton.swift */,
+				179A80141E155F8C000EFC15 /* IAPHelper.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -244,6 +250,7 @@
 		663D2F0EE0ECB385D0ABFB7D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				179A80101E14B600000EFC15 /* StoreKit.framework */,
 				3D57E1CE1DC14C5000E986C4 /* CoreLocation.framework */,
 				A1D868D14E4BE57EA5F25C28 /* Pods_ChanHop.framework */,
 			);
@@ -321,12 +328,12 @@
 				TargetAttributes = {
 					3D870F6E1DB67FC7008FB083 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = DE9LVH9PK3;
+						DevelopmentTeam = ZP88JN7GSW;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Push = {
 								enabled = 0;
@@ -451,6 +458,7 @@
 				3D57E1CD1DC1488F00E986C4 /* Constants.swift in Sources */,
 				3D8890A91DC2A94D00EEEB3D /* Singleton.swift in Sources */,
 				178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */,
+				179A80151E155F8C000EFC15 /* IAPHelper.swift in Sources */,
 				3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */,
 				3D32D3841DC926B90085A789 /* ChannelListViewController.swift in Sources */,
 				3D495A3B1DECFF770052B5BE /* PblcChannelContentVC.swift in Sources */,
@@ -625,11 +633,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = DE9LVH9PK3;
+				DEVELOPMENT_TEAM = ZP88JN7GSW;
 				INFOPLIST_FILE = ChanHop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.appetizermobile.ChanHop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chanhop.chanhop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -641,11 +649,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = DE9LVH9PK3;
+				DEVELOPMENT_TEAM = ZP88JN7GSW;
 				INFOPLIST_FILE = ChanHop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.appetizermobile.ChanHop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chanhop.chanhop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

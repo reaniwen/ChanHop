@@ -62,49 +62,72 @@ class SocketIOManager: NSObject {
 //    }
     
     func joinRoom(_ userName: String, roomName: String, created_at: Double) {
-        let parameters = ["data":[
-            "username": userName,
-            "roomName": roomName,
-            "created_at": created_at
-        ]] as [String: Any]
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            let JSONText = NSString(data: jsonData,
-                                       encoding: String.Encoding.ascii.rawValue) as! String
-            print("emit data is" + JSONText)
-            
-            socket.emit("userJoinsRoom", JSONText)
-            
-            listenForOtherMessages()
-            
-        } catch {
-            print(error.localizedDescription)
-        }
+        let parameters = "{\"roomName\":\"\(roomName)\",\"username\":\"\(userName)\",\"created_at\":\(created_at)}"
+//        let parameters = [
+//            "username": userName,
+//            "roomName": roomName,
+//            "created_at": created_at
+//        ] as [String: Any]
+//        do {
+//            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+//            let JSONText = NSString(data: jsonData,
+//                                       encoding: String.Encoding.ascii.rawValue) as! String
+//            print("emit data is " + JSONText)
+//            
+//            socket.emit("userJoinsRoom", JSONText)
+//            
+//            listenForOtherMessages()
+//            
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+        print("emit data for userJoinsRoom is " + parameters)
+        socket.emit("userJoinsRoom", parameters)
+        listenForOtherMessages()
     }
     
     func addMessage(roomId: Int, userid:Int, userName: String, message: String, completion:()->Void) {
-        let parameters = ["data":[
-            "userid": userid,
-            "roomid": roomId,
-            "username": userName,
-            "message": message
-            ]] as [String: Any]
+        let parameters = "{\"userid\": \(userid),\"roomid\":\(roomId),\"username\": \"\(userName)\",\"message\":\"\(message)\"}"
+//        let parameters = [
+//            "userid": userid,roo
+//            "roomid": roomId,
+//            "username": userName,
+//            "message": message
+//            ] as [String: Any]
+//        do {
+//            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+//            let JSONText = NSString(data: jsonData,
+//                                    encoding: String.Encoding.ascii.rawValue) as! String
+//            print("emit data for userSendsMessage is" + JSONText)
+//            
+//            socket.emit("userSendsMessage", JSONText)
+//            completion()
+//            
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+        print("emit data for userSendsMessage is " + parameters)
+        socket.emit("userSendsMessage", parameters)
         
+    }
+    
+    func leaveRoom(_ userName: String, roomName: String, created_at: Double) {
+        let parameters = [
+            "username": userName,
+            "roomName": roomName,
+            "created_at": created_at
+            ] as [String: Any]
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
             let JSONText = NSString(data: jsonData,
                                     encoding: String.Encoding.ascii.rawValue) as! String
-            print("emit data for userSendsMessage is" + JSONText)
+            print("emit data is" + JSONText)
             
-            socket.emit("userSendsMessage", JSONText)
-            completion()
-            
-//            listenForOtherMessages()
+            socket.emit("userLeavesRoom", JSONText)
             
         } catch {
             print(error.localizedDescription)
         }
-        
     }
     
     
