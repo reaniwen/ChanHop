@@ -156,7 +156,6 @@ extension ChannelPageVC: JoinChannelDelegate {
                     self.singleton.channel = channel
                     self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
                     // todo: switch room
-                    self.socketIOManager.joinRoom(userName, roomName: channel.roomName, created_at: channel.createTime)
                 }
             }
         } else {

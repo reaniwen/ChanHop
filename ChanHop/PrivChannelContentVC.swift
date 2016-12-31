@@ -8,6 +8,7 @@
 
 import UIKit
 import StoreKit
+import SVProgressHUD
 
 class PrivChannelContentVC: UIViewController {
 
@@ -20,16 +21,10 @@ class PrivChannelContentVC: UIViewController {
     var channelName: String = ""
     var channelPass: String = ""
     
-//    var productIDs: Array<String> = ["com.chanhop.chanhop.PurchasePrivateChannel"]
-//    var productsArray: Array<SKProduct> = []
-    
-//    
-//    public static let purchasePrivateChannel = "com.chanhop.chanhop.PurchasePrivateChannel"
-//    
-//    fileprivate static let productIdentifiers: Set<ProductIdentifier> = [PrivChannelContentVC.purchasePrivateChannel]
-    
     var product: SKProduct?
     var productID: Set<String> = ["com.chanhop.privateChannel"]
+    
+    var joinChannelDelegate: JoinChannelDelegate?
     
     
     override func viewDidLoad() {
@@ -57,13 +52,24 @@ class PrivChannelContentVC: UIViewController {
     }
 
     @IBAction func createPrivChannelAct(_ sender: Any) {
-        if let product = product {
-            let payment = SKPayment(product: product)
-            SKPaymentQueue.default().add(payment)
+        // todo: finish in app purchase
+//        if let product = product {
+//            let payment = SKPayment(product: product)
+//            SKPaymentQueue.default().add(payment)
+//        } else {
+//            print("payment not inited")
+//        }
+        if let channelName = channelNameLabel.text{
+            let shortName = channelName.replacingOccurrences(of: " ", with: "")
+            if shortName.characters.count != 0 {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName])
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                SVProgressHUD.showError(withStatus: "Please type a channel name")
+            }
         } else {
-            print("payment not inited")
+            SVProgressHUD.showError(withStatus: "Please type a channel name")
         }
-        
     }
     
     func setPassFrame(frame: UIView) {

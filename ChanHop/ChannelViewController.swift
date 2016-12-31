@@ -37,6 +37,7 @@ class ChannelViewController: UIViewController {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateAmountBtn), name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(joinChannelNotification), name: NSNotification.Name(rawValue:JOIN_CHANNEL), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,14 +112,14 @@ class ChannelViewController: UIViewController {
             if userManager.userID == 0 || userManager.userName == "" {
                 print("Enter room")
                 if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-                    let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3)
+                    let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil)
                     self.joinChannelAct(channelInfo: localHopInfo, userName: name!)
                 } else {
                     // Popup an info to get user to allow location
                     SVProgressHUD.showError(withStatus: "Please allow location in setting")
                 }
-                
             } else {
+                // todo: change name function
                 print("Update name, \(name!)")
             }
         } else {
@@ -201,6 +202,21 @@ extension ChannelViewController {
 }
 
 extension ChannelViewController: JoinChannelDelegate {
+    // todo: it triggered twice, I have no idea why
+    // but I think that would be a issue
+    func joinChannelNotification(notification: Notification) {
+        let userinfo = notification.userInfo
+        if let name = userinfo?["name"] as? String {
+            // todo: coordination, userName
+            let userName = UserManager.shared.userName
+            if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
+                let channelinfo = ChannelInfo(name: name, venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 4, adURL: nil)
+                joinChannelAct(channelInfo: channelinfo, userName: userName)
+                print("notification join channel")
+            }
+        }
+    }
+    
     func joinChannelAct(channelInfo: ChannelInfo, userName: String = "") {
         if let delegate = self.joinChannelDelegate {
             delegate.joinChannelAct(channelInfo: channelInfo, userName: userName)

@@ -27,40 +27,6 @@ class SocketIOManager: NSObject {
         socket.disconnect()
     }
     
-    
-//    func connectToServerWithNickname(_ nickname: String, completionHandler: @escaping (_ userList: [[String: AnyObject]]?) -> Void) {
-//        socket.emit("connectUser", nickname)
-//        
-//        socket.on("userList") { ( dataArray, ack) -> Void in
-//            completionHandler(dataArray[0] as? [[String: AnyObject]])
-//        }
-//        
-//        listenForOtherMessages()
-//    }
-//    
-//    
-//    func exitChatWithNickname(_ nickname: String, completionHandler: () -> Void) {
-//        socket.emit("exitUser", nickname)
-//        completionHandler()
-//    }
-//    
-//    
-//    func sendMessage(_ message: String, withNickname nickname: String) {
-//        socket.emit("chatMessage", nickname, message)
-//    }
-//    
-//    
-//    func getChatMessage(_ completionHandler: @escaping (_ messageInfo: [String: AnyObject]) -> Void) {
-//        socket.on("newChatMessage") { (dataArray, socketAck) -> Void in
-//            var messageDictionary = [String: String?]()
-//            messageDictionary["nickname"] = dataArray[0] as? String
-//            messageDictionary["message"] = dataArray[1] as? String
-//            messageDictionary["date"] = dataArray[2] as? String
-//            
-//            completionHandler(messageDictionary as [String : AnyObject])
-//        }
-//    }
-    
     func joinRoom(_ userName: String, roomName: String, created_at: Double) {
         let parameters = "{\"roomName\":\"\(roomName)\",\"username\":\"\(userName)\",\"created_at\":\(created_at)}"
 //        let parameters = [

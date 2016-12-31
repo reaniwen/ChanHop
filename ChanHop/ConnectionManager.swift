@@ -50,33 +50,43 @@ class ConnectionManager: NSObject {
                         let data = JSON(JSONData)
 //                        print("response code \(data["status"].intValue), total rev is \(data["channels"].count)")
                         var locations: [ChannelInfo] = []
-                        // public channels
-                        for i in 0..<data["channels"].count {
-                            let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: locData["channel_type_id"].intValue)
-                            
-                            locations.append(location)
-                        }
+                        var featuredLocations: [ChannelInfo] = []
+                        var publicLocations: [ChannelInfo] = []
+                        var customLocations: [ChannelInfo] = []
                         
                         // todo: append the data structure of channel info and channel to support custom ad
                         // featured channels
                         for i in 0..<data["featuredChannels"].count {
-                            let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 3)
-                            
-                            locations.append(location)
+                            let locData = data["featuredChannels", i]
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: "", longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: 0, address: "", imageURL: locData["custom_ad"].stringValue, channelType: 2, adURL: AD_BASE_URL+locData["custom_ad"].stringValue)
+                            featuredLocations.append(location)
                         }
+                        self.singleton.featuredChannelInfos = featuredLocations
+                        locations += featuredLocations
+                        
+                        // public channels
+                        for i in 0..<data["channels"].count {
+                            let locData = data["channels", i]
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: locData["channel_type_id"].intValue, adURL: nil)
+                            
+                            publicLocations.append(location)
+                        }
+                        self.singleton.channelInfos = publicLocations
+                        locations += publicLocations
                         
                         // todo: talk with kailash about the data structure
                         // custom channels
                         for i in 0..<data["customChannels"].count {
-                            let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 4)
+                            let locData = data["customChannels", i]
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 4, adURL: nil)
                             
-                            locations.append(location)
-                            }
+                            customLocations.append(location)
+                        }
+                        self.singleton.customChannelInfo = customLocations
+                        locations += customLocations
+                        
+                        
                         self.singleton.lastRequestLocation = CLLocation(latitude: location["latitude"]!, longitude: location["longitude"]!)
-                        self.singleton.channelInfos = locations
                         completion(true, locations)
                     case .failure(let error):
                         print(error.localizedDescription)
@@ -146,6 +156,7 @@ class ConnectionManager: NSObject {
     // Mark: not only room info, but also chat history
     func getRoomInfo(roomId: Int, userId: Int, userName: String, completion:@escaping ()->Void) {
         let url = CHANHOP_URL+"/channel/room/\(roomId)/\(userId)"
+        print("get room info from \(url)")
         Alamofire.request(url, method: .get)
             .responseJSON { response in
                 switch response.result {
@@ -182,10 +193,10 @@ class ConnectionManager: NSObject {
                 }
                 
             }
-            .responseString {response in
-                print("result of get room infomation is \(response.result.value)")
-                
-        }
+//            .responseString {response in
+//                print("result of get room infomation is \(response.result.value)")
+//                
+//        }
     }
     
     // previous -1, next 1

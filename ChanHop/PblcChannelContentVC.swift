@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class PblcChannelContentVC: UIViewController {
 
     @IBOutlet weak var channelNameLabel: UITextField!
+    
+    var joinChannelDelegate: JoinChannelDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,17 @@ class PblcChannelContentVC: UIViewController {
     }
     
     @IBAction func createPubChannelAct(_ sender: Any) {
+        if let channelName = channelNameLabel.text{
+            let shortName = channelName.replacingOccurrences(of: " ", with: "")
+            if shortName.characters.count != 0 {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName])
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                SVProgressHUD.showError(withStatus: "Please type a channel name")
+            }
+        } else {
+            SVProgressHUD.showError(withStatus: "Please type a channel name")
+        }
     }
     
 }

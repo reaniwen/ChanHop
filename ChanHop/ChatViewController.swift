@@ -39,10 +39,6 @@ class ChatViewController: JSQMessagesViewController {
         self.inputToolbar.contentView.leftBarButtonItem = nil
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -126,7 +122,7 @@ extension ChatViewController {
 // MARK - DataSource and Delegation
 extension ChatViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.messageManager.messages.count
+        return self.messages.count
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {

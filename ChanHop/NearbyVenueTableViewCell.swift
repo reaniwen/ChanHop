@@ -11,7 +11,7 @@ import UIKit
 class NearbyVenueTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
 
@@ -23,10 +23,10 @@ class NearbyVenueTableViewCell: UITableViewCell {
 //        self.selectedBackgroundView = UIView()
         
         nameLabel.textColor = UIColor.white
-        amountLabel.textColor = UIColor.white
+        categoryLabel.textColor = UIColor.white
         distanceLabel.textColor = UIColor.gray
         
-        amountLabel.text = "CUSTOM ROOM"
+        categoryLabel.text = "PUBLIC CHANNEL"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

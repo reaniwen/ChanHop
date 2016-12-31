@@ -24,4 +24,6 @@ class Singleton: NSObject {
     
     var lastRequestLocation: CLLocation? = nil
     var channelInfos: [ChannelInfo] = []
+    var featuredChannelInfos: [ChannelInfo] = []
+    var customChannelInfo: [ChannelInfo] = []
 }

@@ -101,10 +101,17 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
             cell.nameLabel.textColor = color
             cell.distanceLabel.textColor = color
         } else {
+            let channelTypes = ["","PUBLIC CHANNEL", "FEATURED CHANNEL","","CUSTOM CHANNEL"]
             cell.nameLabel.text = "\(self.locations[row].name)"// (\(self.locations[row].address))"
             cell.distanceLabel.text = String(self.locations[row].distance) + "m"
             cell.nameLabel.textColor = UIColor.white
             cell.distanceLabel.textColor = UIColor.white
+            
+            if self.locations[row].channelType < 4{
+                print(row, self.locations[row].channelType,channelTypes[self.locations[row].channelType])
+                cell.categoryLabel.text = channelTypes[self.locations[row].channelType]
+            }
+            
         }
         return cell
     }
@@ -112,7 +119,6 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row-1], userName: userManager.userName)
         self.backToMainAct(self)
-        
     }
     
     // Todo: remove the responder on the search bar
