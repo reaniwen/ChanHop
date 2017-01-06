@@ -74,6 +74,9 @@ class ChatViewController: JSQMessagesViewController {
     
     func reloadMessagesView() {
         self.collectionView?.reloadData()
+        
+        // scroll to bottom
+        self.scrollToBottom(animated: true)
     }
 
 }
