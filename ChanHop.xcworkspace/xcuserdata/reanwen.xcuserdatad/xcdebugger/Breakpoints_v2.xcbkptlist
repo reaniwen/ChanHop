@@ -70,7 +70,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChanHop/ConnectionManager.swift"
@@ -79,24 +79,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "242"
             endingLineNumber = "242"
-            landmarkName = "getPreviousRoomInfo(direction:channelID:roomId:userId:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChanHop/ConnectionManager.swift"
-            timestampString = "504141934.699072"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
             landmarkName = "getRoomInfo(roomId:userId:userName:completion:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChanHop.ConnectionManager.(getRoomInfo (roomId : Swift.Int, userId : Swift.Int, userName : Swift.String, completion : () -&gt; ()) -&gt; ()).(closure #1)"
+                  moduleName = "ChanHop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/reanwen/Desktop/ChanHop/ChanHop/ConnectionManager.swift"
+                  timestampString = "505425076.866805"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "243"
+                  endingLineNumber = "243"
+                  offsetFromSymbolStart = "10712">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ChanHop.ConnectionManager.(getRoomInfo (roomId : Swift.Int, userId : Swift.Int, userName : Swift.String, completion : () -&gt; ()) -&gt; ()).(closure #1)"
+                  moduleName = "ChanHop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/reanwen/Desktop/ChanHop/ChanHop/ConnectionManager.swift"
+                  timestampString = "505425076.869587"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "243"
+                  endingLineNumber = "243"
+                  offsetFromSymbolStart = "10716">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

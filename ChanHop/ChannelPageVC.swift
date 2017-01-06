@@ -147,17 +147,31 @@ extension ChannelPageVC {
 }
 
 extension ChannelPageVC: JoinChannelDelegate {
-    func joinChannelAct(channelInfo: ChannelInfo, userName: String = "") {
+    func joinChannelAct(channelInfo: ChannelInfo, userName: String = "", password: String = "", custom: Bool = false) {
         print("channel Page vc got the command of change channel to \(channelInfo.name)")
-        // change here to the real userName
         if let channel = singleton.channel {
-            connectionManager.leaveRoom(roomId: channel.roomID, userId: userManager.userID) {
-                self.connectionManager.joinChannel(userName: userName, userID: 0, channel: channelInfo) { channel in
-                    self.singleton.channel = channel
-                    self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
-                    // todo: switch room
+            let userID = userManager.userID
+            print(userID)
+            if custom == false {
+                connectionManager.leaveRoom(roomId: channel.roomID, userId: userID) {
+                    // todo: send a notification to inform socket io
+                    self.connectionManager.joinChannel(userName: userName, userID: userID, channel: channelInfo) { channel in
+                        self.singleton.channel = channel
+                        self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+                        // todo: switch room
+                    }
+                }
+            } else {
+                // customer channel
+                connectionManager.leaveRoom(roomId: channel.roomID, userId: userID) {
+                    self.connectionManager.joinPrivateChannel(userName: userName, userID: userID, channel: channelInfo, password: password) { channel in
+                        print("lalala")
+                        self.singleton.channel = channel
+                        self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
+                    }
                 }
             }
+            
         } else {
             connectionManager.joinChannel(userName: userName, userID: 0, channel: channelInfo) { channel in
                 self.singleton.channel = channel
@@ -179,5 +193,5 @@ extension ChannelPageVC {
 }
 
 protocol JoinChannelDelegate: class {
-    func joinChannelAct(channelInfo: ChannelInfo, userName: String)
+    func joinChannelAct(channelInfo: ChannelInfo, userName: String, password: String, custom: Bool)
 }

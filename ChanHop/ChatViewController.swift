@@ -53,10 +53,6 @@ class ChatViewController: JSQMessagesViewController {
 //        self.addDemoMessages()
             self.loadMessage()
         }
-
-        
-        
-
     }
 
     

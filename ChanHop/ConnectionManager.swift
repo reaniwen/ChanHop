@@ -153,6 +153,60 @@ class ConnectionManager: NSObject {
         }
     }
     
+    func joinPrivateChannel(userName: String, userID: Int, channel: ChannelInfo, password: String, completion: @escaping (_ channel: ChannelModel)->Void) {
+        self.joinPrivateChannel(userName: userName, userID: userID, channelName: channel.name, longitude: channel.longitude, latitude: channel.latitude, password: password, completion: completion)
+    }
+    
+    func joinPrivateChannel(userName: String, userID: Int, channelName: String, longitude: Double, latitude: Double, password: String, completion: @escaping (_ channel: ChannelModel)->Void) {
+        if let _: [String: Double] = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) as? [String: Double] {
+            let url = CHANHOP_URL+"/channel/join"
+            var parameters = [
+                "username": userName,
+                "userid": userID,
+                "name": channelName,
+//                "venueid": channelId,
+                "latitude": latitude,
+                "longitude": longitude,
+                "type": 4
+                ] as [String : Any]
+            if password != "" {
+                parameters["password"] = password
+            }
+            print("calling join channel \(parameters)")
+            Alamofire.request(url, method: .post, parameters: parameters)
+                .responseJSON { response in
+                    switch response.result {
+                    case .success(let JSONData):
+                        let data = JSON(JSONData)
+                        if data["status"].stringValue == "200" {
+                            let roomID = data["room"].intValue
+                            let userID = data["user"].intValue
+                            let backgroundURL = data["photo"].stringValue
+                            let assignedColor = data["assignedColor"].stringValue
+                            let userCount = data["user_count"].intValue
+                            let createTime = data["channelTimeStamp"].doubleValue
+                            //                            print(roomName, backgroundURL, assignedColor)
+                            
+                            if let user = self.userManager {
+                                user.userName = userName
+                                user.userID = userID
+                                user.colorHex = assignedColor
+                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
+                                completion(channel)
+                            }
+                        } else {
+                            // error
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+                .responseString { response in
+                    print("result of join channel is \(response.result.value)")
+            }
+        }
+    }
+    
     // Mark: not only room info, but also chat history
     func getRoomInfo(roomId: Int, userId: Int, userName: String, completion:@escaping ()->Void) {
         let url = CHANHOP_URL+"/channel/room/\(roomId)/\(userId)"

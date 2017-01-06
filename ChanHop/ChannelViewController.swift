@@ -206,20 +206,20 @@ extension ChannelViewController: JoinChannelDelegate {
     // but I think that would be a issue
     func joinChannelNotification(notification: Notification) {
         let userinfo = notification.userInfo
-        if let name = userinfo?["name"] as? String {
+        if let name = userinfo?["name"] as? String, let password = userinfo?["password"] as? String {
             // todo: coordination, userName
             let userName = UserManager.shared.userName
             if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
                 let channelinfo = ChannelInfo(name: name, venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 4, adURL: nil)
-                joinChannelAct(channelInfo: channelinfo, userName: userName)
+                joinChannelAct(channelInfo: channelinfo, userName: userName, password: password, custom: true)
                 print("notification join channel")
             }
         }
     }
     
-    func joinChannelAct(channelInfo: ChannelInfo, userName: String = "") {
+    func joinChannelAct(channelInfo: ChannelInfo, userName: String = "", password: String = "", custom: Bool = false) {
         if let delegate = self.joinChannelDelegate {
-            delegate.joinChannelAct(channelInfo: channelInfo, userName: userName)
+            delegate.joinChannelAct(channelInfo: channelInfo, userName: userName, password: password, custom: custom)
         }
     }
 }

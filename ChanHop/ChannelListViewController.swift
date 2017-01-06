@@ -117,7 +117,7 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row-1], userName: userManager.userName)
+        self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row-1], userName: userManager.userName, password: "", custom: false)
         self.backToMainAct(self)
     }
     
