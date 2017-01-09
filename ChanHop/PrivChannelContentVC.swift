@@ -63,7 +63,7 @@ class PrivChannelContentVC: UIViewController {
             let shortName = channelName.replacingOccurrences(of: " ", with: "")
             if shortName.characters.count != 0 {
                 if passwordLabel.text == confirmPassLabel.text {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName, "password": passwordLabel.text])
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName, "password": passwordLabel.text!])
                     self.dismiss(animated: true, completion: nil)
                 } else {
                     SVProgressHUD.showError(withStatus: "Please type the same password")

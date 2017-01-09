@@ -17,7 +17,7 @@ class ChannelPageVC: UIPageViewController {
     let singleton = Singleton.shared
     let connectionManager = ConnectionManager.shared
     let userManager = UserManager.shared
-    let socketIOManager = SocketIOManager.sharedInstance
+    let socketIOManager = SocketIOManager.shared
     var channel: ChannelModel? = nil
     
     override func viewDidLoad() {

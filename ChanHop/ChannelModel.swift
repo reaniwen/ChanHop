@@ -61,5 +61,4 @@ struct ChannelInfo {
     var imageURL: String = ""
     var channelType: Int = 1
     var adURL: String?
-    
 }

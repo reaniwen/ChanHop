@@ -38,6 +38,7 @@ class ChannelViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateAmountBtn), name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(joinChannelNotification), name: NSNotification.Name(rawValue:JOIN_CHANNEL), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserCount), name: NSNotification.Name(rawValue:S_UPDATE_COUNT), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +94,15 @@ class ChannelViewController: UIViewController {
         } else {
             channelBtn.setTitle("Welcom to ChanHop", for: .normal)
         }
+    }
+    
+    func updateUserCount(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let amount = userInfo["amount"] as? Int else {
+                return
+        }
+        
+        memberBtn.setTitle(String(amount), for: .normal)
     }
     
     func updateAmountBtn(notification: Notification) {

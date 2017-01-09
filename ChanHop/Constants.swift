@@ -20,5 +20,11 @@ let UPDATE_USER_COUNT = "com.chanhop.updateusercount"
 //let UPDATE_LOC = "com.chanhop.updateLocation"           // for notification
 //let CHANNEL_NAME = "com.chanhop.getChannelName"         // for notification
 
-let JOIN_CHANNEL = "com.chanhop.joinChannel"
+let JOIN_CHANNEL = "com.chanhop.joinChannel"              // notification
+
+let S_UPDATE_COUNT = "com.chanhop.newUserJoin"                  // notification
+let S_NEW_MESSAGE = "com.chanhop.newMessage"                // notification
+let S_USER_LEAVE = "com.chanhop.userLeaves"                    // notification
+
+
 

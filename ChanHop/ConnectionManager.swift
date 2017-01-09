@@ -18,7 +18,7 @@ class ConnectionManager: NSObject {
     
     weak var userManager: UserManager? = UserManager.shared
     weak var messageManager: MessageManager? = MessageManager.shared
-    var socketIOManager = SocketIOManager.sharedInstance
+    var socketIOManager = SocketIOManager.shared
     var singleton: Singleton = Singleton.shared
     
     func checkServer(completion: @escaping (_ status: Bool, _ info: String) -> Void) {
@@ -231,7 +231,6 @@ class ConnectionManager: NSObject {
                         self.singleton.channel?.roomName = data["roomName"].stringValue
                         self.singleton.channel?.createTime = data["channelTimestamp"].doubleValue
                         
-                        self.socketIOManager.joinRoom(userName, roomName: data["roomName"].stringValue, created_at: data["channelTimestamp"].doubleValue)
                         let userCount = data["user_count"].intValue
                         // Send a notification for amount
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil, userInfo: ["amount": userCount])
