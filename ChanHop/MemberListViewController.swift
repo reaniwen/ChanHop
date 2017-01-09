@@ -29,6 +29,11 @@ class MemberListViewController: UIViewController {
         memberTable.backgroundColor = UIColor.clear
         memberTable.tableFooterView = UIView()
         
+        if let channel = Singleton.shared.channel {
+            channelNameLabel.text = channel.channelName
+            roomNameLabel.text = channel.roomName
+        }
+        
         let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
         singleSwipeLeft.direction = .left
         singleSwipeLeft.numberOfTouchesRequired = 1

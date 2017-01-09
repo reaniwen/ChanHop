@@ -34,6 +34,11 @@ class ChannelListViewController: UIViewController {
         channelTable.delegate = self
         channelTable.backgroundColor = UIColor.clear
         
+        if let channel = Singleton.shared.channel {
+            channelNameLabel.text = channel.channelName
+            roomNameLabel.text = channel.roomName
+        }
+        
         searchBar.delegate = self
         searchBar.returnKeyType = UIReturnKeyType.done
         
