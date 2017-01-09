@@ -13,6 +13,7 @@ class ChannelListViewController: UIViewController {
     @IBOutlet weak var channelTable: UITableView!
     @IBOutlet weak var channelNameLabel: UILabel!
     @IBOutlet weak var roomNameLabel: UILabel!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     let connectionManager = ConnectionManager.shared
     let userManager: UserManager = UserManager.shared
@@ -20,6 +21,10 @@ class ChannelListViewController: UIViewController {
     weak var joinChannelDelegate: JoinChannelDelegate? = nil // channelviewcontroller
     
     var locations:[ChannelInfo] = []
+    var filtered: [ChannelInfo] = []
+    
+    var inSearchMode = false
+    let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +33,9 @@ class ChannelListViewController: UIViewController {
         channelTable.dataSource = self
         channelTable.delegate = self
         channelTable.backgroundColor = UIColor.clear
+        
+        searchBar.delegate = self
+        searchBar.returnKeyType = UIReturnKeyType.done
         
         
         let singleSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSingleSwipe))
@@ -77,7 +85,7 @@ class ChannelListViewController: UIViewController {
     func handleSingleSwipe(){}
 }
 
-extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource {
+extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate  {
     
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,7 +95,8 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return locations.count
+        let amount = inSearchMode ? filtered.count : locations.count
+        return amount+1 //locations.count
     }
     
     
@@ -101,17 +110,26 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
             cell.nameLabel.textColor = color
             cell.distanceLabel.textColor = color
         } else {
+            let tempData = inSearchMode ? filtered : locations
             let channelTypes = ["","PUBLIC CHANNEL", "FEATURED CHANNEL","","CUSTOM CHANNEL"]
-            cell.nameLabel.text = "\(self.locations[row].name)"// (\(self.locations[row].address))"
-            cell.distanceLabel.text = String(self.locations[row].distance) + "m"
+//            cell.nameLabel.text = "\(self.locations[row].name)"// (\(self.locations[row].address))"
+//            cell.distanceLabel.text = String(self.locations[row].distance) + "m"
+//            cell.nameLabel.textColor = UIColor.white
+//            cell.distanceLabel.textColor = UIColor.white
+//            
+//            if self.locations[row].channelType < 4{
+//                print(row, self.locations[row].channelType,channelTypes[self.locations[row].channelType])
+//                cell.categoryLabel.text = channelTypes[self.locations[row].channelType]
+//            }
+            cell.nameLabel.text = "\(tempData[row].name)"// (\(self.locations[row].address))"
+            cell.distanceLabel.text = String(tempData[row].distance) + "m"
             cell.nameLabel.textColor = UIColor.white
             cell.distanceLabel.textColor = UIColor.white
             
-            if self.locations[row].channelType < 4{
-                print(row, self.locations[row].channelType,channelTypes[self.locations[row].channelType])
-                cell.categoryLabel.text = channelTypes[self.locations[row].channelType]
+            if tempData[row].channelType < 4{
+                print(row, tempData[row].channelType,channelTypes[tempData[row].channelType])
+                cell.categoryLabel.text = channelTypes[tempData[row].channelType]
             }
-            
         }
         return cell
     }
@@ -122,4 +140,35 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     // Todo: remove the responder on the search bar
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == nil || searchBar.text == "" {
+            inSearchMode = false
+            view.endEditing(true)
+            searchBar.text = nil
+            //  self.preferredContentSize.height = 50
+            //  self.dismiss(animated: true, completion: nil)
+            
+            //All public/featured channels (no private)
+            locations = Singleton.shared.featuredChannelInfos + Singleton.shared.channelInfos
+            channelTable.reloadData()
+            
+        } else {
+            inSearchMode = true
+            //   self.preferredContentSize.height = 90
+            
+            //All channels (including private)
+            
+            locations = Singleton.shared.featuredChannelInfos + Singleton.shared.channelInfos + Singleton.shared.customChannelInfo
+            
+            filtered = locations.filter { group in
+                return group.name.lowercased().contains(searchText.lowercased())
+                
+                //group.groupName.lowercased().contains(searchText.lowercased())
+            }
+            
+            channelTable.reloadData()
+        }
+    }
 }

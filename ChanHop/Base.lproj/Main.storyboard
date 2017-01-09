@@ -508,6 +508,7 @@
                         <outlet property="channelNameLabel" destination="eGd-xQ-zJK" id="kd5-bL-aYb"/>
                         <outlet property="channelTable" destination="tNS-kI-koN" id="YiB-Au-NNR"/>
                         <outlet property="roomNameLabel" destination="u38-je-fyv" id="vSi-1O-99m"/>
+                        <outlet property="searchBar" destination="erZ-ID-xyA" id="M11-Ir-ExN"/>
                         <outlet property="searchDisplayController" destination="LUa-hr-jn4" id="atE-gB-QYP"/>
                     </connections>
                 </viewController>
@@ -873,7 +874,7 @@
                                     <action selector="createPrivChannelAct:" destination="Wi3-bR-duH" eventType="touchUpInside" id="Tga-Zn-lnG"/>
                                 </connections>
                             </button>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="Z2R-6S-fEz">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="Z2R-6S-fEz">
                                 <rect key="frame" x="176" y="52" width="23" height="37"/>
                             </pageControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All created channels are live for 24 hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-MS-n2S">
