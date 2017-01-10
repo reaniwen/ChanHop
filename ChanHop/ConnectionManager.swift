@@ -231,7 +231,7 @@ class ConnectionManager: NSObject {
                         var messages: [ChanhopMessage] = []
                         for i in 0..<data["messages"].count {
                             let mData = data["messages",i]
-                            let interval = mData["create_at"].doubleValue/1000
+                            let interval = mData["created_at"].doubleValue/1000
                             let sendDate = Date(timeIntervalSince1970: interval)
                             
                             let message = ChanhopMessage(senderId: mData["user_id"].stringValue, senderDisplayName: mData["username"].stringValue, date: sendDate, text: mData["message"].stringValue, color: mData["hex_color"].stringValue, messageId: mData[""].stringValue, isTagged: false, taggedChannel: nil)
@@ -316,7 +316,7 @@ class ConnectionManager: NSObject {
                     let data = JSON(JSONData)
                     if data["status"].string == "200" {
                         self.singleton.channel?.roomID = data["room"].intValue
-                        self.messageManager?.messages = []
+//                        self.messageManager?.messages = []
 //                        self.messageManager?.refreshMessage(messages: [])
                         // todo: optimize here to use the data
                         completion()

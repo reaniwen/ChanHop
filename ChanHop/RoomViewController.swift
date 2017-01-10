@@ -25,9 +25,10 @@ class RoomViewController: UIViewController {
         // Do any additional setup after loading the view.
         if let id = singleton.channel?.roomID{
             roomID = id
+            roomNameLabel.text = singleton.channel?.roomName
+        } else {
+            roomNameLabel.text = "Room " + String(roomID)
         }
-        
-        roomNameLabel.text = "Room " + String(roomID)
     }
     
     
@@ -53,6 +54,4 @@ class RoomViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
 }

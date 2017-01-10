@@ -26,5 +26,8 @@ let S_UPDATE_COUNT = "com.chanhop.newUserJoin"                  // notification
 let S_NEW_MESSAGE = "com.chanhop.newMessage"                // notification
 let S_USER_LEAVE = "com.chanhop.userLeaves"                    // notification
 
+let SELECT_TAG = "com.chanhop.selectTag"
+let CANCEL_TAG = "com.chanhop.cancelTag"
+
 
 

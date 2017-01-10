@@ -13,9 +13,7 @@ import UIColor_Hex_Swift
 import SDWebImage
 
 class ChatViewController: JSQMessagesViewController {
-
-//    let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
-//    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
+    
 //    var messages = [JSQMessage]()
     
 //    var socket: SocketIOClient?
@@ -23,12 +21,21 @@ class ChatViewController: JSQMessagesViewController {
     var backgroundImage = UIImageView()
     var backgroundMask = UIView()
     
-    
     let singleton: Singleton = Singleton.shared
     let userManager: UserManager = UserManager.shared
     let messageManager = MessageManager.shared
     let connectionManager = ConnectionManager.shared
     let socketIOManager = SocketIOManager.shared
+    
+    var content: String = ""
+    var is_tagged: Bool = false
+    var channelName: String = ""
+    var longitude: Double = 0
+    var latitude: Double = 0
+    
+    var listVC: TagListVC?
+    var listView: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +44,9 @@ class ChatViewController: JSQMessagesViewController {
         
         self.setup()
         self.inputToolbar.contentView.leftBarButtonItem = nil
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(cancelTag), name: NSNotification.Name(rawValue: CANCEL_TAG), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(chooseTag), name: NSNotification.Name(rawValue: SELECT_TAG), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,7 +63,7 @@ class ChatViewController: JSQMessagesViewController {
         connectionManager.getRoomInfo(roomId: id, userId: userManager.userID, userName: userManager.userName) {
             print("info achieved")
 //        self.addDemoMessages()
-            self.loadMessage()
+            self.reloadMessagesView()
             let timeInterval = NSDate().timeIntervalSince1970
             self.socketIOManager.joinRoom(roomName: roomName, userName: self.userManager.userName, created_at: timeInterval)
         }
@@ -76,6 +86,10 @@ class ChatViewController: JSQMessagesViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func reloadMessagesView() {
         self.collectionView?.reloadData()
         
@@ -86,22 +100,6 @@ class ChatViewController: JSQMessagesViewController {
 }
 
 extension ChatViewController {
-    
-    func loadMessage() {
-//        self.messages = []
-//        for i in 0..<messageManager.messages.count {
-//            let rawMessage = messageManager.messages[i]
-//            let senderid = rawMessage.senderId
-//            let sender = rawMessage.senderName
-//            let messageContent = rawMessage.content
-//            let sendTime = Date(timeIntervalSince1970: TimeInterval(rawMessage.date))
-//            if let message = JSQMessage(senderId: String(senderid), senderDisplayName: sender, date: sendTime, text: messageContent) {
-//                self.messages.append(message)
-//            }
-//            
-//        }
-        self.reloadMessagesView()
-    }
     
     func setup() {
         self.senderId = String(userManager.userID)
@@ -116,10 +114,7 @@ extension ChatViewController {
             self.view.insertSubview(backgroundMask, at: 0)
             self.view.insertSubview(backgroundImage, at: 0)
         }
-        
-        
     }
-    
 }
 
 // MARK - DataSource and Delegation
@@ -130,13 +125,13 @@ extension ChatViewController {
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
 //        let data:JSQMessageData = self.messages[indexPath.row]
-        let data: JSQMessageData = messageManager.messages[indexPath.item]
+        var data: JSQMessageData = JSQMessage(senderId: "", displayName: "", text: "")
+        if indexPath.item < messageManager.messages.count {
+            data = messageManager.messages[indexPath.item]
+        }
+//        let data: JSQMessageData = messageManager.messages[indexPath.item]
         return data
     }
-    
-//    override func collectionView(_ collectionView: JSQMessagesCollectionView!, didDeleteMessageAt indexPath: IndexPath!) {
-//        self.messages.remove(at: indexPath.row)
-//    }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
@@ -180,13 +175,6 @@ extension ChatViewController {
         
     }
     
-//    override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-//        let data = messageManager.messages[indexPath.item]
-//        let initStr = String(data.senderName[data.senderName.startIndex]).uppercased()
-//        let AvatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withUserInitials: initStr, backgroundColor: UIColor(data.color), textColor: UIColor.white, font: UIFont.boldSystemFont(ofSize: 19), diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
-//        
-//        return AvatarJobs
-//    }
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         let data = messageManager.messages[indexPath.item]
         let initStr = String(data.senderDisplayName[data.senderDisplayName.startIndex]).uppercased()
@@ -272,21 +260,66 @@ extension ChatViewController {
         print("Send button pressed")
         
         if let channel = singleton.channel {
-            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: text, is_tagged: 0, channelName: "", longitude: 0, latitude: 0) {_ in 
-                self.loadMessage()
+//            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: text, is_tagged: 0, channelName: "", longitude: 0, latitude: 0) {_ in
+            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: content, is_tagged: 0, channelName: channelName, longitude: longitude, latitude: latitude) {_ in
+                self.reloadMessagesView()
                 self.finishSendingMessage()
             }
         }
     }
     
-//    override func didPressAccessoryButton(_ sender: UIButton!) {
-//        
-//    }
-}
-
-// MARK - Listen for message
-extension ChatViewController {
-    func receiveNewMessage() {
+    override func textViewDidChange(_ textView: UITextView) {
+        super.textViewDidChange(textView)
+        if (textView.text) != nil {
+//            print(textView.text)
+            content = textView.text
+            // todo: optimize here
+            if content.range(of: "#") != nil && content.range(of: channelName) == nil {
+                if let index = content.range(of: "#")?.lowerBound {
+                    let sub = content.substring(to: index)
+                    self.inputToolbar.contentView.textView.text = sub
+                }
+            }
+            if content.characters.count != 0 {
+                let lastChar = content[content.index(before: content.endIndex)]
+                
+                if !content.isEmpty && lastChar == "#" {
+                    print("jump to tag page")
+                    
+                    listVC?.removeFromParentViewController()
+                    listVC = self.storyboard?.instantiateViewController(withIdentifier: "TagListVC") as? TagListVC
+                    
+                    if let vc = listVC {
+                        listView = vc.view
+                        self.addChildViewController(listVC!)
+                        self.view.addSubview(listView)
+                        
+                        textView.resignFirstResponder()
+                    }
+                }
+            }
+        }
         
+    }
+    
+    func cancelTag() {
+        if let rawText = self.inputToolbar.contentView.textView.text {
+            if let index = rawText.range(of: "#")?.lowerBound {
+                let sub = rawText.substring(to: index)
+                self.inputToolbar.contentView.textView.text = sub
+            }
+        }
+    }
+    
+    func chooseTag(notification: Notification) {
+        let info = notification.userInfo
+        if let channelName = info?["channelName"] as? String, let longitude = info?["longitude"] as? Double, let latitude = info?["latitude"] as? Double {
+            self.is_tagged = true
+            self.channelName = channelName
+            self.longitude = longitude
+            self.latitude = latitude
+            self.inputToolbar.contentView.textView.text = self.inputToolbar.contentView.textView.text + channelName + " "
+            self.inputToolbar.contentView.textView.becomeFirstResponder()
+        }
     }
 }

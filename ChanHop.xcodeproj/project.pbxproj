@@ -10,6 +10,7 @@
 		178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178DB6381DC05D29006334E1 /* SocketIOManager.swift */; };
 		179A80111E14B600000EFC15 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 179A80101E14B600000EFC15 /* StoreKit.framework */; };
 		179A80151E155F8C000EFC15 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A80141E155F8C000EFC15 /* IAPHelper.swift */; };
+		17B7DA681E2562F800745718 /* TagListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7DA671E2562F800745718 /* TagListVC.swift */; };
 		3D032D571DCBE0BE00951C3B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D032D561DCBE0BE00951C3B /* ChatViewController.swift */; };
 		3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */; };
 		3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */; };
@@ -62,6 +63,7 @@
 		178DB6381DC05D29006334E1 /* SocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		179A80101E14B600000EFC15 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		179A80141E155F8C000EFC15 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		17B7DA671E2562F800745718 /* TagListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListVC.swift; sourceTree = "<group>"; };
 		3D032D561DCBE0BE00951C3B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPageVC.swift; sourceTree = "<group>"; };
 		3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelPageVC.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */,
 				3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */,
 				3D032D561DCBE0BE00951C3B /* ChatViewController.swift */,
+				17B7DA671E2562F800745718 /* TagListVC.swift */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 			files = (
 				3D57E1CB1DC147A800E986C4 /* UserManager.swift in Sources */,
 				3D57E1CD1DC1488F00E986C4 /* Constants.swift in Sources */,
+				17B7DA681E2562F800745718 /* TagListVC.swift in Sources */,
 				3D8890A91DC2A94D00EEEB3D /* Singleton.swift in Sources */,
 				178DB6391DC05D29006334E1 /* SocketIOManager.swift in Sources */,
 				179A80151E155F8C000EFC15 /* IAPHelper.swift in Sources */,
