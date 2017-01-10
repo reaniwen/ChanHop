@@ -7,6 +7,28 @@
 //
 
 import Foundation
+import JSQMessagesViewController
+
+class ChanhopMessage: JSQMessage {
+    var id: String
+    var color: String
+    var isTagged: Bool
+    var taggedChannel: ChannelInfo?
+    
+    init(senderId: String!, senderDisplayName: String!, date: Date!, text: String!, color: String, messageId: String, isTagged: Bool, taggedChannel: ChannelInfo?) {
+        
+        self.color = color
+        self.id = messageId
+        self.isTagged = isTagged
+        self.taggedChannel = taggedChannel
+        
+        super.init(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
 struct Message {
     let id: String
@@ -26,7 +48,6 @@ class MessageManager {
     }
     
     func addMessage(message: Message) {
-//        self.messages.insert(message, at: 0)
         self.messages.append(message)
     }
 }
