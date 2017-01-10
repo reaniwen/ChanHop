@@ -11,6 +11,7 @@ import JSQMessagesViewController
 import SocketIO
 import UIColor_Hex_Swift
 import SDWebImage
+import SVProgressHUD
 
 class ChatViewController: JSQMessagesViewController {
     
@@ -32,6 +33,8 @@ class ChatViewController: JSQMessagesViewController {
     var channelName: String = ""
     var longitude: Double = 0
     var latitude: Double = 0
+    var channelType: Int = 0
+    var hasPassword: Int = 0
     
     var listVC: TagListVC?
     var listView: UIView!
@@ -107,7 +110,7 @@ extension ChatViewController {
     }
     
     func loadTheme(url:String) {
-        //        backgroundImage.image = UIImage(named: "1")
+//        backgroundImage.image = UIImage(named: "1")
         if url != "" {
             backgroundImage.sd_setImage(with: URL(string: url)!, placeholderImage: UIImage(named: "1")!)
             backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
@@ -251,6 +254,19 @@ extension ChatViewController {
         }
         return nil
     }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, didTapMessageBubbleAt indexPath: IndexPath!) {
+        let message = messageManager.messages[indexPath.item]
+        print(indexPath.item)
+        if message.isTagged {
+            if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC), let channel = message.taggedChannel {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channel.name, "password": channel.hashPass, "longitude": channel.longitude, "latitude": channel.latitude, "channelType": channel.channelType])
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+//            NS
+        }
+    }
   
 }
 
@@ -260,8 +276,8 @@ extension ChatViewController {
         print("Send button pressed")
         
         if let channel = singleton.channel {
-//            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: text, is_tagged: 0, channelName: "", longitude: 0, latitude: 0) {_ in
-            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: content, is_tagged: 0, channelName: channelName, longitude: longitude, latitude: latitude) {_ in
+            let tag: Int = is_tagged ? 1 : 0
+            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: content, is_tagged: 0, channelName: channelName, longitude: longitude, latitude: latitude, channelType: channelType, hasPassword: hasPassword) {_ in
                 self.reloadMessagesView()
                 self.finishSendingMessage()
             }
@@ -273,28 +289,35 @@ extension ChatViewController {
         if (textView.text) != nil {
 //            print(textView.text)
             content = textView.text
-            // todo: optimize here
+            // todo: optimize here, judge the word after "#" is channelName
             if content.range(of: "#") != nil && content.range(of: channelName) == nil {
                 if let index = content.range(of: "#")?.lowerBound {
                     let sub = content.substring(to: index)
                     self.inputToolbar.contentView.textView.text = sub
+                    self.is_tagged = false
                 }
             }
             if content.characters.count != 0 {
                 let lastChar = content[content.index(before: content.endIndex)]
                 
                 if !content.isEmpty && lastChar == "#" {
-                    print("jump to tag page")
-                    
-                    listVC?.removeFromParentViewController()
-                    listVC = self.storyboard?.instantiateViewController(withIdentifier: "TagListVC") as? TagListVC
-                    
-                    if let vc = listVC {
-                        listView = vc.view
-                        self.addChildViewController(listVC!)
-                        self.view.addSubview(listView)
+                    if self.is_tagged {
+                        SVProgressHUD.showError(withStatus: "You have tagged a channel already!")
+                    } else {
+                        content = content.replacingOccurrences(of: "#", with: "")
+                        textView.text = content
+                        print("jump to tag page")
                         
-                        textView.resignFirstResponder()
+                        listVC?.removeFromParentViewController()
+                        listVC = self.storyboard?.instantiateViewController(withIdentifier: "TagListVC") as? TagListVC
+                        
+                        if let vc = listVC {
+                            listView = vc.view
+                            self.addChildViewController(listVC!)
+                            self.view.addSubview(listView)
+                            
+                            textView.resignFirstResponder()
+                        }
                     }
                 }
             }
@@ -307,6 +330,7 @@ extension ChatViewController {
             if let index = rawText.range(of: "#")?.lowerBound {
                 let sub = rawText.substring(to: index)
                 self.inputToolbar.contentView.textView.text = sub
+                self.is_tagged = false
             }
         }
     }
@@ -318,7 +342,7 @@ extension ChatViewController {
             self.channelName = channelName
             self.longitude = longitude
             self.latitude = latitude
-            self.inputToolbar.contentView.textView.text = self.inputToolbar.contentView.textView.text + channelName + " "
+            self.inputToolbar.contentView.textView.text = self.inputToolbar.contentView.textView.text + "#" + channelName + " "
             self.inputToolbar.contentView.textView.becomeFirstResponder()
         }
     }

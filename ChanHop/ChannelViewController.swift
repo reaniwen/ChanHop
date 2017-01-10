@@ -122,7 +122,7 @@ class ChannelViewController: UIViewController {
             if userManager.userID == 0 || userManager.userName == "" {
                 print("Enter room")
                 if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-                    let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil)
+                    let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
                     self.joinChannelAct(channelInfo: localHopInfo, userName: name!)
                 } else {
                     // Popup an info to get user to allow location
@@ -216,14 +216,14 @@ extension ChannelViewController: JoinChannelDelegate {
     // but I think that would be a issue
     func joinChannelNotification(notification: Notification) {
         let userinfo = notification.userInfo
-        if let name = userinfo?["name"] as? String, let password = userinfo?["password"] as? String {
+        if let channelName = userinfo?["name"] as? String, let password = userinfo?["password"] as? String, let longitude = userinfo?["longitude"] as? Double, let latitude = userinfo?["latitude"] as? Double, let channelType = userinfo?["channelType"] as? Int{
             // todo: coordination, userName
             let userName = UserManager.shared.userName
-            if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-                let channelinfo = ChannelInfo(name: name, venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 4, adURL: nil)
+//            if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
+                let channelinfo = ChannelInfo(name: channelName, venueID: "", longitude: longitude, latitude: latitude, distance: 0, address: "", imageURL: "", channelType: channelType, adURL: nil, hashPass: password)
                 joinChannelAct(channelInfo: channelinfo, userName: userName, password: password, custom: true)
                 print("notification join channel")
-            }
+//            }
         }
     }
     

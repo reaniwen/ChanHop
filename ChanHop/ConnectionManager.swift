@@ -58,7 +58,7 @@ class ConnectionManager: NSObject {
                         // featured channels
                         for i in 0..<data["featuredChannels"].count {
                             let locData = data["featuredChannels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: "", longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: 0, address: "", imageURL: locData["custom_ad"].stringValue, channelType: 2, adURL: AD_BASE_URL+locData["custom_ad"].stringValue)
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: "", longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: 0, address: "", imageURL: locData["custom_ad"].stringValue, channelType: 2, adURL: AD_BASE_URL+locData["custom_ad"].stringValue, hashPass: "")
                             featuredLocations.append(location)
                         }
                         self.singleton.featuredChannelInfos = featuredLocations
@@ -67,7 +67,7 @@ class ConnectionManager: NSObject {
                         // public channels
                         for i in 0..<data["channels"].count {
                             let locData = data["channels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: locData["channel_type_id"].intValue, adURL: nil)
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["venueID"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: locData["channel_type_id"].intValue, adURL: nil, hashPass: "")
                             
                             publicLocations.append(location)
                         }
@@ -78,8 +78,9 @@ class ConnectionManager: NSObject {
                         // custom channels
                         for i in 0..<data["customChannels"].count {
                             let locData = data["customChannels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 4, adURL: nil)
-                            
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: locData["id"].stringValue, longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: locData["distance"].intValue, address: "", imageURL: "", channelType: 4, adURL: nil, hashPass: locData["custom_password"].stringValue)
+                            print("hashed password is", locData["custom_password"].stringValue)
+//                            {\"id\":115,\"name\":\"hkghk\",\"channel_type_id\":4,\"latitude\":\"000000\",\"longitude\":\"000000\",\"custom_ad\":null,\"custom_password\":null,\"channel_photo\":\"\",\"channel_type_name\":\"Custom\"}
                             customLocations.append(location)
                         }
                         self.singleton.customChannelInfo = customLocations
