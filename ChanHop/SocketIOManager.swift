@@ -87,7 +87,7 @@ class SocketIOManager: NSObject {
         listenForOtherMessages()
     }
     
-    func sendMessage(userID: Int, roomID: Int, userName: String, message: String, is_tagged: Int, channelName: String, longitude: Double, latitude: Double, completion: @escaping (Message)->Void) {
+    func sendMessage(userID: Int, roomID: Int, userName: String, message: String, is_tagged: Int, channelName: String, longitude: Double, latitude: Double, completion: @escaping (ChanhopMessage)->Void) {
 //        let parameters = ["userid":"188","roomid":"65","username":"Abz","message":"Zzz","is_tagged":"0"]
         let parameters:[String: Any] = ["userid": userID, "roomid": roomID, "username": userName, "message": message, "is_tagged": is_tagged]
         
@@ -102,8 +102,12 @@ class SocketIOManager: NSObject {
             let message = data["message"].stringValue
 //            let roomName = data["roomName"].stringValue
             let userName = data["username"].stringValue
-            let newMessage = Message(id: "", content: message, senderName: userName, senderId: UserManager.shared.userID, color: color_hex, date: created_at)
-            MessageManager.shared.addMessage(message: newMessage)
+            // todo: optimize here
+            let newMessage = ChanhopMessage(senderId: String(UserManager.shared.userID), senderDisplayName: userName, date: Date(), text: message, color: color_hex, messageId: "", isTagged: false, taggedChannel: nil)
+            MessageManager.shared.messages.append(newMessage)
+            
+//            let newMessage = Message(id: "", content: message, senderName: userName, senderId: UserManager.shared.userID, color: color_hex, date: created_at)
+//            MessageManager.shared.addMessage(message: newMessage)
             completion(newMessage)
             // todo: convert the data to message
         })

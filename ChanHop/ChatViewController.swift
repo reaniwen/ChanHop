@@ -16,7 +16,7 @@ class ChatViewController: JSQMessagesViewController {
 
 //    let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
 //    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
-    var messages = [JSQMessage]()
+//    var messages = [JSQMessage]()
     
 //    var socket: SocketIOClient?
     
@@ -88,18 +88,18 @@ class ChatViewController: JSQMessagesViewController {
 extension ChatViewController {
     
     func loadMessage() {
-        self.messages = []
-        for i in 0..<messageManager.messages.count {
-            let rawMessage = messageManager.messages[i]
-            let senderid = rawMessage.senderId
-            let sender = rawMessage.senderName
-            let messageContent = rawMessage.content
-            let sendTime = Date(timeIntervalSince1970: TimeInterval(rawMessage.date))
-            if let message = JSQMessage(senderId: String(senderid), senderDisplayName: sender, date: sendTime, text: messageContent) {
-                self.messages.append(message)
-            }
-            
-        }
+//        self.messages = []
+//        for i in 0..<messageManager.messages.count {
+//            let rawMessage = messageManager.messages[i]
+//            let senderid = rawMessage.senderId
+//            let sender = rawMessage.senderName
+//            let messageContent = rawMessage.content
+//            let sendTime = Date(timeIntervalSince1970: TimeInterval(rawMessage.date))
+//            if let message = JSQMessage(senderId: String(senderid), senderDisplayName: sender, date: sendTime, text: messageContent) {
+//                self.messages.append(message)
+//            }
+//            
+//        }
         self.reloadMessagesView()
     }
     
@@ -125,11 +125,12 @@ extension ChatViewController {
 // MARK - DataSource and Delegation
 extension ChatViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.messages.count
+        return messageManager.messages.count
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
-        let data:JSQMessageData = self.messages[indexPath.row]
+//        let data:JSQMessageData = self.messages[indexPath.row]
+        let data: JSQMessageData = messageManager.messages[indexPath.item]
         return data
     }
     
@@ -139,7 +140,8 @@ extension ChatViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
-        let msg : JSQMessage = (messages[indexPath.row])
+//        let msg : JSQMessage = (messages[indexPath.row])
+        let msg: ChanhopMessage = messageManager.messages[indexPath.item]
         let whiteColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.8)
         if msg.senderId == self.senderId{
             cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 0, 0, 30)
@@ -168,7 +170,7 @@ extension ChatViewController {
         let TailessbubbleFactory = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: UIEdgeInsets.zero)
         let data = messageManager.messages[indexPath.row]
         switch data.senderId {
-        case userManager.userID:
+        case String(userManager.userID):
             return TailessbubbleFactory?.outgoingMessagesBubbleImage(with: UIColor(data.color))
 //                JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor(data.color))
         default:
@@ -187,12 +189,13 @@ extension ChatViewController {
 //    }
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         let data = messageManager.messages[indexPath.item]
-        let initStr = String(data.senderName[data.senderName.startIndex]).uppercased()
+        let initStr = String(data.senderDisplayName[data.senderDisplayName.startIndex]).uppercased()
+//        let initStr = String(data.senderName[data.senderName.startIndex]).uppercased()
         let avatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withUserInitials: initStr, backgroundColor: UIColor(data.color), textColor: UIColor.white, font: UIFont.boldSystemFont(ofSize: 19), diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
         
-        let message = messages[indexPath.item]
-        if indexPath.item < messages.count - 1 {
-            let nextMessage = self.messages[indexPath.item + 1]
+        let message = data//messages[indexPath.item]
+        if indexPath.item < messageManager.messages.count - 1 {//messages.count - 1 {
+            let nextMessage = messageManager.messages[indexPath.item + 1]//self.messages[indexPath.item + 1]
             if nextMessage.senderId == message.senderId{
                 return nil
             }
@@ -220,13 +223,13 @@ extension ChatViewController {
 //    }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
-        let message = messages[indexPath.item]
+        let message = messageManager.messages[indexPath.item]//messages[indexPath.item]
         if indexPath.item == 0{
             return 15
         }
         if indexPath.item - 1 > 0 {
             
-            let previousMessage = self.messages[indexPath.item - 1]
+            let previousMessage = messageManager.messages[indexPath.item]//self.messages[indexPath.item - 1]
             if message.senderId == previousMessage.senderId {
                 if message.date!.timeIntervalSince(previousMessage.date!) / 600 > 1 {
                     return 15
@@ -243,7 +246,8 @@ extension ChatViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-        let message = messages[indexPath.item]
+        let message = messageManager.messages[indexPath.item]
+//        let message = messages[indexPath.item]
         let dayTimePeriodFormatter = DateFormatter()
         dayTimePeriodFormatter.dateFormat = "EEEEEE MMM d, h:mma"
         let dateString = dayTimePeriodFormatter.string(from: message.date)
@@ -251,7 +255,8 @@ extension ChatViewController {
             return NSAttributedString(string: dateString)
         }
         if indexPath.item - 1 > 0 {
-            let previousMessage = self.messages[indexPath.item - 1]
+            let previousMessage = messageManager.messages[indexPath.item - 1]
+//            let previousMessage = self.messages[indexPath.item - 1]
             if message.date!.timeIntervalSince(previousMessage.date!) / 600 > 1 {
                 return NSAttributedString(string: dateString)
             }

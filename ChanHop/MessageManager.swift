@@ -30,24 +30,26 @@ class ChanhopMessage: JSQMessage {
     }
 }
 
-struct Message {
-    let id: String
-    let content: String
-    let senderName: String
-    let senderId: Int
-    let color: String
-    let date: Double
-}
+//struct Message {
+//    let id: String
+//    let content: String
+//    let senderName: String
+//    let senderId: Int
+//    let color: String
+//    let date: Double
+//}
 
 class MessageManager {
     static let shared: MessageManager = MessageManager()
-    var messages: [Message] = []
-    
-    func refreshMessage(messages: [Message]) {
-        self.messages = messages
-    }
-    
-    func addMessage(message: Message) {
-        self.messages.append(message)
-    }
+    var messages: [ChanhopMessage] = []
 }
+//    var messages: [Message] = []
+    
+//    func refreshMessage(messages: [Message]) {
+//        self.messages = messages
+//    }
+//    
+//    func addMessage(message: Message) {
+//        self.messages.append(message)
+//    }
+//}

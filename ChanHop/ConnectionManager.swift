@@ -217,16 +217,26 @@ class ConnectionManager: NSObject {
                 case .success(let JSONData):
                     let data = JSON(JSONData)
                     if data["status"].string == "200" {
-                        var messages: [Message] = []
+//                        var messages: [Message] = []
+//                        for i in 0..<data["messages"].count {
+//                            let mData = data["messages",i]
+//                            let str = mData["created_at"].stringValue
+//                            if let interval = Double(str.substring(to: str.index(str.endIndex, offsetBy: -3))){
+////                                print("interval ", interval)
+//                                let message = Message(id: mData["id"].stringValue, content: mData["message"].stringValue, senderName: mData["username"].stringValue, senderId: mData["user_id"].intValue, color: mData["hex_color"].stringValue, date: interval)
+//                                
+//                                messages.append(message)
+//                            }
+//                        }
+                        var messages: [ChanhopMessage] = []
                         for i in 0..<data["messages"].count {
                             let mData = data["messages",i]
-                            let str = mData["created_at"].stringValue
-                            if let interval = Double(str.substring(to: str.index(str.endIndex, offsetBy: -3))){
-//                                print("interval ", interval)
-                                let message = Message(id: mData["id"].stringValue, content: mData["message"].stringValue, senderName: mData["username"].stringValue, senderId: mData["user_id"].intValue, color: mData["hex_color"].stringValue, date: interval)
-                                
-                                messages.append(message)
-                            }
+                            let interval = mData["create_at"].doubleValue/1000
+                            let sendDate = Date(timeIntervalSince1970: interval)
+                            
+                            let message = ChanhopMessage(senderId: mData["user_id"].stringValue, senderDisplayName: mData["username"].stringValue, date: sendDate, text: mData["message"].stringValue, color: mData["hex_color"].stringValue, messageId: mData[""].stringValue, isTagged: false, taggedChannel: nil)
+                            messages.append(message)
+                            // todo: adjust istagged
                         }
                         self.singleton.channel?.roomName = data["roomName"].stringValue
                         self.singleton.channel?.createTime = data["channelTimestamp"].doubleValue
@@ -235,7 +245,8 @@ class ConnectionManager: NSObject {
                         // Send a notification for amount
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil, userInfo: ["amount": userCount])
                         
-                        self.messageManager?.refreshMessage(messages: messages)
+//                        self.messageManager?.refreshMessage(messages: messages)
+                        self.messageManager?.messages = messages
                         completion()
                     } else {
                         // todo:
@@ -305,7 +316,8 @@ class ConnectionManager: NSObject {
                     let data = JSON(JSONData)
                     if data["status"].string == "200" {
                         self.singleton.channel?.roomID = data["room"].intValue
-                        self.messageManager?.refreshMessage(messages: [])
+                        self.messageManager?.messages = []
+//                        self.messageManager?.refreshMessage(messages: [])
                         // todo: optimize here to use the data
                         completion()
                     } else {
