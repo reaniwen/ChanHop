@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class ChannelListViewController: UIViewController {
     
@@ -144,11 +145,30 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource,
             let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC)
             let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location!["longitude"] as! Double, latitude: location!["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
             self.joinChannelDelegate?.joinChannelAct(channelInfo: localHopInfo, userName: userManager.userName, password: "", custom: false)
+            self.backToMainAct(self)
         } else {
-            self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row-1], userName: userManager.userName, password: "", custom: false)
+            let location = locations[indexPath.row - 1]
+            if location.hashPass != "" {
+                // todo: this channel has password
+                // joinchannelDelegate
+                if let channelVC = self.parent as? ChannelViewController {
+                    self.removeFromParentViewController()
+                    if let vc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as? PasswordVC {
+                        vc.joinChannelDelegate = self.joinChannelDelegate
+                        vc.channelInfo = location
+                        backToMainAct(self)
+                        channelVC.addChildViewController(vc)
+                        channelVC.view.addSubview(vc.view)
+                    }
+                } else {
+                    SVProgressHUD.showError(withStatus: "Can't join the private channel")
+                }
+            } else {
+                self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row-1], userName: userManager.userName, password: "", custom: false)
+                self.backToMainAct(self)
+            }
+            
         }
-        
-        self.backToMainAct(self)
     }
     
     // Todo: remove the responder on the search bar

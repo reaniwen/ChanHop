@@ -26,6 +26,7 @@
 		3D495A371DECFF150052B5BE /* CreateChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D495A361DECFF150052B5BE /* CreateChannelPageVC.swift */; };
 		3D495A3B1DECFF770052B5BE /* PblcChannelContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D495A3A1DECFF770052B5BE /* PblcChannelContentVC.swift */; };
 		3D495A3D1DECFF870052B5BE /* PrivChannelContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D495A3C1DECFF870052B5BE /* PrivChannelContentVC.swift */; };
+		3D4CBA711E26D49500C1B8A8 /* PasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4CBA701E26D49500C1B8A8 /* PasswordVC.swift */; };
 		3D57E1C91DC12E7F00E986C4 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D57E1C81DC12E7F00E986C4 /* ConnectionManager.swift */; };
 		3D57E1CB1DC147A800E986C4 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D57E1CA1DC147A800E986C4 /* UserManager.swift */; };
 		3D57E1CD1DC1488F00E986C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D57E1CC1DC1488F00E986C4 /* Constants.swift */; };
@@ -80,6 +81,7 @@
 		3D495A361DECFF150052B5BE /* CreateChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateChannelPageVC.swift; sourceTree = "<group>"; };
 		3D495A3A1DECFF770052B5BE /* PblcChannelContentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PblcChannelContentVC.swift; sourceTree = "<group>"; };
 		3D495A3C1DECFF870052B5BE /* PrivChannelContentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivChannelContentVC.swift; sourceTree = "<group>"; };
+		3D4CBA701E26D49500C1B8A8 /* PasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordVC.swift; sourceTree = "<group>"; };
 		3D57E1C81DC12E7F00E986C4 /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		3D57E1CA1DC147A800E986C4 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		3D57E1CC1DC1488F00E986C4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */,
 				3D047C481DBA6F3300D2BD5C /* RoomViewController.swift */,
 				3D032D561DCBE0BE00951C3B /* ChatViewController.swift */,
+				3D4CBA701E26D49500C1B8A8 /* PasswordVC.swift */,
 				17B7DA671E2562F800745718 /* TagListVC.swift */,
 			);
 			name = Chat;
@@ -476,6 +479,7 @@
 				3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */,
 				3D495A3D1DECFF870052B5BE /* PrivChannelContentVC.swift in Sources */,
 				3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */,
+				3D4CBA711E26D49500C1B8A8 /* PasswordVC.swift in Sources */,
 				3D3387951E0482D10057CC9A /* MessageManager.swift in Sources */,
 				3D57E1C91DC12E7F00E986C4 /* ConnectionManager.swift in Sources */,
 				3D047C4B1DBA6F4200D2BD5C /* ChannelViewController.swift in Sources */,

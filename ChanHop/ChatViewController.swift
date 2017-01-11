@@ -136,6 +136,7 @@ extension ChatViewController {
         return data
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
 //        let msg : JSQMessage = (messages[indexPath.row])
@@ -146,7 +147,6 @@ extension ChatViewController {
         }else{
             cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 35, 0, 0)
         }
-        
         if (!msg.isMediaMessage) {
             if msg.senderId == self.senderId{
                 cell.textView.textColor = whiteColor
@@ -160,6 +160,21 @@ extension ChatViewController {
         }else {
             cell.cellBottomLabel.textAlignment = .left
         }
+        
+//        var message = "hello name is #test yes"
+//        var channelName = "#test"
+//        let range = channelName.characters.count
+//        
+//        let characters = Array(message.characters)
+//        print(characters)
+//        let indexOfA = characters.index(of: "#")
+//        print(indexOfA!)
+//        
+//        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: message)
+//        attributeString.addAttribute(NSUnderlineStyleAttributeName, value: 1, range: NSMakeRange(indexOfA!, range))
+//        attributeString.addAttributes([NSForegroundColorAttributeName: UIColor.lightGray], range: NSMakeRange(indexOfA!, range))
+//
+//        cell.textView.attributedText = attributeString
         return cell
     }
     
@@ -203,7 +218,7 @@ extension ChatViewController {
 //        dateformat.timeStyle = .short
 //        
 //        let myAttributes = [ NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 12.0)]
-//        
+//
 //        // todo: customize color of date and time
 //        //        print(JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date))
 //        return NSAttributedString(string: dateformat.string(from: message.date), attributes: myAttributes)
@@ -259,13 +274,36 @@ extension ChatViewController {
         let message = messageManager.messages[indexPath.item]
         print(indexPath.item)
         if message.isTagged {
-            if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC), let channel = message.taggedChannel {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channel.name, "password": channel.hashPass, "longitude": channel.longitude, "latitude": channel.latitude, "channelType": channel.channelType])
-                self.dismiss(animated: true, completion: nil)
+            if let channel = message.taggedChannel {
+                if channel.hashPass != "" {
+                    if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
+                        print("yeah!!!!!!! I got to channelvc")
+                        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as? PasswordVC {
+                            vc.joinChannelDelegate = channelVC
+                            vc.channelInfo = channel
+                            channelVC.addChildViewController(vc)
+                            channelVC.view.addSubview(vc.view)
+                        }
+                    }
+                } else {
+                    if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
+                        let userName = UserManager.shared.userName
+                        channelVC.joinChannelAct(channelInfo: channel, userName: userName, password: "", custom: false)
+                    }
+//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channel.name, "password": channel.hashPass, "longitude": channel.longitude, "latitude": channel.latitude, "channelType": channel.channelType])
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
-            
-//            NS
         }
+        
+//        if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
+//            print("yeah!!!!!!! I got to channelvc")
+//            let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC)
+//            let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location!["longitude"] as! Double, latitude: location!["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
+//            let userName = UserManager.shared.userName
+//            channelVC.joinChannelAct(channelInfo: localHopInfo, userName: userName, password: "", custom: false)
+//        }
+        
     }
   
 }

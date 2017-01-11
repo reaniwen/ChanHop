@@ -25,9 +25,10 @@ class ChannelModel: NSObject {
     var latitude: Double = 0
     
     var backGroundImgURL: String = ""
+    var adURL: String? = ""
 
     
-    init(channelID: Int = 0, channelName: String, roomID: Int, roomName: String = "", userCount: Int = 0, createTime: Double = 0, longitude: Double, latitude: Double, channelType: Int = 1, backgroundImg: String, hashPass: String = "") {
+    init(channelID: Int = 0, channelName: String, roomID: Int, roomName: String = "", userCount: Int = 0, createTime: Double = 0, longitude: Double, latitude: Double, channelType: Int = 1, backgroundImg: String, hashPass: String = "", adURL: String? = "") {
         self.channelID = channelID
         self.channelName = channelName
         self.roomID = roomID
@@ -43,6 +44,7 @@ class ChannelModel: NSObject {
         self.channelType = ChannelType(rawValue: channelType)!
         
         self.backGroundImgURL = backgroundImg
+        self.adURL = adURL
         
         
         self.hashPass = hashPass

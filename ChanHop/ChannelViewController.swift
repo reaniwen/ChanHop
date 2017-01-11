@@ -8,6 +8,7 @@
 
 import UIKit
 import SVProgressHUD
+import SDWebImage
 
 class ChannelViewController: UIViewController {
     
@@ -19,6 +20,8 @@ class ChannelViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet weak var enterBtn: UIButton!
+    @IBOutlet weak var adView: UIView!
+    @IBOutlet weak var adImage: UIImageView!
     
     var roomVC: RoomPageVC?
     var roomView: UIView!
@@ -39,6 +42,8 @@ class ChannelViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateAmountBtn), name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(joinChannelNotification), name: NSNotification.Name(rawValue:JOIN_CHANNEL), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateUserCount), name: NSNotification.Name(rawValue:S_UPDATE_COUNT), object: nil)
+        
+        adView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +68,11 @@ class ChannelViewController: UIViewController {
             self.addChildViewController(roomVC!)
             self.view.addSubview(roomView)
         }
+        
+        if let url = singleton.channel?.adURL {
+            adView.isHidden = false
+            adImage.sd_setImage(with: URL(string: url))
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,6 +86,7 @@ class ChannelViewController: UIViewController {
             roomView.frame = CGRect(x: frame.origin.x, y: frame.origin.y + 90, width: frame.width, height: frame.height - 90)
         }
         
+        self.view.bringSubview(toFront: adView)
         self.view.bringSubview(toFront: backgroundMask)
         
     }
@@ -166,6 +177,9 @@ class ChannelViewController: UIViewController {
             self.view.addSubview(vc.view)
         }
     }
+    @IBAction func closeAdAct(_ sender: Any) {
+        self.adView.isHidden = true
+    }
     
     // MARK: - Navigation
     
@@ -219,13 +233,14 @@ extension ChannelViewController {
 extension ChannelViewController: JoinChannelDelegate {
     // todo: it triggered twice, I have no idea why
     // but I think that would be a issue
+    
     func joinChannelNotification(notification: Notification) {
         let userinfo = notification.userInfo
         if let channelName = userinfo?["name"] as? String, let password = userinfo?["password"] as? String, let longitude = userinfo?["longitude"] as? Double, let latitude = userinfo?["latitude"] as? Double, let channelType = userinfo?["channelType"] as? Int{
             // todo: coordination, userName
             let userName = UserManager.shared.userName
 //            if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-                let channelinfo = ChannelInfo(name: channelName, venueID: "", longitude: longitude, latitude: latitude, distance: 0, address: "", imageURL: "", channelType: channelType, adURL: nil, hashPass: password)
+            let channelinfo = ChannelInfo(name: channelName, venueID: "", longitude: longitude, latitude: latitude, distance: 0, address: "", imageURL: "", channelType: channelType, adURL: nil, hashPass: password)
                 joinChannelAct(channelInfo: channelinfo, userName: userName, password: password, custom: true)
                 print("notification join channel")
 //            }

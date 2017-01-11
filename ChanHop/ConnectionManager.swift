@@ -58,7 +58,8 @@ class ConnectionManager: NSObject {
                         // featured channels
                         for i in 0..<data["featuredChannels"].count {
                             let locData = data["featuredChannels", i]
-                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: "", longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: 0, address: "", imageURL: locData["custom_ad"].stringValue, channelType: 2, adURL: AD_BASE_URL+locData["custom_ad"].stringValue, hashPass: "")
+                            let adURL: String? = locData["custom_ad"].stringValue == "" ? nil : AD_BASE_URL+locData["custom_ad"].stringValue
+                            let location = ChannelInfo(name: locData["name"].stringValue, venueID: "", longitude: locData["longitude"].doubleValue, latitude: locData["latitude"].doubleValue, distance: 0, address: "", imageURL: locData["custom_ad"].stringValue, channelType: 2, adURL: adURL, hashPass: "")
                             featuredLocations.append(location)
                         }
                         self.singleton.featuredChannelInfos = featuredLocations
@@ -104,10 +105,10 @@ class ConnectionManager: NSObject {
     
     
     func joinChannel(userName: String, userID: Int, channel: ChannelInfo, completion: @escaping (_ channel: ChannelModel)->Void) {
-        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.venueID, longitude: channel.longitude, latitude: channel.latitude, channelType: channel.channelType, completion: completion)
+        self.joinChannel(userName: userName, userID: userID, channelName: channel.name, channelId: channel.venueID, longitude: channel.longitude, latitude: channel.latitude, channelType: channel.channelType, adURL: channel.adURL, completion: completion)
     }
     
-    func joinChannel(userName: String, userID: Int, channelName: String, channelId: String, longitude: Double, latitude: Double, channelType: Int, completion: @escaping (_ channel: ChannelModel)->Void) {
+    func joinChannel(userName: String, userID: Int, channelName: String, channelId: String, longitude: Double, latitude: Double, channelType: Int, adURL: String?, completion: @escaping (_ channel: ChannelModel)->Void) {
         if let _: [String: Double] = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) as? [String: Double] {
             let url = CHANHOP_URL+"/channel/join"
             let parameters = [
@@ -138,7 +139,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
+                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL, adURL: adURL)
                                 completion(channel)
                             }
                         } else {
@@ -155,10 +156,10 @@ class ConnectionManager: NSObject {
     }
     
     func joinPrivateChannel(userName: String, userID: Int, channel: ChannelInfo, password: String, completion: @escaping (_ channel: ChannelModel)->Void) {
-        self.joinPrivateChannel(userName: userName, userID: userID, channelName: channel.name, longitude: channel.longitude, latitude: channel.latitude, password: password, completion: completion)
+        self.joinPrivateChannel(userName: userName, userID: userID, channelName: channel.name, longitude: channel.longitude, latitude: channel.latitude, password: password, adURL: channel.adURL, completion: completion)
     }
     
-    func joinPrivateChannel(userName: String, userID: Int, channelName: String, longitude: Double, latitude: Double, password: String, completion: @escaping (_ channel: ChannelModel)->Void) {
+    func joinPrivateChannel(userName: String, userID: Int, channelName: String, longitude: Double, latitude: Double, password: String, adURL: String?, completion: @escaping (_ channel: ChannelModel)->Void) {
         if let _: [String: Double] = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) as? [String: Double] {
             let url = CHANHOP_URL+"/channel/join"
             var parameters = [
@@ -192,7 +193,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL)
+                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL, adURL: adURL)
                                 completion(channel)
                             }
                         } else {
@@ -266,8 +267,16 @@ class ConnectionManager: NSObject {
     
     // previous -1, next 1
     func getPreviousChannel(direction: Int, channelName: String, completion: @escaping (_ channel: ChannelModel)-> Void) {
-        // get previous Channel Info from singleton
-        
+        if singleton.channelInfos.count == 0 {
+            self.getChannels() {_,_ in 
+                self.getChannelCompletion(direction: direction, channelName: channelName, completion: completion)
+            }
+        } else {
+            self.getChannelCompletion(direction: direction, channelName: channelName, completion: completion)
+        }
+    }
+    
+    func getChannelCompletion(direction: Int, channelName: String, completion: @escaping (_ channel: ChannelModel)-> Void) {
         var nextInfo: ChannelInfo? = nil
         if channelName == "localhop" {
             nextInfo = direction == -1 ? nil : singleton.channelInfos[0]
