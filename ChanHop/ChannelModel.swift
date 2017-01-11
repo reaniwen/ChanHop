@@ -14,7 +14,7 @@ class ChannelModel: NSObject {
     var channelName: String = "0"
     
     var channelType: ChannelType = .pub
-    var createTime: Double = 0
+    var createTime: Double = 0  // ms
     var hashPass: String = ""
     
     var roomID: Int = 0

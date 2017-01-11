@@ -129,8 +129,10 @@ class ChannelViewController: UIViewController {
                     SVProgressHUD.showError(withStatus: "Please allow location in setting")
                 }
             } else {
-                // todo: change name function
-                print("Update name, \(name!)")
+//                print("Update name, \(name!)")
+                connectionManager.updateName(userId: userManager.userID, userName: name!) { _ in
+                    self.userManager.userName = name!
+                }
             }
         } else {
             // Popup to show user to enter a legal name
@@ -145,6 +147,7 @@ class ChannelViewController: UIViewController {
     
     @IBAction func hideMenu() {
         self.backgroundMask.isHidden = true
+        nameTextField.resignFirstResponder()
     }
     
     @IBAction func memberAct(_ sender: AnyObject) {
@@ -176,6 +179,8 @@ class ChannelViewController: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    
     
 }
 

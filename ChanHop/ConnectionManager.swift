@@ -333,29 +333,6 @@ class ConnectionManager: NSObject {
         }
     }
     
-//    func sendMessage(roomId: Int, userId: Int, userName: String, message: String, completion: @escaping ()->Void) {
-//        let url = CHANHOP_URL+"/channel/message/add"
-//        let parameters = ["roomid": roomId,
-//                          "userid": userId,
-//                          "username": userName,
-//                          "message": message
-//            ] as [String: Any]
-//        Alamofire.request(url, method: .post, parameters: parameters)
-//            .responseJSON { response in
-//                switch response.result {
-//                case .success(let JSONData):
-//                    let data = JSON(JSONData)
-//                    if data["status"].string == "200" {
-//                        completion()
-//                    } else {
-//                        SVProgressHUD.showError(withStatus: "Message didn't send, try again")
-//                    }
-//                case .failure(let error):
-//                    SVProgressHUD.showError(withStatus: error.localizedDescription)
-//                }
-//        }
-//    }
-    
     func getUserList(roomId: Int, completion: @escaping (_ users:[Member]) -> Void) {
         let url = CHANHOP_URL+"/channel/list/\(roomId)"
         print("Getting User List from "+url)
@@ -380,6 +357,74 @@ class ConnectionManager: NSObject {
         }
     }
     
+    func updateName(userId: Int, userName: String, completion: @escaping (Bool)->Void) {
+        let url = CHANHOP_URL + "/user/username/update"
+        let parameters = [
+            "userid": userId,
+            "username": userName
+        ] as [String: Any]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONData):
+                    let data = JSON(JSONData)
+                    if data["status"].string == "200" {
+                        completion(true)
+                    } else {
+                        SVProgressHUD.showError(withStatus: "Change Room Failed")
+                    }
+                case .failure(let error):
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                }
+        }
+    }
+    
+    func updateLocation(userId: Int, longitude: Double, latitude: Double, completion: @escaping (Bool)->Void) {
+        let url = CHANHOP_URL + "/user/location/update"
+        let parameters = [
+            "userid": userId,
+            "longitude": longitude,
+            "latitude": latitude
+            ] as [String: Any]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONData):
+                    let data = JSON(JSONData)
+                    if data["status"].string == "200" {
+                        completion(true)
+                    } else {
+                        SVProgressHUD.showError(withStatus: "Change Room Failed")
+                    }
+                case .failure(let error):
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                }
+        }
+    }
+    
+    func updateDeviceToken(userId: Int, deviceToken: String, completion: @escaping (Bool)->Void) {
+        let url = CHANHOP_URL + "/user/devicetoken/update"
+        let parameters = [
+            "userid": userId,
+            "devicetoken": deviceToken
+            ] as [String: Any]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONData):
+                    let data = JSON(JSONData)
+                    if data["status"].string == "200" {
+                        completion(true)
+                    } else {
+                        SVProgressHUD.showError(withStatus: "Change Room Failed")
+                    }
+                case .failure(let error):
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                }
+        }
+    }
+    
+    
     func leaveRoom(roomId: Int, userId: Int, completion: @escaping ()->Void) {
         let url = CHANHOP_URL+"/channel/room/leave"
         let parameters = [
@@ -397,6 +442,7 @@ class ConnectionManager: NSObject {
                         SVProgressHUD.showError(withStatus: "Leave room failed")
                     }
                 case .failure(let error):
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
                     print(error.localizedDescription)
                 }
                 

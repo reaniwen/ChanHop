@@ -10,7 +10,7 @@ import UIKit
 import StoreKit
 import SVProgressHUD
 
-class PrivChannelContentVC: UIViewController {
+class PrivChannelContentVC: UIViewController, SKProductsRequestDelegate, SKPaymentTransactionObserver {
 
     @IBOutlet weak var channelNameLabel: UITextField!
     @IBOutlet weak var passwordFrame: UIView!
@@ -21,8 +21,7 @@ class PrivChannelContentVC: UIViewController {
     var channelName: String = ""
     var channelPass: String = ""
     
-    var product: SKProduct?
-    var productID: Set<String> = ["com.chanhop.privateChannel"]
+    var products = [SKProduct]()
     
     var joinChannelDelegate: JoinChannelDelegate?
     
@@ -40,9 +39,9 @@ class PrivChannelContentVC: UIViewController {
         setPassFrame(frame: confirmPassFrame)
         self.passwordLabel.attributedPlaceholder = NSAttributedString(string:"CREATE A PASSWORD",attributes:[NSForegroundColorAttributeName: UIColor(white: 1, alpha: 0.8)])
         self.confirmPassLabel.attributedPlaceholder = NSAttributedString(string: "RE-TYPE PASSWORD", attributes:[NSForegroundColorAttributeName: UIColor(white: 1, alpha: 0.8)])
+
         
-//        SKPaymentQueue.default().add(self)
-        getProductInfo()
+        requestProduct()
 
     }
 
@@ -52,30 +51,10 @@ class PrivChannelContentVC: UIViewController {
     }
 
     @IBAction func createPrivChannelAct(_ sender: Any) {
-        // todo: finish in app purchase
-//        if let product = product {
-//            let payment = SKPayment(product: product)
-//            SKPaymentQueue.default().add(payment)
-//        } else {
-//            print("payment not inited")
-//        }
-        if let channelName = channelNameLabel.text{
-            let shortName = channelName.replacingOccurrences(of: " ", with: "")
-            if shortName.characters.count != 0 {
-                if passwordLabel.text == confirmPassLabel.text {
-                    if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName, "password": "", "longitude": location["longitude"] as! Double, "latitude": location["latitude"] as! Double, "channelType": 4])
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                } else {
-                    SVProgressHUD.showError(withStatus: "Please type the same password")
-                }
-                
-            } else {
-                SVProgressHUD.showError(withStatus: "Please type a channel name")
-            }
-        } else {
-            SVProgressHUD.showError(withStatus: "Please type a channel name")
+        for product in self.products{
+            SKPaymentQueue.default().add(self)
+            let payment = SKPayment(product: product)
+            SKPaymentQueue.default().add(payment)
         }
     }
     
@@ -85,6 +64,74 @@ class PrivChannelContentVC: UIViewController {
         frame.layer.borderWidth = 2
         frame.layer.borderColor = UIColor.white.cgColor
         frame.layer.cornerRadius = 12
+    }
+    
+    func requestProduct(){
+        let id: Set<String> = ["com.chanhop.chanhop.newPrivateChannel","jgfgf"]
+        let productRequest = SKProductsRequest(productIdentifiers: id)
+        productRequest.delegate = self
+        productRequest.start()
+    }
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        print("SANT:valid:\(response.products.count)")
+        print("SANT:invalid:\(response.invalidProductIdentifiers.count)")
+        print("SANT:invalid:\(response.invalidProductIdentifiers.debugDescription)")
+        print("SANT:invalid:\(response.invalidProductIdentifiers.description)")
+        
+        self.products = response.products
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        print("Sant: hello")
+        
+        for transaction in transactions {
+            
+            switch transaction.transactionState {
+            case .purchased:
+                print("purchased")
+                SKPaymentQueue.default().finishTransaction(transaction)
+                unlockChannel()
+                break
+            case .purchasing:
+                print("purchasing")
+                break
+            case .failed:
+                print("failed")
+                SKPaymentQueue.default().finishTransaction(transaction)
+                break
+            case .deferred:
+                print("deferred")
+                break
+            case.restored:
+                print("restored")
+                SKPaymentQueue.default().finishTransaction(transaction)
+                break
+                
+            }
+        }
+    }
+    
+    func unlockChannel(){
+        print("purchase complete!")
+        // todo: finish the created channel and join channel
+//        if let channelName = channelNameLabel.text{
+//            let shortName = channelName.replacingOccurrences(of: " ", with: "")
+//            if shortName.characters.count != 0 {
+//                if passwordLabel.text == confirmPassLabel.text {
+//                    if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
+//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName, "password": "", "longitude": location["longitude"] as! Double, "latitude": location["latitude"] as! Double, "channelType": 4])
+//                        self.dismiss(animated: true, completion: nil)
+//                    }
+//                } else {
+//                    SVProgressHUD.showError(withStatus: "Please type the same password")
+//                }
+//                
+//            } else {
+//                SVProgressHUD.showError(withStatus: "Please type a channel name")
+//            }
+//        } else {
+//            SVProgressHUD.showError(withStatus: "Please type a channel name")
+//        }
     }
 }
 
@@ -105,57 +152,57 @@ extension PrivChannelContentVC: UITextFieldDelegate {
     }
 }
 
-extension PrivChannelContentVC: SKProductsRequestDelegate {
-    func getProductInfo()
-    {
-        if SKPaymentQueue.canMakePayments() {
-            
-            let request = SKProductsRequest(productIdentifiers: self.productID)
-            request.delegate = self
-            request.start()
-        } else {
-            print("Please enable In App Purchase in Settings")
-        }
-    }
-    
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        
-        var products = response.products
-        print(response.products.count)
-        
-        if (products.count != 0) {
-            product = products[0]
-//            buyButton.isEnabled = true
-//            productTitle.text = product!.localizedTitle
-//            productDescription.text = product!.localizedDescription
-            
-        } else {
-            print("Product not found")
-        }
-        
-        let invalids = response.invalidProductIdentifiers
-        
-        for product in invalids
-        {
-            print("Product not found: \(product)")
-        }
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            
-            switch transaction.transactionState {
-                
-            case SKPaymentTransactionState.purchased:
-//                self.unlockFeature()
-                print("payment finished")
-                SKPaymentQueue.default().finishTransaction(transaction)
-                
-            case SKPaymentTransactionState.failed:
-                SKPaymentQueue.default().finishTransaction(transaction)
-            default:
-                break
-            }
-        }
-    }
-}
+//extension PrivChannelContentVC: SKProductsRequestDelegate {
+//    func getProductInfo()
+//    {
+//        if SKPaymentQueue.canMakePayments() {
+//            
+//            let request = SKProductsRequest(productIdentifiers: self.productID)
+//            request.delegate = self
+//            request.start()
+//        } else {
+//            print("Please enable In App Purchase in Settings")
+//        }
+//    }
+//    
+//    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+//        
+//        var products = response.products
+//        print(response.products.count)
+//        
+//        if (products.count != 0) {
+//            product = products[0]
+////            buyButton.isEnabled = true
+////            productTitle.text = product!.localizedTitle
+////            productDescription.text = product!.localizedDescription
+//            
+//        } else {
+//            print("Product not found")
+//        }
+//        
+//        let invalids = response.invalidProductIdentifiers
+//        
+//        for product in invalids
+//        {
+//            print("Product not found: \(product)")
+//        }
+//    }
+//    
+//    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+//        for transaction in transactions {
+//            
+//            switch transaction.transactionState {
+//                
+//            case SKPaymentTransactionState.purchased:
+////                self.unlockFeature()
+//                print("payment finished")
+//                SKPaymentQueue.default().finishTransaction(transaction)
+//                
+//            case SKPaymentTransactionState.failed:
+//                SKPaymentQueue.default().finishTransaction(transaction)
+//            default:
+//                break
+//            }
+//        }
+//    }
+//}
