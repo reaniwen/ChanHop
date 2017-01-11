@@ -171,7 +171,7 @@ extension ChatViewController {
 //        print(indexOfA!)
 //        
 //        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: message)
-//        attributeString.addAttribute(NSUnderlineStyleAttributeName, value: 1, range: NSMakeRange(indexOfA!, range))
+//        attributeString.addAttribute(NSUnderlineStyleAttributeName, value: 1, range: NSMakeRange(indexOfA!, range+1))
 //        attributeString.addAttributes([NSForegroundColorAttributeName: UIColor.lightGray], range: NSMakeRange(indexOfA!, range))
 //
 //        cell.textView.attributedText = attributeString
@@ -296,13 +296,19 @@ extension ChatViewController {
             }
         }
         
-//        if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
-//            print("yeah!!!!!!! I got to channelvc")
-//            let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC)
-//            let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location!["longitude"] as! Double, latitude: location!["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
-//            let userName = UserManager.shared.userName
+        if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
+            print("yeah!!!!!!! I got to channelvc")
+            let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC)
+            let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location!["longitude"] as! Double, latitude: location!["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
+            let userName = UserManager.shared.userName
 //            channelVC.joinChannelAct(channelInfo: localHopInfo, userName: userName, password: "", custom: false)
-//        }
+            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as? PasswordVC {
+                vc.joinChannelDelegate = channelVC
+                vc.channelInfo = localHopInfo
+                channelVC.addChildViewController(vc)
+                channelVC.view.addSubview(vc.view)
+            }
+        }
         
     }
   

@@ -51,11 +51,13 @@ class PrivChannelContentVC: UIViewController, SKProductsRequestDelegate, SKPayme
     }
 
     @IBAction func createPrivChannelAct(_ sender: Any) {
-        for product in self.products{
-            SKPaymentQueue.default().add(self)
-            let payment = SKPayment(product: product)
-            SKPaymentQueue.default().add(payment)
-        }
+        // todo: IAP
+//        for product in self.products{
+//            SKPaymentQueue.default().add(self)
+//            let payment = SKPayment(product: product)
+//            SKPaymentQueue.default().add(payment)
+//        }
+        unlockChannel()
     }
     
     func setPassFrame(frame: UIView) {
@@ -113,25 +115,24 @@ class PrivChannelContentVC: UIViewController, SKProductsRequestDelegate, SKPayme
     
     func unlockChannel(){
         print("purchase complete!")
-        // todo: finish the created channel and join channel
-//        if let channelName = channelNameLabel.text{
-//            let shortName = channelName.replacingOccurrences(of: " ", with: "")
-//            if shortName.characters.count != 0 {
-//                if passwordLabel.text == confirmPassLabel.text {
-//                    if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
-//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName, "password": "", "longitude": location["longitude"] as! Double, "latitude": location["latitude"] as! Double, "channelType": 4])
-//                        self.dismiss(animated: true, completion: nil)
-//                    }
-//                } else {
-//                    SVProgressHUD.showError(withStatus: "Please type the same password")
-//                }
-//                
-//            } else {
-//                SVProgressHUD.showError(withStatus: "Please type a channel name")
-//            }
-//        } else {
-//            SVProgressHUD.showError(withStatus: "Please type a channel name")
-//        }
+        if let channelName = channelNameLabel.text{
+            let shortName = channelName.replacingOccurrences(of: " ", with: "")
+            if shortName.characters.count != 0 {
+                if passwordLabel.text == confirmPassLabel.text {
+                    if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: JOIN_CHANNEL), object: nil, userInfo: ["name":channelName, "password": passwordLabel.text!, "longitude": location["longitude"] as! Double, "latitude": location["latitude"] as! Double, "channelType": 4])
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                } else {
+                    SVProgressHUD.showError(withStatus: "Please type the same password")
+                }
+                
+            } else {
+                SVProgressHUD.showError(withStatus: "Please type a channel name")
+            }
+        } else {
+            SVProgressHUD.showError(withStatus: "Please type a channel name")
+        }
     }
 }
 

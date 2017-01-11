@@ -149,8 +149,7 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource,
         } else {
             let location = locations[indexPath.row - 1]
             if location.hashPass != "" {
-                // todo: this channel has password
-                // joinchannelDelegate
+                // custom channel w/ password
                 if let channelVC = self.parent as? ChannelViewController {
                     self.removeFromParentViewController()
                     if let vc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as? PasswordVC {
@@ -161,10 +160,14 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource,
                         channelVC.view.addSubview(vc.view)
                     }
                 } else {
-                    SVProgressHUD.showError(withStatus: "Can't join the private channel")
+                    SVProgressHUD.showError(withStatus: "Try later")
                 }
             } else {
-                self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row-1], userName: userManager.userName, password: "", custom: false)
+                var custom = false
+                if locations[indexPath.row-1].channelType == 4 {
+                    custom = true
+                }
+                self.joinChannelDelegate?.joinChannelAct(channelInfo: locations[indexPath.row-1], userName: userManager.userName, password: "", custom: custom)
                 self.backToMainAct(self)
             }
             

@@ -29,6 +29,12 @@ class PasswordVC: UIViewController {
         joinChannelDelegate?.joinChannelAct(channelInfo: self.channelInfo, userName: UserManager.shared.userName, password: "", custom: true)
     }
     
+    @IBAction func backToMainAct(_ sender: Any) {
+        self.joinChannelDelegate = nil
+        self.removeFromParentViewController()
+        self.view.removeFromSuperview()
+    }
+    
 
     func setPassFrame(frame: UIView) {
         frame.backgroundColor = UIColor.clear
