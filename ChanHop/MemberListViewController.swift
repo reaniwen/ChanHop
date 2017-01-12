@@ -91,11 +91,18 @@ extension MemberListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = members[indexPath.row].name
-        cell.textLabel?.textColor = UIColor(members[indexPath.row].color)
+//        let cell = UITableViewCell()
+//        cell.textLabel?.text = members[indexPath.row].name
+//        cell.textLabel?.textColor = UIColor(members[indexPath.row].color)
+        
+//        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 19)
+        let name = members[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MemberListTableViewCell") as! MemberListTableViewCell
         cell.backgroundColor = UIColor.clear
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 19)
+        cell.userNameLabel.text = members[indexPath.row].name
+        cell.avatorBackground.backgroundColor = UIColor(members[indexPath.row].color)
+        let initChar = String(name.uppercased()[name.index(name.startIndex, offsetBy: 0)])
+        cell.userInitialLabel.text = initChar
         return cell
     }
     

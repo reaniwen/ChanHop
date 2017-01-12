@@ -11,6 +11,7 @@
 		179A80111E14B600000EFC15 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 179A80101E14B600000EFC15 /* StoreKit.framework */; };
 		179A80151E155F8C000EFC15 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A80141E155F8C000EFC15 /* IAPHelper.swift */; };
 		17B7DA681E2562F800745718 /* TagListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7DA671E2562F800745718 /* TagListVC.swift */; };
+		17B7DA6A1E27C27A00745718 /* MemberListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7DA691E27C27A00745718 /* MemberListTableViewCell.swift */; };
 		3D032D571DCBE0BE00951C3B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D032D561DCBE0BE00951C3B /* ChatViewController.swift */; };
 		3D047C451DBA6CED00D2BD5C /* RoomPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */; };
 		3D047C471DBA6CFD00D2BD5C /* ChannelPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */; };
@@ -65,6 +66,7 @@
 		179A80101E14B600000EFC15 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		179A80141E155F8C000EFC15 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		17B7DA671E2562F800745718 /* TagListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListVC.swift; sourceTree = "<group>"; };
+		17B7DA691E27C27A00745718 /* MemberListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberListTableViewCell.swift; sourceTree = "<group>"; };
 		3D032D561DCBE0BE00951C3B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		3D047C441DBA6CED00D2BD5C /* RoomPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPageVC.swift; sourceTree = "<group>"; };
 		3D047C461DBA6CFD00D2BD5C /* ChannelPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelPageVC.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				3D32D3831DC926B90085A789 /* ChannelListViewController.swift */,
 				3D32D3851DC927D70085A789 /* NearbyVenueTableViewCell.swift */,
 				3D368FEC1DDE4C9F0038C3FF /* MemberListViewController.swift */,
+				17B7DA691E27C27A00745718 /* MemberListTableViewCell.swift */,
 				3D495A341DECFEE70052B5BE /* CreateChannelVC.swift */,
 				3D495A361DECFF150052B5BE /* CreateChannelPageVC.swift */,
 				3D495A3A1DECFF770052B5BE /* PblcChannelContentVC.swift */,
@@ -475,6 +478,7 @@
 				3D368FED1DDE4C9F0038C3FF /* MemberListViewController.swift in Sources */,
 				3D495A351DECFEE70052B5BE /* CreateChannelVC.swift in Sources */,
 				3D047C491DBA6F3300D2BD5C /* RoomViewController.swift in Sources */,
+				17B7DA6A1E27C27A00745718 /* MemberListTableViewCell.swift in Sources */,
 				3D032D571DCBE0BE00951C3B /* ChatViewController.swift in Sources */,
 				3D870FE31DB6C32B008FB083 /* TutorialContentViewController.swift in Sources */,
 				3D495A3D1DECFF870052B5BE /* PrivChannelContentVC.swift in Sources */,

@@ -219,6 +219,7 @@ class ConnectionManager: NSObject {
                 case .success(let JSONData):
                     let data = JSON(JSONData)
                     if data["status"].string == "200" {
+                        
                         // collect tagged info first
                         var taggedInfo:[String: ChannelInfo] = [:]
                         for i in 0..<data["tag_info"].count {
@@ -226,8 +227,9 @@ class ConnectionManager: NSObject {
                             let channelInfo = ChannelInfo(name: tData["name"].stringValue, venueID: "", longitude: tData["longitude"].doubleValue, latitude: tData["latitude"].doubleValue, distance: 0, address: "", imageURL: tData["channel_photo"].stringValue, channelType: tData["channel_type_id"].intValue, adURL: tData["custom_ad"].stringValue, hashPass: tData["custom_password"].stringValue)
                             taggedInfo[tData["message_id"].stringValue] = channelInfo
                         }
-                        var messages: [ChanhopMessage] = []
                         
+                        
+                        var messages: [ChanhopMessage] = []
                         for i in 0..<data["messages"].count {
                             let mData = data["messages",i]
                             let interval = mData["created_at"].doubleValue/1000
@@ -239,9 +241,11 @@ class ConnectionManager: NSObject {
                                 isTagged = true
                                 taggedChannel = taggedInfo[mData["id"].stringValue]
                             }
+                            
                             let message = ChanhopMessage(senderId: mData["user_id"].stringValue, senderDisplayName: mData["username"].stringValue, date: sendDate, text: mData["message"].stringValue, color: mData["hex_color"].stringValue, messageId: mData["id"].stringValue, isTagged: isTagged, taggedChannel: taggedChannel)
                             messages.append(message)
                         }
+                        
                         self.singleton.channel?.roomName = data["roomName"].stringValue
                         self.singleton.channel?.createTime = data["channelTimestamp"].doubleValue
                         

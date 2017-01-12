@@ -141,43 +141,43 @@ extension ChatViewController {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
 //        let msg : JSQMessage = (messages[indexPath.row])
         let msg: ChanhopMessage = messageManager.messages[indexPath.item]
-        let whiteColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.8)
         if msg.senderId == self.senderId{
             cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 0, 0, 30)
         }else{
             cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 35, 0, 0)
-        }
-        if (!msg.isMediaMessage) {
-            if msg.senderId == self.senderId{
-                cell.textView.textColor = whiteColor
-                
-            }else {
-                cell.textView.textColor = .white
-            }
         }
         if msg.senderId == self.senderId{
             cell.cellBottomLabel.textAlignment = .right
         }else {
             cell.cellBottomLabel.textAlignment = .left
         }
+      
+        
+        let text = msg.text!
+ 
         
         // MARK: to underline the tag
         if msg.isTagged, let taggedChannel = msg.taggedChannel {
-            let text = msg.text!
+         
             let channelName = taggedChannel.name
-//            let channelName = "ab"
             let range = channelName.characters.count
-            
+            print("\(msg.isTagged): \(channelName):\(msg.text)")
             let characters = Array(text.characters)
             if characters.contains("#") {
                 let indexOfA = characters.index(of: "#")
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
                 attributedString.addAttributes([NSFontAttributeName:UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
-                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.lightGray], range: NSMakeRange(indexOfA!, range+1))
+                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.red], range: NSMakeRange(indexOfA!, range+1))
                 cell.textView.attributedText = attributedString
+                   print("\(attributedString)")
+                return cell
             }
         
         }
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttributes([NSFontAttributeName:UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
+        cell.textView.attributedText = attributedString
+
         return cell
     }
     
