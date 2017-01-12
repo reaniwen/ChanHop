@@ -161,20 +161,23 @@ extension ChatViewController {
             cell.cellBottomLabel.textAlignment = .left
         }
         
-//        var message = "hello name is #test yes"
-//        var channelName = "#test"
-//        let range = channelName.characters.count
-//        
-//        let characters = Array(message.characters)
-//        print(characters)
-//        let indexOfA = characters.index(of: "#")
-//        print(indexOfA!)
-//        
-//        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: message)
-//        attributeString.addAttribute(NSUnderlineStyleAttributeName, value: 1, range: NSMakeRange(indexOfA!, range+1))
-//        attributeString.addAttributes([NSForegroundColorAttributeName: UIColor.lightGray], range: NSMakeRange(indexOfA!, range))
-//
-//        cell.textView.attributedText = attributeString
+        // MARK: to underline the tag
+        if msg.isTagged, let taggedChannel = msg.taggedChannel {
+            let text = msg.text!
+            let channelName = taggedChannel.name
+//            let channelName = "ab"
+            let range = channelName.characters.count
+            
+            let characters = Array(text.characters)
+            if characters.contains("#") {
+                let indexOfA = characters.index(of: "#")
+                let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+                attributedString.addAttributes([NSFontAttributeName:UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
+                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.lightGray], range: NSMakeRange(indexOfA!, range+1))
+                cell.textView.attributedText = attributedString
+            }
+        
+        }
         return cell
     }
     
@@ -196,7 +199,6 @@ extension ChatViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         let data = messageManager.messages[indexPath.item]
         let initStr = String(data.senderDisplayName[data.senderDisplayName.startIndex]).uppercased()
-//        let initStr = String(data.senderName[data.senderName.startIndex]).uppercased()
         let avatarJobs = JSQMessagesAvatarImageFactory.avatarImage(withUserInitials: initStr, backgroundColor: UIColor(data.color), textColor: UIColor.white, font: UIFont.boldSystemFont(ofSize: 19), diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
         
         let message = data//messages[indexPath.item]
@@ -219,7 +221,7 @@ extension ChatViewController {
 //        
 //        let myAttributes = [ NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 12.0)]
 //
-//        // todo: customize color of date and time
+//
 //        //        print(JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date))
 //        return NSAttributedString(string: dateformat.string(from: message.date), attributes: myAttributes)
 //    }
@@ -296,19 +298,19 @@ extension ChatViewController {
             }
         }
         
-        if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
-            print("yeah!!!!!!! I got to channelvc")
-            let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC)
-            let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location!["longitude"] as! Double, latitude: location!["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
-            let userName = UserManager.shared.userName
-//            channelVC.joinChannelAct(channelInfo: localHopInfo, userName: userName, password: "", custom: false)
-            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as? PasswordVC {
-                vc.joinChannelDelegate = channelVC
-                vc.channelInfo = localHopInfo
-                channelVC.addChildViewController(vc)
-                channelVC.view.addSubview(vc.view)
-            }
-        }
+//        if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
+//            print("yeah!!!!!!! I got to channelvc")
+//            let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC)
+//            let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location!["longitude"] as! Double, latitude: location!["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
+//            let userName = UserManager.shared.userName
+////            channelVC.joinChannelAct(channelInfo: localHopInfo, userName: userName, password: "", custom: false)
+//            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as? PasswordVC {
+//                vc.joinChannelDelegate = channelVC
+//                vc.channelInfo = localHopInfo
+//                channelVC.addChildViewController(vc)
+//                channelVC.view.addSubview(vc.view)
+//            }
+//        }
         
     }
   
@@ -321,7 +323,7 @@ extension ChatViewController {
         
         if let channel = singleton.channel {
             let tag: Int = is_tagged ? 1 : 0
-            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: content, is_tagged: 0, channelName: channelName, longitude: longitude, latitude: latitude, channelType: channelType, hasPassword: hasPassword) {_ in
+            socketIOManager.sendMessage(userID: userManager.userID, roomID: channel.roomID, userName: userManager.userName, message: content, is_tagged: tag, channelName: channelName, longitude: longitude, latitude: latitude, channelType: channelType, hasPassword: hasPassword) {_ in
                 self.reloadMessagesView()
                 self.finishSendingMessage()
             }
@@ -386,7 +388,8 @@ extension ChatViewController {
             self.channelName = channelName
             self.longitude = longitude
             self.latitude = latitude
-            self.inputToolbar.contentView.textView.text = self.inputToolbar.contentView.textView.text + "#" + channelName + " "
+            content = self.inputToolbar.contentView.textView.text + "#" + channelName + " "
+            self.inputToolbar.contentView.textView.text = content
             self.inputToolbar.contentView.textView.becomeFirstResponder()
         }
     }

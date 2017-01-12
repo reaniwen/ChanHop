@@ -54,7 +54,6 @@ class ConnectionManager: NSObject {
                         var publicLocations: [ChannelInfo] = []
                         var customLocations: [ChannelInfo] = []
                         
-                        // todo: append the data structure of channel info and channel to support custom ad
                         // featured channels
                         for i in 0..<data["featuredChannels"].count {
                             let locData = data["featuredChannels", i]
@@ -75,7 +74,6 @@ class ConnectionManager: NSObject {
                         self.singleton.channelInfos = publicLocations
                         locations += publicLocations
                         
-                        // todo: talk with kailash about the data structure
                         // custom channels
                         for i in 0..<data["customChannels"].count {
                             let locData = data["customChannels", i]
@@ -99,7 +97,7 @@ class ConnectionManager: NSObject {
                 }
             
         } else {
-            // todo: show an alert to tell user to open location
+            SVProgressHUD.showError(withStatus: "Please allow system to use your location")
         }
     }
     
@@ -128,6 +126,7 @@ class ConnectionManager: NSObject {
                         let data = JSON(JSONData)
                         if data["status"].stringValue == "200" {
                             let roomID = data["room"].intValue
+                            let roomName = data["roomName"].stringValue
                             let userID = data["user"].intValue
                             let backgroundURL = data["photo"].stringValue
                             let assignedColor = data["assignedColor"].stringValue
@@ -139,7 +138,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL, adURL: adURL)
+                                let channel = ChannelModel(channelName: channelName, roomID: roomID, roomName: roomName, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL, adURL: adURL)
                                 completion(channel)
                             }
                         } else {
@@ -182,6 +181,7 @@ class ConnectionManager: NSObject {
                         let data = JSON(JSONData)
                         if data["status"].stringValue == "200" {
                             let roomID = data["room"].intValue
+                            let roomName = data["roomName"].stringValue
                             let userID = data["user"].intValue
                             let backgroundURL = data["photo"].stringValue
                             let assignedColor = data["assignedColor"].stringValue
@@ -193,7 +193,7 @@ class ConnectionManager: NSObject {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelName: channelName, roomID: roomID, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL, adURL: adURL)
+                                let channel = ChannelModel(channelName: channelName, roomID: roomID, roomName: roomName, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL, adURL: adURL)
                                 completion(channel)
                             }
                         } else {
@@ -219,26 +219,28 @@ class ConnectionManager: NSObject {
                 case .success(let JSONData):
                     let data = JSON(JSONData)
                     if data["status"].string == "200" {
-//                        var messages: [Message] = []
-//                        for i in 0..<data["messages"].count {
-//                            let mData = data["messages",i]
-//                            let str = mData["created_at"].stringValue
-//                            if let interval = Double(str.substring(to: str.index(str.endIndex, offsetBy: -3))){
-////                                print("interval ", interval)
-//                                let message = Message(id: mData["id"].stringValue, content: mData["message"].stringValue, senderName: mData["username"].stringValue, senderId: mData["user_id"].intValue, color: mData["hex_color"].stringValue, date: interval)
-//                                
-//                                messages.append(message)
-//                            }
-//                        }
+                        // collect tagged info first
+                        var taggedInfo:[String: ChannelInfo] = [:]
+                        for i in 0..<data["tag_info"].count {
+                            let tData = data["tag_info",i]
+                            let channelInfo = ChannelInfo(name: tData["name"].stringValue, venueID: "", longitude: tData["longitude"].doubleValue, latitude: tData["latitude"].doubleValue, distance: 0, address: "", imageURL: tData["channel_photo"].stringValue, channelType: tData["channel_type_id"].intValue, adURL: tData["custom_ad"].stringValue, hashPass: tData["custom_password"].stringValue)
+                            taggedInfo[tData["message_id"].stringValue] = channelInfo
+                        }
                         var messages: [ChanhopMessage] = []
+                        
                         for i in 0..<data["messages"].count {
                             let mData = data["messages",i]
                             let interval = mData["created_at"].doubleValue/1000
                             let sendDate = Date(timeIntervalSince1970: interval)
                             
-                            let message = ChanhopMessage(senderId: mData["user_id"].stringValue, senderDisplayName: mData["username"].stringValue, date: sendDate, text: mData["message"].stringValue, color: mData["hex_color"].stringValue, messageId: mData[""].stringValue, isTagged: false, taggedChannel: nil)
+                            var isTagged = false
+                            var taggedChannel: ChannelInfo? = nil
+                            if mData["is_tagged"].intValue == 1 {
+                                isTagged = true
+                                taggedChannel = taggedInfo[mData["id"].stringValue]
+                            }
+                            let message = ChanhopMessage(senderId: mData["user_id"].stringValue, senderDisplayName: mData["username"].stringValue, date: sendDate, text: mData["message"].stringValue, color: mData["hex_color"].stringValue, messageId: mData["id"].stringValue, isTagged: isTagged, taggedChannel: taggedChannel)
                             messages.append(message)
-                            // todo: adjust istagged
                         }
                         self.singleton.channel?.roomName = data["roomName"].stringValue
                         self.singleton.channel?.createTime = data["channelTimestamp"].doubleValue
@@ -251,10 +253,10 @@ class ConnectionManager: NSObject {
                         self.messageManager?.messages = messages
                         completion()
                     } else {
-                        // todo:
+//                        SVProgressHUD.showError(withStatus: "Get Info failed, try again later")
                     }
                 case .failure(let error):
-                    // todo: 
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
                     print(error.localizedDescription)
                 }
                 
@@ -326,8 +328,8 @@ class ConnectionManager: NSObject {
                     let data = JSON(JSONData)
                     if data["status"].string == "200" {
                         self.singleton.channel?.roomID = data["room"].intValue
-//                        self.messageManager?.messages = []
-//                        self.messageManager?.refreshMessage(messages: [])
+                        self.singleton.channel?.roomName = data["roomName"].stringValue
+                        print("changing to room \(data["room"].intValue) \(data["roomName"].stringValue)")
                         // todo: optimize here to use the data
                         completion()
                     } else {
@@ -337,9 +339,9 @@ class ConnectionManager: NSObject {
                     SVProgressHUD.showError(withStatus: error.localizedDescription)
                 }
             }
-            .responseString { response in
-                print("result of switching room is \(response.result.value)")
-        }
+//            .responseString { response in
+//                print("result of switching room is \(response.result.value)")
+//        }
     }
     
     func getUserList(roomId: Int, completion: @escaping (_ users:[Member]) -> Void) {

@@ -48,6 +48,9 @@ class SocketIOManager: NSObject {
         socket.on("newMessage") { (dataArray, socketAck) -> Void in
             print(dataArray)
             NotificationCenter.default.post(name: NSNotification.Name(S_NEW_MESSAGE), object: dataArray[0] as! String)
+            // todo: finish receive message
+//            let newMessage = ChanhopMessage(senderId: String(UserManager.shared.userID), senderDisplayName: userName, date: Date(), text: message, color: color_hex, messageId: "", isTagged: isTagged, taggedChannel: taggedChannel)
+//            MessageManager.shared.messages.append(newMessage)
         }
         
         socket.on("userLeaves") { (dataArray, socketAck) -> Void in
@@ -88,15 +91,14 @@ class SocketIOManager: NSObject {
     }
     
     func sendMessage(userID: Int, roomID: Int, userName: String, message: String, is_tagged: Int, channelName: String, longitude: Double, latitude: Double, channelType: Int = 0, hasPassword: Int = 0, completion: @escaping (ChanhopMessage)->Void) {
-//        let parameters = ["userid":"188","roomid":"65","username":"Abz","message":"Zzz","is_tagged":"0"]
-        // todo: change channel_type and has_password
-        let parameters:[String: Any] = ["userid": userID, "roomid": roomID, "username": userName, "message": message, "is_tagged": is_tagged, "channelName":channelName, "longitude":longitude, "latitude":latitude, "channel_type_id":channelType, "has_password":hasPassword]
+
+        let parameters:[String: Any] = ["userid": userID, "roomid": roomID, "username": userName, "message": message, "is_tagged": is_tagged, "channelName": channelName, "longitude": longitude, "latitude": latitude, "channel_type_id": channelType, "has_password": hasPassword]
         
         print("emit data for userSendsMessage is \(parameters)")
         socket.emitWithAck("userSendsMessage", parameters).timingOut(after: 3, callback: { JSONData in
             let data = JSON(JSONData[0])
             print("CONNECTED FOR SURE \(data)")
-            // todo: add channel info
+
             let color_hex = data["color_hex"].stringValue
 //            let created_at = data["created_at"].doubleValue/1000
 //            let is_tagged = data["is_tagged"].intValue
@@ -116,10 +118,7 @@ class SocketIOManager: NSObject {
             let newMessage = ChanhopMessage(senderId: String(UserManager.shared.userID), senderDisplayName: userName, date: Date(), text: message, color: color_hex, messageId: "", isTagged: isTagged, taggedChannel: taggedChannel)
             MessageManager.shared.messages.append(newMessage)
             
-//            let newMessage = Message(id: "", content: message, senderName: userName, senderId: UserManager.shared.userID, color: color_hex, date: created_at)
-//            MessageManager.shared.addMessage(message: newMessage)
             completion(newMessage)
-            // todo: convert the data to message
         })
     }
     

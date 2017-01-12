@@ -57,9 +57,6 @@ class MemberListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // todo: get memebers in the list
-        
-        
         
         if let channel = singleton.channel {
             connectionManager.getUserList(roomId: channel.roomID) { members in

@@ -61,7 +61,7 @@ class RoomPageVC: UIPageViewController {
             print("swipe to next room")
 //            currentIndex += 1
             if let channel = singleton.channel {
-                connectionManager.getPreviousRoomInfo(direction: 1, channelID: 44, roomId: channel.roomID, userId: userManager.userID) {
+                connectionManager.getPreviousRoomInfo(direction: 1, channelID: channel.channelID, roomId: channel.roomID, userId: userManager.userID) {
                     print("complete")
                     self.setViewControllers([self.getViewController()], direction: .forward, animated:true, completion: nil)
                 }
@@ -71,7 +71,7 @@ class RoomPageVC: UIPageViewController {
             print("swipe to previous room")
 //            currentIndex -= 1
             if let channel = singleton.channel {
-                connectionManager.getPreviousRoomInfo(direction: 0, channelID: 44, roomId: channel.roomID, userId: userManager.userID) {
+                connectionManager.getPreviousRoomInfo(direction: 0, channelID: channel.channelID, roomId: channel.roomID, userId: userManager.userID) {
                     print("complete")
                     self.setViewControllers([self.getViewController()], direction: .reverse, animated:true, completion: nil)
                 }

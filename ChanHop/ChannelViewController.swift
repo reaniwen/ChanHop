@@ -131,7 +131,7 @@ class ChannelViewController: UIViewController {
         if name?.characters.count != 0 {
 //            singleton.userName = name!
             if userManager.userID == 0 || userManager.userName == "" {
-                print("Enter room")
+                print("Enter room button pressed")
                 if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
                     let localHopInfo = ChannelInfo(name: "localHop", venueID: "", longitude: location["longitude"] as! Double, latitude: location["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
                     self.joinChannelAct(channelInfo: localHopInfo, userName: name!)

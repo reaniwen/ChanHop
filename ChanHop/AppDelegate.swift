@@ -110,6 +110,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                     }
                 }
             } else {
+                print("get location error")
                 // Todo: get location error
             }
         }

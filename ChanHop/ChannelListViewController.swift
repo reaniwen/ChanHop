@@ -174,7 +174,6 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource,
         }
     }
     
-    // Todo: remove the responder on the search bar
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
