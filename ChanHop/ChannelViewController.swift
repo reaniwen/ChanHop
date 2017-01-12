@@ -34,16 +34,57 @@ class ChannelViewController: UIViewController {
     let userManager = UserManager.shared
     let singleton = Singleton.shared
     
+    var createdAt: Double = 0
+    var timeLeft = 0
+    var timer = Timer()
+    
     weak var joinChannelDelegate: JoinChannelDelegate? = nil // channelPagevc
+    
+    
+    // expiration group
+    var expBackground: UIView!
+    var expChannelLabel: UILabel!
+    var expChannelNameLabel: UILabel!
+    var expLastLabel: UILabel!
+    var expOKBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateAmountBtn), name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(joinChannelNotification), name: NSNotification.Name(rawValue:JOIN_CHANNEL), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUserCount), name: NSNotification.Name(rawValue:S_UPDATE_COUNT), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserCount), name: S_UPDATE_COUNT, object: nil)
         
         adView.isHidden = true
+        
+        // expriration group
+        expBackground = UIView()
+        expBackground.backgroundColor = UIColor(red: 5/255, green: 15/255, blue: 30/255, alpha: 0.86)
+        expBackground.frame = self.view.frame
+        expChannelLabel = UILabel()
+        expChannelLabel.text = "-- YOUR CHANNEL --"
+        expChannelLabel.textColor = UIColor.white
+        expChannelLabel.textAlignment = .center
+        expChannelNameLabel = UILabel()
+        expChannelNameLabel.text = singleton.channel?.channelName ?? ""
+        expChannelNameLabel.textColor = UIColor.white
+        expChannelNameLabel.textAlignment = .center
+        expLastLabel = UILabel()
+        expLastLabel.text = "HAS EXPIRED"
+        expLastLabel.textColor = UIColor(red: 158/255, green: 228/255, blue: 74/255, alpha: 1)
+        expLastLabel.textAlignment = .center
+        expOKBtn = UIButton()
+        expOKBtn.setBackgroundImage(UIImage(named: "LargeEnterBtn"), for: .normal)
+        expOKBtn.setTitle("OKAY", for: .normal)
+        expOKBtn.setTitleColor(UIColor.white, for: .normal)
+        expOKBtn.addTarget(self, action: #selector(backToLocalhop), for: .touchUpInside)
+        
+        expBackground.addSubview(expChannelLabel)
+        expBackground.addSubview(expChannelNameLabel)
+        expBackground.addSubview(expLastLabel)
+        expBackground.addSubview(expOKBtn)
+        
+        self.view.addSubview(expBackground)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,11 +114,36 @@ class ChannelViewController: UIViewController {
             adView.isHidden = false
             adImage.sd_setImage(with: URL(string: url))
         }
+        
+        // todo: optimize here
+        if singleton.channel?.channelType.rawValue == 4 {
+            createdAt = singleton.channel?.createTime ?? Double(Int.max)
+            let channelEnd = createdAt/1000 + 24*60*60
+            let date = Date()
+            let currentTime = date.timeIntervalSince1970
+            if channelEnd < currentTime {
+                // show expired page directly
+                self.expBackground.isHidden = false
+            } else {
+                let timeL = channelEnd - currentTime
+//                self.timeLeft = Int(timeL)
+                self.timeLeft = 5
+                timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+            }
+        }
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func updateCounter() {
+        if timeLeft > 0 {
+            print("\(timeLeft) seconds until channel expired")
+            timeLeft -= 1
+        }else {
+            print("no time left")
+            self.expBackground.isHidden = false
+            timer.invalidate()
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -89,6 +155,51 @@ class ChannelViewController: UIViewController {
         self.view.bringSubview(toFront: adView)
         self.view.bringSubview(toFront: backgroundMask)
         
+        expChannelLabel.translatesAutoresizingMaskIntoConstraints = false
+        expChannelNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        expLastLabel.translatesAutoresizingMaskIntoConstraints = false
+        expOKBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        var par: UIView, son: UIView
+        par = expBackground
+        son = expChannelLabel
+        applyX(son: son, par: par)
+        var up = NSLayoutConstraint(item: son, attribute: .top, relatedBy: .equal, toItem: par, attribute: .top, multiplier: 1, constant: 150)
+        par.addConstraint(up)
+
+        son = expChannelNameLabel
+        applyX(son: son, par: par)
+        par = expChannelLabel
+        up = NSLayoutConstraint(item: son, attribute: .top, relatedBy: .equal, toItem: par, attribute: .bottom, multiplier: 1, constant: 8)
+        expBackground.addConstraint(up)
+        
+        son = expLastLabel
+        par = expBackground
+        applyX(son: son, par: par)
+        par = expChannelNameLabel
+        up = NSLayoutConstraint(item: son, attribute: .top, relatedBy: .equal, toItem: par, attribute: .bottom, multiplier: 1, constant: 8)
+        expBackground.addConstraint(up)
+
+        son = expOKBtn
+        par = expBackground
+        applyX(son: son, par: par)
+        par = expLastLabel
+        
+        up = NSLayoutConstraint(item: son, attribute: .top, relatedBy: .equal, toItem: par, attribute: .bottom, multiplier: 1, constant: 30)
+        expBackground.addConstraint(up)
+        
+        let height = NSLayoutConstraint(item: son, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 40)
+        son.addConstraint(height)
+        
+        self.view.bringSubview(toFront: expBackground)
+        self.expBackground.isHidden = true
+        
+    }
+    
+    func applyX(son: UIView, par: UIView) {
+        let left = NSLayoutConstraint(item: son, attribute: .leading, relatedBy: .equal, toItem: par, attribute: .leading, multiplier: 1, constant: 10)
+        let x = NSLayoutConstraint(item: son, attribute: .centerX, relatedBy: .equal, toItem: par, attribute: .centerX, multiplier: 1, constant: 0)
+        par.addConstraints([left, x])
     }
     
     
@@ -181,13 +292,10 @@ class ChannelViewController: UIViewController {
         self.adView.isHidden = true
     }
     
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func backToLocalhop() {
+        let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC)
+        let localhop = ChannelInfo(name: "localHop", venueID: "", longitude: location!["longitude"] as! Double, latitude: location!["latitude"] as! Double, distance: 0, address: "", imageURL: "", channelType: 3, adURL: nil, hashPass: "")
+        self.joinChannelAct(channelInfo: localhop, userName: userManager.userName, password: "", custom: false)
     }
     
     deinit {

@@ -50,6 +50,7 @@ class ChatViewController: JSQMessagesViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(cancelTag), name: NSNotification.Name(rawValue: CANCEL_TAG), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(chooseTag), name: NSNotification.Name(rawValue: SELECT_TAG), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadMessagesView), name: S_NEW_MESSAGE, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,6 +85,15 @@ class ChatViewController: JSQMessagesViewController {
         
     }
     
+    func reloadMessagesView() {
+        self.collectionView?.reloadData()
+        
+        // scroll to bottom
+        self.scrollToBottom(animated: true)
+    }
+    
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -92,14 +102,6 @@ class ChatViewController: JSQMessagesViewController {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
-    func reloadMessagesView() {
-        self.collectionView?.reloadData()
-        
-        // scroll to bottom
-        self.scrollToBottom(animated: true)
-    }
-
 }
 
 extension ChatViewController {
@@ -136,11 +138,14 @@ extension ChatViewController {
         return data
     }
     
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
-//        let msg : JSQMessage = (messages[indexPath.row])
+        //        let msg : JSQMessage = (messages[indexPath.row])
         let msg: ChanhopMessage = messageManager.messages[indexPath.item]
+        let text = msg.text!
+        cell.textView.dataDetectorTypes.remove(.all)
+        cell.textView!.textColor = UIColor.white
+        
         if msg.senderId == self.senderId{
             cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 0, 0, 30)
         }else{
@@ -151,35 +156,78 @@ extension ChatViewController {
         }else {
             cell.cellBottomLabel.textAlignment = .left
         }
-      
-        
-        let text = msg.text!
- 
         
         // MARK: to underline the tag
-        if msg.isTagged, let taggedChannel = msg.taggedChannel {
-         
-            let channelName = taggedChannel.name
-            let range = channelName.characters.count
-            print("\(msg.isTagged): \(channelName):\(msg.text)")
+        if msg.isTagged{
+            let taggedChannel = msg.taggedChannel
+            let channelName = taggedChannel?.name
+            let range = channelName?.characters.count
+//            print("SANT: tagged:\(msg.isTagged) - channelName:\(channelName) - range: \(range) - text:\(msg.text)")
             let characters = Array(text.characters)
             if characters.contains("#") {
                 let indexOfA = characters.index(of: "#")
+//                print("SANT: index:\(indexOfA)")
                 let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
-                attributedString.addAttributes([NSFontAttributeName:UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
-                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.red], range: NSMakeRange(indexOfA!, range+1))
+                
+                //font type and size
+                attributedString.addAttributes([NSFontAttributeName:UIFont(name:(cell.textView.font?.fontName)!, size: 16.5)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
+                
+                //tag underline with range
+                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.blue], range: NSMakeRange(indexOfA!, (range ?? 0) + 2))
+                
                 cell.textView.attributedText = attributedString
-                   print("\(attributedString)")
                 return cell
             }
-        
+//            print("is tagged, no # found")
+            return cell
+        }else{
+            return cell
         }
-        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttributes([NSFontAttributeName:UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
-        cell.textView.attributedText = attributedString
-
-        return cell
     }
+    
+    // original one
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
+////        let msg : JSQMessage = (messages[indexPath.row])
+//        let msg: ChanhopMessage = messageManager.messages[indexPath.item]
+//        if msg.senderId == self.senderId{
+//            cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 0, 0, 30)
+//        }else{
+//            cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 35, 0, 0)
+//        }
+//        if msg.senderId == self.senderId{
+//            cell.cellBottomLabel.textAlignment = .right
+//        }else {
+//            cell.cellBottomLabel.textAlignment = .left
+//        }
+//      
+//        let text = msg.text!
+// 
+//        
+//        // MARK: to underline the tag
+//        if msg.isTagged, let taggedChannel = msg.taggedChannel {
+//         
+//            let channelName = taggedChannel.name
+//            let range = channelName.characters.count
+//            print("\(msg.isTagged): \(channelName):\(msg.text)")
+//            let characters = Array(text.characters)
+//            if characters.contains("#") {
+//                let indexOfA = characters.index(of: "#")
+//                let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+//                attributedString.addAttributes([NSFontAttributeName:UIFont(name: (cell.textView.font?.fontName)!, size: 16)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
+//                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.red], range: NSMakeRange(indexOfA!, range+1))
+//                cell.textView.attributedText = attributedString
+//                   print("\(attributedString)")
+//                return cell
+//            }
+//        
+//        }
+//        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+//        attributedString.addAttributes([NSFontAttributeName:UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
+//        cell.textView.attributedText = attributedString
+//
+//        return cell
+//    }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
 
@@ -279,7 +327,7 @@ extension ChatViewController {
             if let channel = message.taggedChannel {
                 if channel.hashPass != "" {
                     if let channelVC = self.parent?.parent?.parent as? ChannelViewController {
-                        print("yeah!!!!!!! I got to channelvc")
+//                        print("yeah!!!!!!! I got to channelvc")
                         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "PasswordVC") as? PasswordVC {
                             vc.joinChannelDelegate = channelVC
                             vc.channelInfo = channel
@@ -388,6 +436,7 @@ extension ChatViewController {
             self.channelName = channelName
             self.longitude = longitude
             self.latitude = latitude
+            connectionManager.interimChannel(channelName: channelName, longitude: longitude, latitude: latitude, type: 1)
             content = self.inputToolbar.contentView.textView.text + "#" + channelName + " "
             self.inputToolbar.contentView.textView.text = content
             self.inputToolbar.contentView.textView.becomeFirstResponder()

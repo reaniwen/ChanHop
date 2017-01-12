@@ -113,7 +113,7 @@ class ConnectionManager: NSObject {
                 "username": userName,
                 "userid": userID,
                 "name": channelName,
-                "venueid": channelId,
+                "venueid": channelId == "" ? "none" : channelId,
                 "latitude": latitude,
                 "longitude": longitude,
                 "type": channelType
@@ -131,7 +131,7 @@ class ConnectionManager: NSObject {
                             let backgroundURL = data["photo"].stringValue
                             let assignedColor = data["assignedColor"].stringValue
                             let userCount = data["user_count"].intValue
-                            let createTime = data["channelTimeStamp"].doubleValue
+                            let createTime = data["channel_created_at"].doubleValue
 //                            print(roomName, backgroundURL, assignedColor)
                             
                             if let user = self.userManager {
@@ -165,7 +165,7 @@ class ConnectionManager: NSObject {
                 "username": userName,
                 "userid": userID,
                 "name": channelName,
-//                "venueid": channelId,
+                "venueid": "",
                 "latitude": latitude,
                 "longitude": longitude,
                 "type": 4
@@ -186,14 +186,14 @@ class ConnectionManager: NSObject {
                             let backgroundURL = data["photo"].stringValue
                             let assignedColor = data["assignedColor"].stringValue
                             let userCount = data["user_count"].intValue
-                            let createTime = data["channelTimeStamp"].doubleValue
+                            let createTime = data["channel_created_at"].doubleValue
                             //                            print(roomName, backgroundURL, assignedColor)
                             
                             if let user = self.userManager {
                                 user.userName = userName
                                 user.userID = userID
                                 user.colorHex = assignedColor
-                                let channel = ChannelModel(channelName: channelName, roomID: roomID, roomName: roomName, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, backgroundImg: backgroundURL, adURL: adURL)
+                                let channel = ChannelModel(channelName: channelName, roomID: roomID, roomName: roomName, userCount: userCount, createTime: createTime, longitude: longitude, latitude: latitude, channelType: 4, backgroundImg: backgroundURL, adURL: adURL)
                                 completion(channel)
                             }
                         } else {
@@ -372,12 +372,50 @@ class ConnectionManager: NSObject {
         }
     }
     
+    func leaveRoom(roomId: Int, userId: Int, completion: @escaping ()->Void) {
+        let url = CHANHOP_URL+"/channel/room/leave"
+        let parameters = [
+            "roomid": roomId,
+            "userid": userId
+        ] as [String: Any]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let JSONData):
+                    let data = JSON(JSONData)
+                    if data["status"].string == "200" {
+                        completion()
+                    } else {
+                        SVProgressHUD.showError(withStatus: "Leave room failed")
+                    }
+                case .failure(let error):
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                    print(error.localizedDescription)
+                }
+                
+        }
+    }
+    
+    func interimChannel(channelName: String, longitude: Double, latitude: Double, type: Int) {
+        let url = CHANHOP_URL + "/channel/interim"
+        let parameters = [
+            "name": channelName,
+            "longitude": longitude,
+            "latitude": latitude,
+            "type": type
+        ] as [String: Any]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseString {response in
+                print("result is \(response.result.value)")
+        }
+    }
+    
     func updateName(userId: Int, userName: String, completion: @escaping (Bool)->Void) {
         let url = CHANHOP_URL + "/user/username/update"
         let parameters = [
             "userid": userId,
             "username": userName
-        ] as [String: Any]
+            ] as [String: Any]
         Alamofire.request(url, method: .post, parameters: parameters)
             .responseJSON { response in
                 switch response.result {
@@ -436,31 +474,6 @@ class ConnectionManager: NSObject {
                 case .failure(let error):
                     SVProgressHUD.showError(withStatus: error.localizedDescription)
                 }
-        }
-    }
-    
-    
-    func leaveRoom(roomId: Int, userId: Int, completion: @escaping ()->Void) {
-        let url = CHANHOP_URL+"/channel/room/leave"
-        let parameters = [
-            "roomid": roomId,
-            "userid": userId
-        ] as [String: Any]
-        Alamofire.request(url, method: .post, parameters: parameters)
-            .responseJSON { response in
-                switch response.result {
-                case .success(let JSONData):
-                    let data = JSON(JSONData)
-                    if data["status"].string == "200" {
-                        completion()
-                    } else {
-                        SVProgressHUD.showError(withStatus: "Leave room failed")
-                    }
-                case .failure(let error):
-                    SVProgressHUD.showError(withStatus: error.localizedDescription)
-                    print(error.localizedDescription)
-                }
-                
         }
     }
 }

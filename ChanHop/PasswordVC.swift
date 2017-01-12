@@ -26,7 +26,7 @@ class PasswordVC: UIViewController {
     }
 
     @IBAction func joinChannel(_ sender: Any) {
-        joinChannelDelegate?.joinChannelAct(channelInfo: self.channelInfo, userName: UserManager.shared.userName, password: "", custom: true)
+        joinChannelDelegate?.joinChannelAct(channelInfo: self.channelInfo, userName: UserManager.shared.userName, password: (passwordText.text ?? ""), custom: true)
     }
     
     @IBAction func backToMainAct(_ sender: Any) {

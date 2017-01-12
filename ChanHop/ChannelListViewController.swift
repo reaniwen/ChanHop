@@ -147,7 +147,12 @@ extension ChannelListViewController: UITableViewDelegate, UITableViewDataSource,
             self.joinChannelDelegate?.joinChannelAct(channelInfo: localHopInfo, userName: userManager.userName, password: "", custom: false)
             self.backToMainAct(self)
         } else {
-            let location = locations[indexPath.row - 1]
+            var location: ChannelInfo!
+            if inSearchMode == false {
+                location = locations[indexPath.row - 1]
+            } else {
+                location = filtered[indexPath.row - 1]
+            }
             if location.hashPass != "" {
                 // custom channel w/ password
                 if let channelVC = self.parent as? ChannelViewController {

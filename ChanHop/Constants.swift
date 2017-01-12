@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 let CHANHOP_URL = "http://chanhop-test.us-east-1.elasticbeanstalk.com/api/v1"
 let SOCKETIO_URL = "http://chanhop-test.us-east-1.elasticbeanstalk.com/"
@@ -22,9 +23,9 @@ let UPDATE_USER_COUNT = "com.chanhop.updateusercount"
 
 let JOIN_CHANNEL = "com.chanhop.joinChannel"              // notification
 
-let S_UPDATE_COUNT = "com.chanhop.newUserJoin"                  // notification
-let S_NEW_MESSAGE = "com.chanhop.newMessage"                // notification
-let S_USER_LEAVE = "com.chanhop.userLeaves"                    // notification
+let S_UPDATE_COUNT = Notification.Name("com.chanhop.newUserJoin")                  // notification
+let S_NEW_MESSAGE = Notification.Name("com.chanhop.newMessage")                // notification
+let S_USER_LEAVE = Notification.Name("com.chanhop.userLeaves")                    // notification
 
 let SELECT_TAG = "com.chanhop.selectTag"
 let CANCEL_TAG = "com.chanhop.cancelTag"

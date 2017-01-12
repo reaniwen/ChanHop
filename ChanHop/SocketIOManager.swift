@@ -41,16 +41,35 @@ class SocketIOManager: NSObject {
 //            let created_at: Double = data["created_at"].doubleValue/1000
             let user_count = data["user_count"].intValue
 //            let userName: String = data["username"].stringValue
-            NotificationCenter.default.post(name: Notification.Name(S_UPDATE_COUNT), object: nil, userInfo: ["amount": user_count])
+            NotificationCenter.default.post(name: S_UPDATE_COUNT, object: nil, userInfo: ["amount": user_count])
             
         }
         
         socket.on("newMessage") { (dataArray, socketAck) -> Void in
             print(dataArray)
-            NotificationCenter.default.post(name: NSNotification.Name(S_NEW_MESSAGE), object: dataArray[0] as! String)
-            // todo: finish receive message
-//            let newMessage = ChanhopMessage(senderId: String(UserManager.shared.userID), senderDisplayName: userName, date: Date(), text: message, color: color_hex, messageId: "", isTagged: isTagged, taggedChannel: taggedChannel)
-//            MessageManager.shared.messages.append(newMessage)
+//            Optional([{
+//                channelName = "";
+//                "channel_type_id" = 0;
+//                "color_hex" = "#d2bc29";
+//                "created_at" = 1484247798930;
+//                "has_password" = 0;
+//                "is_tagged" = 0;
+//                latitude = 0;
+//                longitude = 0;
+//                message = "Hey this text is not important so I would suggest not reading it ";
+//                roomName = "localHop_4";
+//                username = jjg;
+//                }])
+            let data = JSON(dataArray[0])
+            let isTagged = data["is_tagged"].intValue
+            var channelInfo: ChannelInfo? = nil
+            if isTagged != 0 {
+                var hashPass = data["has_password"].intValue != 0 ? "aa" : ""
+                channelInfo = ChannelInfo(name: data["channelName"].stringValue, venueID: "", longitude: data["longitude"].doubleValue, latitude: data["latitude"].doubleValue, distance: 0, address: "", imageURL: "", channelType: data["channel_type_id"].intValue, adURL: "", hashPass: hashPass)
+            }
+            let newMessage = ChanhopMessage(senderId: "", senderDisplayName: data["username"].stringValue, date: Date(), text: data["message"].stringValue, color: data["color_hex"].stringValue, messageId: "", isTagged: (channelInfo != nil), taggedChannel: channelInfo)
+            MessageManager.shared.messages.append(newMessage)
+            NotificationCenter.default.post(name: S_NEW_MESSAGE, object: nil)
         }
         
         socket.on("userLeaves") { (dataArray, socketAck) -> Void in
@@ -58,7 +77,7 @@ class SocketIOManager: NSObject {
             let data = JSON(dataArray[0])
             let user_count = data["user_count"].intValue
 //            let userName: String = data["username"].stringValue
-            NotificationCenter.default.post(name: Notification.Name(S_UPDATE_COUNT), object: nil, userInfo: ["amount": user_count])
+            NotificationCenter.default.post(name: S_UPDATE_COUNT, object: nil, userInfo: ["amount": user_count])
         }
         
         self.socket.onAny {print("Got event: \($0.event), with items: \($0.items)")}
@@ -111,8 +130,11 @@ class SocketIOManager: NSObject {
             let isTagged = tagValue == 0 ? false : true
             var taggedChannel: ChannelInfo? = nil
             if isTagged {
-                // todo: optimize here
-                taggedChannel = ChannelInfo(name: "", venueID: "", longitude: 0, latitude: 0, distance: 0, address: "", imageURL: "", channelType: 0, adURL: "", hashPass: "")
+                var hashPass = ""
+                if data["has_password"].intValue != 0 {
+                    hashPass = "aa"
+                }
+                taggedChannel = ChannelInfo(name: data["channelName"].stringValue, venueID: "", longitude: data["longitude"].doubleValue, latitude: data["latitude"].doubleValue, distance: 0, address: "", imageURL: "", channelType: data["channel_type_id"].intValue, adURL: "", hashPass: hashPass)
             }
             
             let newMessage = ChanhopMessage(senderId: String(UserManager.shared.userID), senderDisplayName: userName, date: Date(), text: message, color: color_hex, messageId: "", isTagged: isTagged, taggedChannel: taggedChannel)
