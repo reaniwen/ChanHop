@@ -143,6 +143,7 @@ class ConnectionManager: NSObject {
                             }
                         } else {
                             // error
+                            
                         }
                     case .failure(let error):
                         print(error.localizedDescription)
@@ -252,8 +253,6 @@ class ConnectionManager: NSObject {
                         let userCount = data["user_count"].intValue
                         // Send a notification for amount
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: UPDATE_USER_COUNT), object: nil, userInfo: ["amount": userCount])
-                        
-//                        self.messageManager?.refreshMessage(messages: messages)
                         self.messageManager?.messages = messages
                         completion()
                     } else {
@@ -349,6 +348,7 @@ class ConnectionManager: NSObject {
     }
     
     func getUserList(roomId: Int, completion: @escaping (_ users:[Member]) -> Void) {
+        SVProgressHUD.show(withStatus: "Loading...")
         let url = CHANHOP_URL+"/channel/list/\(roomId)"
         print("Getting User List from "+url)
         Alamofire.request(url, method: .get)
@@ -357,10 +357,10 @@ class ConnectionManager: NSObject {
                 case .success(let JSONData):
                     let data = JSON(JSONData)
                     if data["status"].string == "200" {
+//                        SVProgressHUD.dismiss()
                         var users:[Member] = []
                         for i in 0..<data["userlist"].count {
                             users.append(Member(name: data["userlist",i,"username"].stringValue, color: data["userlist",i,"hex_color"].stringValue))
-//                            users.append((name: data["userlist",i,"username"].stringValue, color: data["userlist",i,"hex_color"].stringValue))
                         }
                         completion(users)
                     } else {

@@ -154,16 +154,16 @@ extension ChannelPageVC: JoinChannelDelegate {
             print(userID)
             if custom == false {
                 connectionManager.leaveRoom(roomId: channel.roomID, userId: userID) {
-                    // todo: send a notification to inform socket io
+                    self.socketIOManager.leaveRoom(roomName: channel.channelName, userName: userName, created_at: channel.createTime)
                     self.connectionManager.joinChannel(userName: userName, userID: userID, channel: channelInfo) { channel in
                         self.singleton.channel = channel
                         self.setViewControllers([self.getViewController()] as [UIViewController], direction: .forward, animated: true, completion: nil)
-                        // todo: switch room
                     }
                 }
             } else {
                 // customer channel
                 connectionManager.leaveRoom(roomId: channel.roomID, userId: userID) {
+                    self.socketIOManager.leaveRoom(roomName: channel.channelName, userName: userName, created_at: channel.createTime)
                     self.connectionManager.joinPrivateChannel(userName: userName, userID: userID, channel: channelInfo, password: password) { channel in
                         print("lalala")
                         self.singleton.channel = channel
@@ -179,17 +179,6 @@ extension ChannelPageVC: JoinChannelDelegate {
             }
         }
     }
-}
-
-// Mark: Deprecated
-extension ChannelPageVC {
-    //    func updateLocation(notification: Notification) {
-    //        if let latitude = notification.userInfo?["latitude"] as? Double, let longitude = notification.userInfo?["longitude"] as? Double {
-    //            // if user haven't join any room, then join a room
-    //            // else update location
-    //            // Todo: here
-    //        }
-    //    }
 }
 
 protocol JoinChannelDelegate: class {

@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
-        SocketIOManager.shared.establishConnection()
+//        SocketIOManager.shared.establishConnection()
         
         
         return true

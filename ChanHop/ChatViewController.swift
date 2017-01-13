@@ -114,7 +114,7 @@ extension ChatViewController {
     func loadTheme(url:String) {
 //        backgroundImage.image = UIImage(named: "1")
         if url != "" {
-            backgroundImage.sd_setImage(with: URL(string: url)!, placeholderImage: UIImage(named: "1")!)
+            backgroundImage.sd_setImage(with: URL(string: url)!, placeholderImage: UIImage(named: "holder")!)
             backgroundMask.backgroundColor = UIColor(red: 34/255, green: 38/255, blue: 42/255, alpha: 0.76)
             self.view.insertSubview(backgroundMask, at: 0)
             self.view.insertSubview(backgroundImage, at: 0)
@@ -129,31 +129,26 @@ extension ChatViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
-//        let data:JSQMessageData = self.messages[indexPath.row]
         var data: JSQMessageData = JSQMessage(senderId: "", displayName: "", text: "")
         if indexPath.item < messageManager.messages.count {
             data = messageManager.messages[indexPath.item]
         }
-//        let data: JSQMessageData = messageManager.messages[indexPath.item]
         return data
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
-        //        let msg : JSQMessage = (messages[indexPath.row])
         let msg: ChanhopMessage = messageManager.messages[indexPath.item]
         let text = msg.text!
+        
         cell.textView.dataDetectorTypes.remove(.all)
         cell.textView!.textColor = UIColor.white
         
         if msg.senderId == self.senderId{
             cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 0, 0, 30)
+            cell.cellBottomLabel.textAlignment = .right
         }else{
             cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0, 35, 0, 0)
-        }
-        if msg.senderId == self.senderId{
-            cell.cellBottomLabel.textAlignment = .right
-        }else {
             cell.cellBottomLabel.textAlignment = .left
         }
         
@@ -173,14 +168,23 @@ extension ChatViewController {
                 attributedString.addAttributes([NSFontAttributeName:UIFont(name:(cell.textView.font?.fontName)!, size: 16.5)!, NSForegroundColorAttributeName: UIColor.white], range: NSMakeRange(0, text.characters.count))
                 
                 //tag underline with range
-                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.blue], range: NSMakeRange(indexOfA!, (range ?? 0) + 2))
+                attributedString.addAttributes([NSUnderlineStyleAttributeName:1, NSForegroundColorAttributeName: UIColor.blue], range: NSMakeRange(indexOfA!, (range ?? -2) + 2))
                 
                 cell.textView.attributedText = attributedString
+                print(indexPath.item, cell.textView.attributedText)
                 return cell
             }
 //            print("is tagged, no # found")
+            print(indexPath.item, cell.textView.attributedText)
             return cell
         }else{
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+            
+            //font type and size
+            attributedString.addAttributes([NSFontAttributeName:UIFont(name:(cell.textView.font?.fontName)!, size: 16.5)!, NSForegroundColorAttributeName: UIColor.white, NSUnderlineStyleAttributeName:0], range: NSMakeRange(0, text.characters.count))
+            
+            cell.textView.attributedText = attributedString
+            print(indexPath.item, cell.textView.attributedText)
             return cell
         }
     }
@@ -409,6 +413,8 @@ extension ChatViewController {
                             listView = vc.view
                             self.addChildViewController(listVC!)
                             self.view.addSubview(listView)
+                            
+                            listVC?.view.frame = self.view.frame
                             
                             textView.resignFirstResponder()
                         }

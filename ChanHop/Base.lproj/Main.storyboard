@@ -519,6 +519,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="channelNameLabel" destination="LBk-y5-y3V" id="pWL-qC-1IJ"/>
                         <outlet property="passwordFrame" destination="1Kj-9c-CjL" id="r1e-X7-Iel"/>
                         <outlet property="passwordText" destination="FOJ-A3-nKg" id="VFx-Hz-e5r"/>
                     </connections>
@@ -1001,8 +1002,14 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQm-sC-iIV">
-                                <rect key="frame" x="167" y="225" width="42" height="30"/>
-                                <state key="normal" title="DONE"/>
+                                <rect key="frame" x="15" y="225" width="346" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ke1-Oe-v30"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="DONE" backgroundImage="LargeEnterBtn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="createPubChannelAct:" destination="GEF-TF-e0r" eventType="touchUpInside" id="Xvm-2C-vxb"/>
                                 </connections>
@@ -1011,7 +1018,7 @@
                                 <rect key="frame" x="176" y="52" width="23" height="37"/>
                             </pageControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All created channels are live for 24 hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FLp-EX-LEO">
-                                <rect key="frame" x="55.5" y="263" width="264" height="17"/>
+                                <rect key="frame" x="55.5" y="273" width="264" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -1026,6 +1033,7 @@
                             <constraint firstItem="FLp-EX-LEO" firstAttribute="centerX" secondItem="lPU-pN-nT5" secondAttribute="centerX" id="bKM-eG-oha"/>
                             <constraint firstItem="DNw-1t-I2r" firstAttribute="top" secondItem="41f-gv-wGl" secondAttribute="bottom" id="bld-8X-icm"/>
                             <constraint firstItem="2cX-mL-oeY" firstAttribute="top" secondItem="BGQ-Ew-GbF" secondAttribute="bottom" constant="8" id="cWm-P3-Ewn"/>
+                            <constraint firstItem="FQm-sC-iIV" firstAttribute="leading" secondItem="lPU-pN-nT5" secondAttribute="leading" constant="15" id="fPY-pl-S0e"/>
                             <constraint firstItem="DNw-1t-I2r" firstAttribute="centerX" secondItem="lPU-pN-nT5" secondAttribute="centerX" id="hlh-kO-Iws"/>
                             <constraint firstItem="FQm-sC-iIV" firstAttribute="centerX" secondItem="lPU-pN-nT5" secondAttribute="centerX" id="j2q-j9-IYp"/>
                             <constraint firstItem="DNw-1t-I2r" firstAttribute="leading" secondItem="lPU-pN-nT5" secondAttribute="leadingMargin" id="l8t-O2-cjg"/>
@@ -1111,8 +1119,14 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWq-0f-2i5">
-                                <rect key="frame" x="139" y="335" width="97" height="30"/>
-                                <state key="normal" title="DONE ($0.99)"/>
+                                <rect key="frame" x="15" y="335" width="345" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="IOe-y1-yar"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="DONE ($0.99)" backgroundImage="LargeEnterBtn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="createPrivChannelAct:" destination="Wi3-bR-duH" eventType="touchUpInside" id="Tga-Zn-lnG"/>
                                 </connections>
@@ -1121,7 +1135,7 @@
                                 <rect key="frame" x="176" y="52" width="23" height="37"/>
                             </pageControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All created channels are live for 24 hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-MS-n2S">
-                                <rect key="frame" x="56" y="373" width="263.5" height="17"/>
+                                <rect key="frame" x="56" y="383" width="263.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -1182,6 +1196,7 @@
                             <constraint firstItem="JST-4C-aG2" firstAttribute="leading" secondItem="WYQ-SD-10h" secondAttribute="leadingMargin" id="kxE-uD-0WD"/>
                             <constraint firstItem="aSF-wf-Sls" firstAttribute="centerX" secondItem="WYQ-SD-10h" secondAttribute="centerX" id="nS4-V8-ZGc"/>
                             <constraint firstItem="Z2R-6S-fEz" firstAttribute="top" secondItem="wK5-5H-Suc" secondAttribute="bottom" id="uA9-aB-w7R"/>
+                            <constraint firstItem="gWq-0f-2i5" firstAttribute="leading" secondItem="WYQ-SD-10h" secondAttribute="leading" constant="15" id="ubd-tu-rjv"/>
                         </constraints>
                     </view>
                     <connections>

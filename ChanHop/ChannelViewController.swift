@@ -57,34 +57,7 @@ class ChannelViewController: UIViewController {
         
         adView.isHidden = true
         
-        // expriration group
-        expBackground = UIView()
-        expBackground.backgroundColor = UIColor(red: 5/255, green: 15/255, blue: 30/255, alpha: 0.86)
-        expBackground.frame = self.view.frame
-        expChannelLabel = UILabel()
-        expChannelLabel.text = "-- YOUR CHANNEL --"
-        expChannelLabel.textColor = UIColor.white
-        expChannelLabel.textAlignment = .center
-        expChannelNameLabel = UILabel()
-        expChannelNameLabel.text = singleton.channel?.channelName ?? ""
-        expChannelNameLabel.textColor = UIColor.white
-        expChannelNameLabel.textAlignment = .center
-        expLastLabel = UILabel()
-        expLastLabel.text = "HAS EXPIRED"
-        expLastLabel.textColor = UIColor(red: 158/255, green: 228/255, blue: 74/255, alpha: 1)
-        expLastLabel.textAlignment = .center
-        expOKBtn = UIButton()
-        expOKBtn.setBackgroundImage(UIImage(named: "LargeEnterBtn"), for: .normal)
-        expOKBtn.setTitle("OKAY", for: .normal)
-        expOKBtn.setTitleColor(UIColor.white, for: .normal)
-        expOKBtn.addTarget(self, action: #selector(backToLocalhop), for: .touchUpInside)
-        
-        expBackground.addSubview(expChannelLabel)
-        expBackground.addSubview(expChannelNameLabel)
-        expBackground.addSubview(expLastLabel)
-        expBackground.addSubview(expOKBtn)
-        
-        self.view.addSubview(expBackground)
+        setExpirationView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -115,7 +88,6 @@ class ChannelViewController: UIViewController {
             adImage.sd_setImage(with: URL(string: url))
         }
         
-        // todo: optimize here
         if singleton.channel?.channelType.rawValue == 4 {
             createdAt = singleton.channel?.createTime ?? Double(Int.max)
             let channelEnd = createdAt/1000 + 24*60*60
@@ -126,8 +98,8 @@ class ChannelViewController: UIViewController {
                 self.expBackground.isHidden = false
             } else {
                 let timeL = channelEnd - currentTime
-//                self.timeLeft = Int(timeL)
-                self.timeLeft = 5
+                self.timeLeft = Int(timeL)
+//                self.timeLeft = 5
                 timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
             }
         }
@@ -144,6 +116,38 @@ class ChannelViewController: UIViewController {
             timer.invalidate()
         }
         
+    }
+    
+    func setExpirationView() {
+        // expriration group
+        expBackground = UIView()
+        expBackground.backgroundColor = UIColor(red: 5/255, green: 15/255, blue: 30/255, alpha: 0.86)
+        expBackground.frame = self.view.frame
+        expChannelLabel = UILabel()
+        expChannelLabel.text = "-- YOUR CHANNEL --"
+        expChannelLabel.textColor = UIColor.white
+        expChannelLabel.textAlignment = .center
+        expChannelNameLabel = UILabel()
+        expChannelNameLabel.text = singleton.channel?.channelName ?? ""
+        expChannelNameLabel.textColor = UIColor.white
+        expChannelNameLabel.textAlignment = .center
+        expChannelNameLabel.font = UIFont.boldSystemFont(ofSize: 31)
+        expLastLabel = UILabel()
+        expLastLabel.text = "HAS EXPIRED"
+        expLastLabel.textColor = UIColor(red: 158/255, green: 228/255, blue: 74/255, alpha: 1)
+        expLastLabel.textAlignment = .center
+        expOKBtn = UIButton()
+        expOKBtn.setBackgroundImage(UIImage(named: "LargeEnterBtn"), for: .normal)
+        expOKBtn.setTitle("OKAY", for: .normal)
+        expOKBtn.setTitleColor(UIColor.white, for: .normal)
+        expOKBtn.addTarget(self, action: #selector(backToLocalhop), for: .touchUpInside)
+        
+        expBackground.addSubview(expChannelLabel)
+        expBackground.addSubview(expChannelNameLabel)
+        expBackground.addSubview(expLastLabel)
+        expBackground.addSubview(expOKBtn)
+        
+        self.view.addSubview(expBackground)
     }
     
     override func viewDidLayoutSubviews() {
@@ -339,13 +343,12 @@ extension ChannelViewController {
 }
 
 extension ChannelViewController: JoinChannelDelegate {
+    
     // todo: it triggered twice, I have no idea why
     // but I think that would be a issue
-    
     func joinChannelNotification(notification: Notification) {
         let userinfo = notification.userInfo
         if let channelName = userinfo?["name"] as? String, let password = userinfo?["password"] as? String, let longitude = userinfo?["longitude"] as? Double, let latitude = userinfo?["latitude"] as? Double, let channelType = userinfo?["channelType"] as? Int{
-            // todo: coordination, userName
             let userName = UserManager.shared.userName
 //            if let location = UserDefaults.standard.dictionary(forKey: CURRENT_LOC) {
             let channelinfo = ChannelInfo(name: channelName, venueID: "", longitude: longitude, latitude: latitude, distance: 0, address: "", imageURL: "", channelType: channelType, adURL: nil, hashPass: password)

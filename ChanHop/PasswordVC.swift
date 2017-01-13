@@ -12,6 +12,7 @@ class PasswordVC: UIViewController {
 
     @IBOutlet weak var passwordFrame: UIView!
     @IBOutlet weak var passwordText: UITextField!
+    @IBOutlet weak var channelNameLabel: UILabel!
     
     weak var joinChannelDelegate: JoinChannelDelegate? = nil // channelviewcontroller
     var channelInfo: ChannelInfo!
@@ -23,6 +24,7 @@ class PasswordVC: UIViewController {
         
         setPassFrame(frame: passwordFrame)
         self.passwordText.attributedPlaceholder = NSAttributedString(string:"ENTER PASSWORD",attributes:[NSForegroundColorAttributeName: UIColor(white: 1, alpha: 0.8)])
+        channelNameLabel.text = channelInfo.name ?? ""
     }
 
     @IBAction func joinChannel(_ sender: Any) {

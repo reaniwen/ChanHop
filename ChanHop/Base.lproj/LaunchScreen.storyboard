@@ -1,7 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,7 +22,29 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="aQA-7L-8V9">
+                                <rect key="frame" x="56" y="62" width="262" height="463"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="aQA-7L-8V9" secondAttribute="height" multiplier="764:1352" id="Bs5-Mv-HTF"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poweredby" translatesAutoresizingMaskIntoConstraints="NO" id="6rY-fs-KOr">
+                                <rect key="frame" x="137" y="634" width="100" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="6rY-fs-KOr" secondAttribute="height" multiplier="24:7" id="qft-gt-Odt"/>
+                                    <constraint firstAttribute="width" constant="100" id="uFn-x1-FSS"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="aQA-7L-8V9" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-40" id="1cV-2v-tl1"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="6rY-fs-KOr" secondAttribute="bottom" constant="4" id="VUC-J3-B7n"/>
+                            <constraint firstItem="6rY-fs-KOr" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="h5z-yf-nz4"/>
+                            <constraint firstItem="aQA-7L-8V9" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="nal-Go-irF"/>
+                            <constraint firstItem="aQA-7L-8V9" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="40" id="uXa-ee-bYn"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +52,8 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="poweredby" width="240" height="70"/>
+        <image name="splash" width="764" height="1352"/>
+    </resources>
 </document>

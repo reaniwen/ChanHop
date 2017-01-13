@@ -23,16 +23,24 @@ class SocketIOManager: NSObject {
     
     func establishConnection() {
         socket.connect()
+        listenForOtherMessages()
     }
     
     func closeConnection() {
         socket.disconnect()
+        
+    }
+    
+    func stopListening() {
+        socket.off("testEmitReturns")
+        socket.off("newUser")
+        socket.off("newMessage")
+        socket.off("userLeaves")
     }
 
     func listenForOtherMessages() {
         socket.on("testEmitReturns") { (dataArray, socketAck) -> Void in
             print(dataArray)
-            //            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userWasConnectedNotification"), object: dataArray[0] as! [String: AnyObject])
         }
         socket.on("newUser") { (dataArray, socketAck) -> Void in
             print(dataArray)
@@ -47,24 +55,11 @@ class SocketIOManager: NSObject {
         
         socket.on("newMessage") { (dataArray, socketAck) -> Void in
             print(dataArray)
-//            Optional([{
-//                channelName = "";
-//                "channel_type_id" = 0;
-//                "color_hex" = "#d2bc29";
-//                "created_at" = 1484247798930;
-//                "has_password" = 0;
-//                "is_tagged" = 0;
-//                latitude = 0;
-//                longitude = 0;
-//                message = "Hey this text is not important so I would suggest not reading it ";
-//                roomName = "localHop_4";
-//                username = jjg;
-//                }])
             let data = JSON(dataArray[0])
             let isTagged = data["is_tagged"].intValue
             var channelInfo: ChannelInfo? = nil
             if isTagged != 0 {
-                var hashPass = data["has_password"].intValue != 0 ? "aa" : ""
+                let hashPass = data["has_password"].intValue != 0 ? "aa" : ""
                 channelInfo = ChannelInfo(name: data["channelName"].stringValue, venueID: "", longitude: data["longitude"].doubleValue, latitude: data["latitude"].doubleValue, distance: 0, address: "", imageURL: "", channelType: data["channel_type_id"].intValue, adURL: "", hashPass: hashPass)
             }
             let newMessage = ChanhopMessage(senderId: "", senderDisplayName: data["username"].stringValue, date: Date(), text: data["message"].stringValue, color: data["color_hex"].stringValue, messageId: "", isTagged: (channelInfo != nil), taggedChannel: channelInfo)
@@ -76,7 +71,6 @@ class SocketIOManager: NSObject {
             print(dataArray)
             let data = JSON(dataArray[0])
             let user_count = data["user_count"].intValue
-//            let userName: String = data["username"].stringValue
             NotificationCenter.default.post(name: S_UPDATE_COUNT, object: nil, userInfo: ["amount": user_count])
         }
         
@@ -105,8 +99,6 @@ class SocketIOManager: NSObject {
         let parameters:[String: Any] = ["roomName":roomName, "username":userName, "created_at": Int(created_at)*1000]
         print("emit data for userJoinsRoom is \(parameters)")
         socket.emit("userJoinsRoom", parameters)
-        
-        listenForOtherMessages()
     }
     
     func sendMessage(userID: Int, roomID: Int, userName: String, message: String, is_tagged: Int, channelName: String, longitude: Double, latitude: Double, channelType: Int = 0, hasPassword: Int = 0, completion: @escaping (ChanhopMessage)->Void) {
